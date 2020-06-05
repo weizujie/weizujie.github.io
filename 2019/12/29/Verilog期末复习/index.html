@@ -27,7 +27,7 @@
 <meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/817492-ab3cb550099eecfd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/combine/gh/nexmoe/nexmoe.github.io@latest/css/style.css,npm/highlight.js@9.15.8/styles/atom-one-dark.css,gh/nexmoe/nexmoe.github.io@latest/lib/mdui_043tiny/css/mdui.css,gh/nexmoe/nexmoe.github.io@latest/lib/iconfont/iconfont.css" crossorigin>
   
-  <!--<link rel="stylesheet" href="/css/style.css?v=1591369644808">-->
+  <!--<link rel="stylesheet" href="/css/style.css?v=1591369838912">-->
 <meta name="generator" content="Hexo 4.2.1"></head>
 
 <body class="mdui-drawer-body-left">
@@ -57,24 +57,31 @@
     </div>
     <div class="nexmoe-list mdui-list" mdui-collapse="{accordion: true}">
         
-        <a class="nexmoe-list-item mdui-list-item mdui-ripple" href="/" title="回到首页">
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple" href="/" title="首页">
             <i class="mdui-list-item-icon nexmoefont icon-home"></i>
             <div class="mdui-list-item-content">
-                回到首页
+                首页
             </div>
         </a>
         
-        <a class="nexmoe-list-item mdui-list-item mdui-ripple" href="/about.html" title="关于博客">
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple" href="/archives" title="归档">
+            <i class="mdui-list-item-icon nexmoefont icon-container"></i>
+            <div class="mdui-list-item-content">
+                归档
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple" href="/tags" title="标签">
+            <i class="mdui-list-item-icon nexmoefont icon-tags"></i>
+            <div class="mdui-list-item-content">
+                标签
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple" href="/about.html" title="关于我">
             <i class="mdui-list-item-icon nexmoefont icon-info-circle"></i>
             <div class="mdui-list-item-content">
-                关于博客
-            </div>
-        </a>
-        
-        <a class="nexmoe-list-item mdui-list-item mdui-ripple" href="/PY.html" title="我的朋友">
-            <i class="mdui-list-item-icon nexmoefont icon-unorderedlist"></i>
-            <div class="mdui-list-item-content">
-                我的朋友
+                关于我
             </div>
         </a>
         
@@ -179,6 +186,14 @@
 </div>
 
   <div class="nexmoe-post-right">
+    
+      <div class="nexmoe-fixed">
+        <div class="nexmoe-valign">
+            <div class="nexmoe-toc">
+                <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#术语解释"><span class="toc-number">1.</span> <span class="toc-text">术语解释</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#IP核"><span class="toc-number">1.1.</span> <span class="toc-text">IP核</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#什么是硬件描述语言？HDL-的功能和优点？"><span class="toc-number">2.</span> <span class="toc-text">什么是硬件描述语言？HDL 的功能和优点？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#CPLD-与-FPGA-的区别"><span class="toc-number">3.</span> <span class="toc-text">CPLD 与 FPGA 的区别</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#自底向上与自顶向下的设计方法"><span class="toc-number">4.</span> <span class="toc-text">自底向上与自顶向下的设计方法</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#什么是综合，与编译器有什么区别？"><span class="toc-number">5.</span> <span class="toc-text">什么是综合，与编译器有什么区别？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Verilog-HDL-的模块组成"><span class="toc-number">6.</span> <span class="toc-text">Verilog HDL 的模块组成</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Verilog-文字规则"><span class="toc-number">7.</span> <span class="toc-text">Verilog 文字规则</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#数据类型"><span class="toc-number">8.</span> <span class="toc-text">数据类型</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#parameter"><span class="toc-number">9.</span> <span class="toc-text">parameter</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#过程赋值-always-语句的特点"><span class="toc-number">10.</span> <span class="toc-text">过程赋值 always 语句的特点</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#运算"><span class="toc-number">11.</span> <span class="toc-text">运算</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#条件运算符"><span class="toc-number">11.1.</span> <span class="toc-text">条件运算符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#相等运算符"><span class="toc-number">11.2.</span> <span class="toc-text">相等运算符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#规约运算符"><span class="toc-number">11.3.</span> <span class="toc-text">规约运算符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#位宽、进制、数值"><span class="toc-number">11.4.</span> <span class="toc-text">位宽、进制、数值</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#赋值语句"><span class="toc-number">12.</span> <span class="toc-text">赋值语句</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#阻塞型赋值"><span class="toc-number">12.1.</span> <span class="toc-text">阻塞型赋值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#非阻塞赋值"><span class="toc-number">12.2.</span> <span class="toc-text">非阻塞赋值</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#优化设计"><span class="toc-number">13.</span> <span class="toc-text">优化设计</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#资源优化"><span class="toc-number">13.1.</span> <span class="toc-text">资源优化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#速度优化"><span class="toc-number">13.2.</span> <span class="toc-text">速度优化</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#状态机"><span class="toc-number">14.</span> <span class="toc-text">状态机</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#常用编码方式"><span class="toc-number">14.1.</span> <span class="toc-text">常用编码方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#一般形式"><span class="toc-number">14.2.</span> <span class="toc-text">一般形式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#一般结构"><span class="toc-number">14.3.</span> <span class="toc-text">一般结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#状态机设计的一般步骤"><span class="toc-number">14.4.</span> <span class="toc-text">状态机设计的一般步骤</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#按键消抖（去毛刺）"><span class="toc-number">15.</span> <span class="toc-text">按键消抖（去毛刺）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是按键抖动？如何进行按键消抖？"><span class="toc-number">15.1.</span> <span class="toc-text">什么是按键抖动？如何进行按键消抖？</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#程序题"><span class="toc-number">16.</span> <span class="toc-text">程序题</span></a></li></ol>
+            </div>
+        </div>
+      </div>
     
   </div>
 
@@ -612,7 +627,7 @@ gitment.render('gitment')
     <script src="https://cdn.jsdelivr.net/gh/xtaodada/xtaodada.github.io@0.0.2/copy.js"></script>
 
 
-<script src="/js/app.js?v=1591369644809"></script>
+<script src="/js/app.js?v=1591369838914"></script>
   
 
 
