@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+
+<html lang="zh-Hans">
+
+<head>
+  
+  <title>Verilog期末复习 - weizujie|韦祖杰</title>
+  <meta charset="UTF-8">
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+  
+  
+
+  <link rel="shortcut icon" href="/favicon.ico" type="image/png" />
+  <meta name="description" content="术语解释 EDA: Electronic Design Automation 电子设计自动化 HDL: Hardware Description Language 硬件描述语言 ASIC: Application Specific Integrated Circuit 专用集成电路 SoC: System on Chip 片上系统 PLD: Programmable Logic Device 可编">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Verilog期末复习">
+<meta property="og:url" content="http://weizujie.github.io/2019/12/29/Verilog%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/index.html">
+<meta property="og:site_name" content="weizujie|韦祖杰">
+<meta property="og:description" content="术语解释 EDA: Electronic Design Automation 电子设计自动化 HDL: Hardware Description Language 硬件描述语言 ASIC: Application Specific Integrated Circuit 专用集成电路 SoC: System on Chip 片上系统 PLD: Programmable Logic Device 可编">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/817492-ab3cb550099eecfd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="article:published_time" content="2019-12-29T05:33:21.000Z">
+<meta property="article:modified_time" content="2020-06-05T14:59:41.797Z">
+<meta property="article:author" content="weizujie">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/817492-ab3cb550099eecfd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/combine/gh/nexmoe/nexmoe.github.io@latest/css/style.css,npm/highlight.js@9.15.8/styles/atom-one-dark.css,gh/nexmoe/nexmoe.github.io@latest/lib/mdui_043tiny/css/mdui.css,gh/nexmoe/nexmoe.github.io@latest/lib/iconfont/iconfont.css" crossorigin>
+  
+  <!--<link rel="stylesheet" href="/css/style.css?v=1591369438246">-->
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body class="mdui-drawer-body-left">
+  
+  <div id="nexmoe-background">
+    <div class="nexmoe-bg" style="background-image: url(https://cdn.jsdelivr.net/gh/nexmoe/nexmoe.github.io@latest/images/cover/5c3aec85a4343.jpg)"></div>
+    <div class="mdui-appbar mdui-shadow-0">
+      <div class="mdui-toolbar">
+        <a mdui-drawer="{target: '#drawer', swipe: true}" title="menu" class="mdui-btn mdui-btn-icon mdui-ripple"><i class="mdui-icon nexmoefont icon-menu"></i></a>
+        <div class="mdui-toolbar-spacer"></div>
+        <!--<a href="javascript:;" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">search</i></a>-->
+        <a href="/" title="weizujie" class="mdui-btn mdui-btn-icon"><img src="https://cdn.jsdelivr.net/gh/nexmoe/nexmoe.github.io@latest/images/avatar.png" alt="weizujie"></a>
+       </div>
+    </div>
+  </div>
+  <div id="nexmoe-header">
+      <div class="nexmoe-drawer mdui-drawer" id="drawer">
+    <div class="nexmoe-avatar mdui-ripple">
+        <a href="/" title="weizujie">
+            <img src="https://cdn.jsdelivr.net/gh/nexmoe/nexmoe.github.io@latest/images/avatar.png" alt="weizujie" alt="weizujie">
+        </a>
+    </div>
+    <div class="nexmoe-count">
+        <div><span>Articles</span>4</div>
+        <div><span>Tags</span>0</div>
+        <div><span>Categories</span>0</div>
+    </div>
+    <div class="nexmoe-list mdui-list" mdui-collapse="{accordion: true}">
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple" href="/" title="回到首页">
+            <i class="mdui-list-item-icon nexmoefont icon-home"></i>
+            <div class="mdui-list-item-content">
+                回到首页
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple" href="/about.html" title="关于博客">
+            <i class="mdui-list-item-icon nexmoefont icon-info-circle"></i>
+            <div class="mdui-list-item-content">
+                关于博客
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple" href="/PY.html" title="我的朋友">
+            <i class="mdui-list-item-icon nexmoefont icon-unorderedlist"></i>
+            <div class="mdui-list-item-content">
+                我的朋友
+            </div>
+        </a>
+        
+    </div>
+    <aside id="nexmoe-sidebar">
+  
+  <div class="nexmoe-widget-wrap">
+    <div class="nexmoe-widget nexmoe-search">
+        <form id="search_form" action_e="https://cn.bing.com/search?q=site:weizujie.github.io" onsubmit="return search();">
+            <label><input id="search_value" name="q" type="search" placeholder="Search"></label>
+        </form>
+    </div>
+</div>
+  
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">Social</h3>
+    <div class="nexmoe-widget nexmoe-social">
+        <a class="mdui-ripple" href="https://space.bilibili.com/195294625" target="_blank" mdui-tooltip="{content: '哔哩哔哩'}" style="color: rgb(231, 106, 141);background-color: rgba(231, 106, 141, .15);">
+            <i class="nexmoefont icon-bilibili"></i>
+        </a><a class="mdui-ripple" href="https://github.com/weizujie" target="_blank" mdui-tooltip="{content: 'GitHub'}" style="color: rgb(25, 23, 23);background-color: rgba(25, 23, 23, .15);">
+            <i class="nexmoefont icon-github"></i>
+        </a>
+    </div>
+</div>
+  
+  
+
+  
+  
+  
+  
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">Archive</h3>
+    <div class="nexmoe-widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+</aside>
+    <div class="nexmoe-copyright">
+        &copy; 2020 weizujie
+        Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+        & <a href="https://nexmoe.com/hexo-theme-nexmoe.html" target="_blank">Nexmoe</a>
+    </div>
+</div><!-- .nexmoe-drawer -->
+  </div>
+  <div id="nexmoe-content">
+    <div class="nexmoe-primary">
+        <div class="nexmoe-post">
+  
+      <div class="nexmoe-post-cover" style="padding-bottom: 66.66666666666666%;"> 
+          <img data-src="https://cdn.jsdelivr.net/gh/nexmoe/nexmoe.github.io@latest/images/cover/5c3aec85a4343.jpg" data-sizes="auto" alt="Verilog期末复习" class="lazyload">
+          <h1>Verilog期末复习</h1>
+      </div>
+  
+  
+  <div class="nexmoe-post-meta nexmoe-rainbow" style="margin:10px 0!important;">
+    <a><i class="nexmoefont icon-calendar-fill"></i>2019年12月29日</a>
+    <a><i class="nexmoefont icon-areachart"></i>2,646 字</a>
+    <a><i class="nexmoefont icon-time-circle-fill"></i>大概 10 分钟</a>
+</div>
+
+  <div class="nexmoe-post-right">
+    
+  </div>
+
+  <article>
+    <h1 id="术语解释"><a href="#术语解释" class="headerlink" title="术语解释"></a>术语解释</h1><ul>
+<li>EDA: Electronic Design Automation 电子设计自动化</li>
+<li>HDL: Hardware Description Language 硬件描述语言</li>
+<li>ASIC: Application Specific Integrated Circuit 专用集成电路</li>
+<li>SoC: System on Chip 片上系统</li>
+<li>PLD: Programmable Logic Device 可编程逻辑器件</li>
+<li>CPLD: Complex Programmable Logic Device 复杂可编程逻辑器件</li>
+<li>FPGA: Field Programmable Gate Array 现场可编辑门阵列</li>
+<li>LUT: Look Up Table 查找表</li>
+<li>IP核: Intelligent Property Core 知识产权核</li>
+</ul>
+<a id="more"></a>
+
+<h2 id="IP核"><a href="#IP核" class="headerlink" title="IP核"></a>IP核</h2><ul>
+<li>分为：<ul>
+<li>软 IP：用 Verilog/VHDL 等硬件描述语言描述的功能块，但并不设计用什么具体电路实现这些功能</li>
+<li>固 IP：完成了综合的模块，以网表文件的形式提交客户使用</li>
+<li>硬 IP：提供设计的最终阶段产品：掩模</li>
+</ul>
+</li>
+</ul>
+<h1 id="什么是硬件描述语言？HDL-的功能和优点？"><a href="#什么是硬件描述语言？HDL-的功能和优点？" class="headerlink" title="什么是硬件描述语言？HDL 的功能和优点？"></a>什么是硬件描述语言？HDL 的功能和优点？</h1><ul>
+<li>用形式化的方法描述硬件电路的语言称为硬件描述语言</li>
+<li>功能<ul>
+<li>描述电路的连接、功能、时序</li>
+<li>在不同抽象级上描述电路</li>
+<li>表达具有并行性</li>
+</ul>
+</li>
+<li>优点<ul>
+<li>设计在高层次进行，与实物无关</li>
+<li>设计开发更加容易</li>
+<li>自动将高级描述映射到具体工艺实现</li>
+<li>缩小开发周期</li>
+<li>具体实现时才做出某些决定</li>
+</ul>
+</li>
+</ul>
+<h1 id="CPLD-与-FPGA-的区别"><a href="#CPLD-与-FPGA-的区别" class="headerlink" title="CPLD 与 FPGA 的区别"></a>CPLD 与 FPGA 的区别</h1><ul>
+<li>从<strong>可编程逻辑结构</strong>上<ul>
+<li>CPLD 基于乘积项的可编程逻辑机构</li>
+<li>FPGA 基于查找表的可编程逻辑结构</li>
+</ul>
+</li>
+<li>从<strong>编程方式</strong>上<ul>
+<li>CPLD 叫做复杂可编程逻辑器件。特点是，编程数据在掉电时不丢失</li>
+<li>FPGA 叫做现场可编程门阵列。特点是，数据在掉电后就回丢失，需要专门的数据芯片来存储其编程数据</li>
+</ul>
+</li>
+</ul>
+<h1 id="自底向上与自顶向下的设计方法"><a href="#自底向上与自顶向下的设计方法" class="headerlink" title="自底向上与自顶向下的设计方法"></a>自底向上与自顶向下的设计方法</h1><ul>
+<li><p>自底向上的设计方法，是以固定功能元件为基础，基于电路板的设计方法。手工设计一般先按电子系统的具体功能要求进行功能划分，然后对每个模块画出真值表，用卡诺图进行手工逻辑简化，写出布尔表达式，画出相应的逻辑线路图，再根据此选择元器件，设计电路板，最后进行实测与调试</p>
+</li>
+<li><p>自顶向下的分析算法通过在最左推导中描述出各个步骤来分析记号串输入。将大型的数字电路设计分割成大小不一的小模块来实现特定的功能，最后通过由顶层模块调用子模块来实现整体功能，这就是Top-Down的设计思想。</p>
+</li>
+</ul>
+<h1 id="什么是综合，与编译器有什么区别？"><a href="#什么是综合，与编译器有什么区别？" class="headerlink" title="什么是综合，与编译器有什么区别？"></a>什么是综合，与编译器有什么区别？</h1><ul>
+<li>综合：将用硬件语言描述的设计转化为电路。电路中没有时间概念，是同步进行的</li>
+<li>编译：将用硬件语言描述的设计转化为 CPU 可执行的代码。可得到机器码，并按时间排序</li>
+<li>区别：编译得到机器码，机器码是 CPU 所执行的每一个基础动作，将这些动作在时间序列上排列起来就是程序；综合就是把设计变成了硬件电路，在时间序列上没有先后顺序</li>
+</ul>
+<h1 id="Verilog-HDL-的模块组成"><a href="#Verilog-HDL-的模块组成" class="headerlink" title="Verilog HDL 的模块组成"></a>Verilog HDL 的模块组成</h1><ul>
+<li>module / endmodule 引导的电路模块描述</li>
+<li>input / output 引导的队模块的外部端口的语句</li>
+<li>reg 等关键词定义的数据类型</li>
+<li>always@ 等关键字引导的对模块逻辑功能描述的语句</li>
+</ul>
+<h1 id="Verilog-文字规则"><a href="#Verilog-文字规则" class="headerlink" title="Verilog 文字规则"></a>Verilog 文字规则</h1><ul>
+<li>0：二进制数 0、低电平、逻辑 0、事件为假的判断结果</li>
+<li>1：二进制数 1、高电平、逻辑 1、事件为真的判断结果</li>
+<li>z 或 Z：高阻态或高阻值。可用 “?”代替</li>
+<li>x 或 X：不确定，或位置的逻辑状态</li>
+</ul>
+<p>x 值和 z 值都是不分大小写</p>
+<h1 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h1><p>数据类型是 Verilog 用来表示数字电路硬件中的物理连接、数据存储对象和传输单元等</p>
+<ul>
+<li><p>线网类型（net 型）</p>
+<ul>
+<li>最常用的 net 型：wire</li>
+</ul>
+</li>
+<li><p>寄存器类型（register 型）</p>
+<ul>
+<li><p>格式：</p>
+<pre><code class="verilog">reg 变量名1, 变量名2, ...;
+reg [msb:lsb] 变量名1, 变量名2, ...;</code></pre>
+</li>
+<li><p>reg 型变量必须放在过程语句中， 如 initial，always 等</p>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="parameter"><a href="#parameter" class="headerlink" title="parameter"></a>parameter</h1><ul>
+<li>parameter：用于定义延时和变量的宽度<pre><code class="verilog">parameter param1 = const_expr1,
+       ...</code></pre>
+</li>
+</ul>
+<h1 id="过程赋值-always-语句的特点"><a href="#过程赋值-always-语句的特点" class="headerlink" title="过程赋值 always 语句的特点"></a>过程赋值 always 语句的特点</h1><ul>
+<li>无限循环语句</li>
+<li>具有顺序和并行双重性</li>
+<li>本身是并行语句</li>
+<li>只允许描述对应单一时钟的同步时序逻辑</li>
+<li>不完整的条件语句可能引入时序电路</li>
+</ul>
+<h1 id="运算"><a href="#运算" class="headerlink" title="运算"></a>运算</h1><h2 id="条件运算符"><a href="#条件运算符" class="headerlink" title="条件运算符"></a>条件运算符</h2><pre><code>条件表达式？表达式1：表达式2
+（注意：问号后面为两个分支，前面为一是选择哪个分支）</code></pre><h2 id="相等运算符"><a href="#相等运算符" class="headerlink" title="相等运算符"></a>相等运算符</h2><ul>
+<li>相等运算 ==</li>
+<li>逻辑不等 !=</li>
+<li>非全等  !==</li>
+<li>全等运算 === (必须考虑 x 和 z 两种状态)</li>
+</ul>
+<h2 id="规约运算符"><a href="#规约运算符" class="headerlink" title="规约运算符"></a>规约运算符</h2><ul>
+<li>&amp; 规约与</li>
+<li>~&amp; 规约与非</li>
+<li>| 规约或</li>
+<li>~| 规约或非</li>
+<li>^ 规约异或</li>
+<li>~^ 规约异或非<pre><code class="verilog">a = 1001, b = 1011;
+a &amp; b = 1001（位运算）
+&amp;a = 0 （规约运算：结果只有一位，要么 0 要么 1）</code></pre>
+</li>
+</ul>
+<h2 id="位宽、进制、数值"><a href="#位宽、进制、数值" class="headerlink" title="位宽、进制、数值"></a>位宽、进制、数值</h2><pre><code class="verilog">4&#39;b1010
+----------
+4：位宽
+&#39;b：二进制
+1010：数值</code></pre>
+<blockquote>
+<p>没有加位宽和进制时默认为十进制</p>
+</blockquote>
+<h1 id="赋值语句"><a href="#赋值语句" class="headerlink" title="赋值语句"></a>赋值语句</h1><h2 id="阻塞型赋值"><a href="#阻塞型赋值" class="headerlink" title="阻塞型赋值"></a>阻塞型赋值</h2><ul>
+<li>格式：目标变量名 = 驱动表达式</li>
+<li>“阻塞”指在当前的赋值完成前阻塞或停止其他语句的赋值行为</li>
+<li>阻塞型赋值一旦执行，目标变量被立即更新，不存在延时</li>
+<li>阻塞赋值可以使用在 assign 语句中，也可以使用在过程语句中</li>
+<li>在同一过程中，允许对同一目标变量多次阻塞赋值中</li>
+</ul>
+<h2 id="非阻塞赋值"><a href="#非阻塞赋值" class="headerlink" title="非阻塞赋值"></a>非阻塞赋值</h2><ul>
+<li>格式：目标变量名 &lt;= 驱动表达式</li>
+<li>“非阻塞”：存在一个特殊的延时操作，且在赋值过程中不影响其他同类语句的赋值操作</li>
+<li>非阻塞赋值在执行时，目标变量并没有马上进行更新，而是等待语句块结束时统一进行赋值</li>
+<li>只能用在过程语句中</li>
+</ul>
+<h1 id="优化设计"><a href="#优化设计" class="headerlink" title="优化设计"></a>优化设计</h1><h2 id="资源优化"><a href="#资源优化" class="headerlink" title="资源优化"></a>资源优化</h2><ul>
+<li>资源共享</li>
+<li>逻辑优化</li>
+<li>串行化</li>
+</ul>
+<h2 id="速度优化"><a href="#速度优化" class="headerlink" title="速度优化"></a>速度优化</h2><ul>
+<li>流水线设计</li>
+<li>寄存器配平</li>
+<li>关键路径法</li>
+<li>乒乓操作法</li>
+<li>加法树法</li>
+</ul>
+<h1 id="状态机"><a href="#状态机" class="headerlink" title="状态机"></a>状态机</h1><h2 id="常用编码方式"><a href="#常用编码方式" class="headerlink" title="常用编码方式"></a>常用编码方式</h2><ul>
+<li>顺序编码</li>
+<li>一位热编码</li>
+</ul>
+<h2 id="一般形式"><a href="#一般形式" class="headerlink" title="一般形式"></a>一般形式</h2><ul>
+<li>有限状态机（FSM），是表示有限个状态以及在这些状态之间的转移的动作等行为的模型</li>
+<li>只要涉及触发器的电路，无论电路大小都能归结为状态机。如二分频电路、4位二进制计数器等</li>
+</ul>
+<h2 id="一般结构"><a href="#一般结构" class="headerlink" title="一般结构"></a>一般结构</h2><ul>
+<li>从信号输出方式上分为<ul>
+<li>Mealy 型<ul>
+<li>异步输出，输出的是当前状态和所有输入信号的函数，它的输出是在输入变化后立即发生的，不依赖时钟同步</li>
+<li>下一状态和输出都取决于当前状态和当前输入</li>
+</ul>
+</li>
+<li>Moore 型<ul>
+<li>同步输出，输出的仅为当前状态的函数，在输入发生变化时必须等待时钟的到来，比 Mealy机要多等待一个时钟周期</li>
+<li>下一状态取决于当前状态和当前输入，输出取决于当前状态</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>状态机结构包含<ul>
+<li>说明部分</li>
+<li>主控时序过程</li>
+<li>主控组合过程</li>
+<li>辅助过程</li>
+</ul>
+</li>
+</ul>
+<h2 id="状态机设计的一般步骤"><a href="#状态机设计的一般步骤" class="headerlink" title="状态机设计的一般步骤"></a>状态机设计的一般步骤</h2><ul>
+<li>抽象逻辑，得出状态转换图</li>
+<li>状态简化</li>
+<li>状态分配</li>
+<li>Verilog HDL 来描述</li>
+</ul>
+<h1 id="按键消抖（去毛刺）"><a href="#按键消抖（去毛刺）" class="headerlink" title="按键消抖（去毛刺）"></a>按键消抖（去毛刺）</h1><h2 id="什么是按键抖动？如何进行按键消抖？"><a href="#什么是按键抖动？如何进行按键消抖？" class="headerlink" title="什么是按键抖动？如何进行按键消抖？"></a>什么是按键抖动？如何进行按键消抖？</h2><blockquote>
+<p>由于按键的机械触电的弹性作用，按键在按下和释放的瞬间产生接触不稳定（弹性抖动），造成电压信号的抖动现象，称为按键抖动。</p>
+</blockquote>
+<p>按键消抖的方法：</p>
+<ul>
+<li>延时方法去毛刺</li>
+<li>逻辑方法去毛刺</li>
+<li>定时方法去毛刺<ul>
+<li>每隔一段时间扫描一次键盘，如果连续两次或三次所获得的按键状态相同，就认为按键保持稳定了</li>
+</ul>
+</li>
+</ul>
+<h1 id="程序题"><a href="#程序题" class="headerlink" title="程序题"></a>程序题</h1><ul>
+<li><p>多路选择器：组合逻辑电路；if-else；case，条件运算符</p>
+<pre><code class="verilog">// 4 选 1 多路选择器
+module mux41a(a, b, c, d, s1, s0, y);
+  input a, b, c, d, s1, s0;
+  output y;  // 输出信号
+  reg[1:0] SEL; // 模块内部的暂存变量 SEL
+  reg y;
+
+  always @ (a, b, c, d, SEL)
+  begin
+  SEL = {s1, s0}; // s1,s0 并位为 2 元素矢量变量 SEL
+  if(SEL == 0)
+      y = a;
+  else if(SEL == 1)
+      y = b;
+  else if(SEL == 2)
+      y = c;
+  else
+      y = d;
+  end
+endmodule</code></pre>
+</li>
+<li><p>计数器：时序逻辑电路；复位、使能、进（借）位</p>
+<pre><code class="verilog">// 万能计数器   verilog 中没有 { }, 用 begin/end 代替
+module cntN(clk, en, rstn, cnt, co);
+  input clk, rstn, en;
+  output[M-1:0] cnt; // 2^M &gt;= N, M 取最小值
+  output co;
+  reg[M-1:0] cnt;
+  reg co;
+
+  always @ (posedge clk or negedge rstn) // 低电平有效的异步复位
+  {
+      if(!rstn)
+      {
+          // 复位
+          cnt &lt;= 0;
+          co &lt;= 0;
+      }
+      else
+      {
+          if(en)
+          {
+              if(cnt == N-1)
+              {
+                  // 进位
+                  cnt &lt;= 0;
+                  co &lt;= 0;
+              }
+              else
+              {
+                  // 计数
+                  cnt &lt;= cnt + 1;
+                  co &lt;= 0;
+              }
+          }
+      }
+  }
+endmodule</code></pre>
+</li>
+</ul>
+<pre><code class="verilog">module cnt8(clk, en, rstn, cnt, co);
+    input clk, en, rstn;
+    output[2:0] cnt;
+    output co;
+    reg[2:0] cnt;
+    reg co;
+
+    always @ (posedge clk or negedge rstn)
+    begin
+        if(!rstn)
+        begin
+            cnt &lt;= 0;
+            co &lt;= 0;
+        end
+        else
+        begin
+            if(en)
+            begin
+                if(cnt == 7)
+                begin
+                    cnt &lt;= 0;
+                    co &lt;= 0;
+                end
+                else
+                begin
+                    cnt &lt;= cnt + 1;
+                    co &lt;=0;
+                end
+            end
+        end
+    end
+endmodule</code></pre>
+<ul>
+<li><p>编码器、译码器：组合逻辑电路，和实际结合</p>
+<pre><code class="verilog">// 3-8 译码器  题目会给真值表
+module decoder38(din, dout);
+  input[2:0] din;
+  output[7:0] dout;
+  reg[7:0] dout;
+
+  always @ (*)
+  begin
+      case(din)
+          3&#39;b000:dout = 8&#39;01111111;
+          3&#39;b001:dout = 8&#39;10111111;
+          3&#39;b010:dout = 8&#39;11011111;
+          3&#39;b011:dout = 8&#39;11101111;
+          3&#39;b100:dout = 8&#39;11110111;
+          3&#39;b101:dout = 8&#39;11111011;
+          3&#39;b110:dout = 8&#39;11111101;
+          3&#39;b111:dout = 8&#39;11111110;
+          default:dout = 8&#39;b11111111;
+      endcase
+  end
+endmodule</code></pre>
+</li>
+</ul>
+<pre><code class="verilog">// 8-3 编码器  具体数值见真值表
+module coder83(din, dout);
+    input[7:0] din;
+    output[7:0] dout;
+    reg[2:0] dout;
+
+    always @ (din)
+    case(din)  // x 表示真值表中的数值
+        8&#39;bxxxxxxxx: dout&lt;=3&#39;b000;
+        8&#39;bxxxxxxxx: dout&lt;=3&#39;b001;
+        8&#39;bxxxxxxxx: dout&lt;=3&#39;b010;
+        8&#39;bxxxxxxxx: dout&lt;=3&#39;b011;
+        8&#39;bxxxxxxxx: dout&lt;=3&#39;b100;
+        8&#39;bxxxxxxxx: dout&lt;=3&#39;b101;
+        8&#39;bxxxxxxxx: dout&lt;=3&#39;b110;
+        8&#39;bxxxxxxxx: dout&lt;=3&#39;b111;
+        default: dout&lt;=3&#39;b000;
+    endcase
+endmodule</code></pre>
+<ul>
+<li><p>移位寄存器：普通移位、循环移位；并串转换</p>
+<pre><code class="verilog">// 用移位寄存器设计串并转换电路
+module SeriToPara(din, dout, clk, rstn);
+  input clk, din, rstn;
+  output[7:0] dout;
+  reg[7:0] dout;
+
+  always @ (posedge clk or negedge rstn)
+  begin
+      if(!rstn)
+          dout &lt;= 0;
+      else
+          dout &lt;= {dout[6:0], din};
+  end
+endmodule</code></pre>
+</li>
+<li><p>结构建模：利用库元件、子模块调用方式编写程序</p>
+</li>
+</ul>
+<p><img data-sizes="auto" data-src="https://upload-images.jianshu.io/upload_images/817492-ab3cb550099eecfd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="" class="lazyload"></p>
+<pre><code class="verilog">// 利用库元件、子模块调用方式编写程序
+module f_adder(ain, bin, cin, cout, sum);
+  input ain, bin, cin;
+  output cout, sum;
+  wire d, e, f;
+  h_adder u1(.A(ain), .B(bin), .so(e), .co(d));
+  h_adder u2(.A(e), .B(cin), .so(sum), .co(f));
+  or u3(cout, d, f);
+endmodule</code></pre>
+<ul>
+<li>低电平有效复位<pre><code class="verilog">always @ (posedge clk or negedge rstn)
+  if(!rstn)
+      ...</code></pre>
+</li>
+</ul>
+
+  </article>
+
+  <div class="nexmoe-post-meta nexmoe-rainbow">
+    
+    
+</div>
+
+  <div class="nexmoe-post-footer">
+    
+      
+  <div class="nexmoe-post-copyright">
+    <strong>Author：</strong>weizujie<br>
+    <strong>Link：</strong><a href="http://weizujie.github.io/2019/12/29/Verilog%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/" title="http:&#x2F;&#x2F;weizujie.github.io&#x2F;2019&#x2F;12&#x2F;29&#x2F;Verilog%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;weizujie.github.io&#x2F;2019&#x2F;12&#x2F;29&#x2F;Verilog%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0&#x2F;</a><br>
+    
+      <strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可
+    
+  </div>
+
+
+    
+    <section class="nexmoe-comment">
+    <div id="gitment"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+var gitment = new Gitment({
+    owner: 'weizujie', // 你的 GitHub ID
+    repo: 'weizujie.github.io', // 存储评论的 repo
+    oauth: {
+        client_id: 'fe38f823ed31592be925', // 你的 client ID
+        client_secret: '9c9bd281df3e40b380266621f28fa09b6d8f46ac' // 你的 client secret
+    },
+})
+gitment.render('gitment')
+</script>
+</section>
+  </div>
+</div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/combine/npm/lazysizes@5.1.0/lazysizes.min.js,gh/highlightjs/cdn-release@9.15.8/build/highlight.min.js,npm/mdui@0.4.3/dist/js/mdui.min.js?v=1"></script>
+<script >hljs.initHighlightingOnLoad();</script>
+
+
+    <script src="https://cdn.jsdelivr.net/gh/xtaodada/xtaodada.github.io@0.0.2/copy.js"></script>
+
+
+<script src="/js/app.js?v=1591369438249"></script>
+  
+
+
+
+
+
+</body>
+
+</html>
