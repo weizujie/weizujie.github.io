@@ -1,0 +1,2196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>【Leetcode】面试题 16.01. 交换数字</title>
+    <url>/2020/11/27/%E3%80%90Leetcode%E3%80%91%E9%9D%A2%E8%AF%95%E9%A2%98%2016.01.%E4%BA%A4%E6%8D%A2%E6%95%B0%E5%AD%97/</url>
+    <content><![CDATA[<p>编写一个函数，不用临时变量，直接交换numbers = [a, b]中a与b的值。</p>
+<a id="more"></a>
+
+<p>示例：</p>
+<blockquote>
+<p>输入：numbers = [1, 2]<br>输出：[2, 1]</p>
+</blockquote>
+<p>日常逛牛客网，看到了一道面试题，面试官让说一下：<strong>不用额外变量交换两个变量的值</strong>。</p>
+<p>这不是 Leetcode 上的原题吗？我做过。</p>
+<p><a href="https://leetcode-cn.com/problems/swap-numbers-lcci/" target="_blank" rel="noopener">面试题 16.01. 交换数字</a></p>
+<h2 id="异或"><a href="#异或" class="headerlink" title="异或"></a>异或</h2><p>我思考了一会儿，只会一种方法：<strong>异或</strong>（相同为零，不同为一）。</p>
+<p>代码如下： </p>
+<pre><code class="java">public int[] swapNumbers(int[] numbers) {
+    numbers[0] = numbers[0] ^ numbers[1];
+    numbers[1] = numbers[1] ^ numbers[0];
+    numbers[0] = numbers[0] ^ numbers[1];
+    return numbers;
+}</code></pre>
+<p>其他的方法也想不出来了，随后看了一眼题解，还有另外两种解法，也是用的<strong>位运算</strong>。</p>
+<h2 id="加法"><a href="#加法" class="headerlink" title="加法"></a>加法</h2><pre><code class="java">public int[] swapNumbers(int[] numbers) {
+    numbers[0] = numbers[0] + numbers[1];
+    numbers[1] = numbers[0] - numbers[1];
+    numbers[0] = numbers[0] - numbers[1];
+    return numbers;
+}</code></pre>
+<h2 id="减法"><a href="#减法" class="headerlink" title="减法"></a>减法</h2><pre><code class="java">public int[] swapNumbers(int[] numbers) {
+    numbers[0] = numbers[0] - numbers[1];
+    numbers[1] = numbers[0] + numbers[1];
+    numbers[0] = numbers[1] - numbers[0];
+    return numbers;
+}</code></pre>
+]]></content>
+      <categories>
+        <category>Leetcode</category>
+      </categories>
+      <tags>
+        <tag>Leetcode</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>【JVM】Java内存区域详解</title>
+    <url>/2020/11/25/%E3%80%90JVM%E3%80%91Java%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F%E8%AF%A6%E8%A7%A3/</url>
+    <content><![CDATA[<p>本文将介绍了 Java 虚拟机内存的各个区域以及这些区域的作用、服务对象和其中可能出现的异常等。</p>
+<a id="more"></a>
+
+<h2 id="JVM-运行时数据区域"><a href="#JVM-运行时数据区域" class="headerlink" title="JVM 运行时数据区域"></a>JVM 运行时数据区域</h2><p>Java 虚拟机在执行 Java 程序的过程中会把它所管理的内存划分为五个不同的数据区域（如图所示）。</p>
+<p><img src="https://gitee.com/byojiaoxianz7/Img/raw/master/img/JVM%E8%BF%90%E8%A1%8C%E6%97%B6%E6%95%B0%E6%8D%AE%E5%8C%BA%E5%9F%9F.png" alt=""></p>
+<ul>
+<li>红色边框的是由所有<strong>线程共享</strong>的数据区</li>
+<li>蓝色边框的是<strong>线程隔离</strong>的数据区</li>
+</ul>
+<p>除了程序计数器之外，其他四个区域都可能会出现 <code>OutOfMemoryError</code> 异常。</p>
+<h3 id="程序计数器"><a href="#程序计数器" class="headerlink" title="程序计数器"></a>程序计数器</h3><ul>
+<li><p>程序计数器是一块<strong>较小</strong>的内存空间</p>
+</li>
+<li><p>是当前线程所执行的字节码的<strong>行号显示器</strong></p>
+</li>
+<li><p>字节码解释器就是通过改变这个计数器的值来选取下一条需要执行的字节码指令的</p>
+</li>
+<li><p>执行 Java 方法和执行 Native 方法的区别：</p>
+<ul>
+<li>执行 Java 方法时，计数器记录虚拟机正在执行的字节码指令的地址</li>
+<li>执行 Native 方法时，无记录，也就是计数器的值为空（Undefined）</li>
+</ul>
+</li>
+</ul>
+<p><strong>程序计数器是唯一一个不会出现 OOM 的区域。</strong></p>
+<h3 id="Java-虚拟机栈"><a href="#Java-虚拟机栈" class="headerlink" title="Java 虚拟机栈"></a>Java 虚拟机栈</h3><ul>
+<li><p>每个 Java 方法被执行的时候，Java 虚拟机都会同步创建一个<strong>栈帧</strong>用于存储局部变量表、操作数栈、动态连接、方法出口等信息</p>
+</li>
+<li><p>每个方法被调用一直到执行完毕的过程，都对应着一个栈帧在 Java 虚拟机栈中从入栈到出栈的过程</p>
+</li>
+<li><p><strong>Java 虚拟机栈服务于 Java 方法</strong></p>
+</li>
+<li><p>可能出现的异常：</p>
+<ul>
+<li><code>StackOverflowError</code>：线程请求的栈深度 大于 Java 虚拟机所允许的深度时</li>
+<li><code>OutOfMemoryError</code>：在 Java 虚拟机栈容量可动态扩展的情况下，当栈扩展时无法申请到足够的内存时</li>
+</ul>
+</li>
+<li><p>虚拟机参数设置：<code>-Xss</code></p>
+</li>
+</ul>
+<h3 id="本地方法栈"><a href="#本地方法栈" class="headerlink" title="本地方法栈"></a>本地方法栈</h3><ul>
+<li><p>与 Java 虚拟机栈发挥的作用类似，区别在于<strong>本地方法栈服务于 Native 方法</strong>。</p>
+</li>
+<li><p>可能出现的异常：与 Java 虚拟机栈一样。</p>
+</li>
+</ul>
+<h3 id="Java-堆"><a href="#Java-堆" class="headerlink" title="Java 堆"></a>Java 堆</h3><ul>
+<li><p>唯一目的：<strong>存放对象实例</strong></p>
+</li>
+<li><p>垃圾回收器管理的内存区域</p>
+</li>
+<li><p>可以处于物理上不连续的内存空间中，但是在逻辑上应该是连续的</p>
+</li>
+<li><p>可能出现的异常：</p>
+<ul>
+<li><code>OutOfMemoryError</code>：Java 堆中没有内存完成实例分配，并且堆也无法再扩展时</li>
+</ul>
+</li>
+<li><p>虚拟机参数设置：</p>
+<ul>
+<li><p>最大值：<code>-Xmx</code></p>
+</li>
+<li><p>最小值：<code>-Xms</code></p>
+</li>
+<li><p>两个参数设置成相同值时可避免堆自动扩展</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="方法区"><a href="#方法区" class="headerlink" title="方法区"></a>方法区</h3><ul>
+<li><p>用于存储已被 Java 虚拟机加载的类型信息、常量、静态变量、即时编译器编译后的代码缓存等数据</p>
+</li>
+<li><p>可以选择不实现垃圾收集，换句话说垃圾收集行为在这个区域非常少见，但是对于经常动态性生成大量 Class 的应用，如 Spring 等，需要特别注意类的回收情况</p>
+</li>
+<li><p>可能出现的异常：</p>
+<ul>
+<li><code>OutOfMemoryError</code>：方法区无法满足新的内存分配需求时</li>
+</ul>
+</li>
+</ul>
+<h4 id="运行时常量池"><a href="#运行时常量池" class="headerlink" title="运行时常量池"></a>运行时常量池</h4><ul>
+<li>运行时常量池是方法区的一部分</li>
+<li>Class 文件除了有类的版本、字段、方法、接口等描述信息外，还有一项是常量池表，用于存放编译期生成的各种字面量（就是代码中定义的 static final 常量）和符号引用，这部分内容将在<strong>类加载后</strong>存放到方法区的运行时常量池中</li>
+<li>可能出现的异常：<ul>
+<li><code>OutOfMemoryError</code>：常量池无法再申请到内存时</li>
+</ul>
+</li>
+</ul>
+<h3 id="直接内存"><a href="#直接内存" class="headerlink" title="直接内存"></a>直接内存</h3><ul>
+<li><p>不属于 Java 虚拟机运行时数据区域的一部分，放到这里讲是因为这部分内存在使用的时候也可能导致 <code>OutOfMemoryError</code> 异常的出现：各个内存区域总和大于物理内存限制（包括物理的和操作系统级的限制），从而导致动态扩展时出现 <code>OutOfMemoryError</code> 异常</p>
+</li>
+<li><p>JDK1.4 的 NIO 类可以使用 Native 函数库直接分配堆外内存，然后通过一个存储在 Java 堆里面的 DirectByteBuffer 对象作为这块内存的引用进行操作，好处是避免了在 Java 堆和 Native 堆中来回复制数据，能在一些场景中提高性能</p>
+</li>
+<li><p>虚拟机参数设置：<code>-XX:MaxDirectMemorySize</code></p>
+<ul>
+<li>默认等于 Java 堆最大值，即<code>-Xmx</code>指定的值</li>
+</ul>
+</li>
+</ul>
+<h2 id="HotSpot-虚拟机堆中的对象"><a href="#HotSpot-虚拟机堆中的对象" class="headerlink" title="HotSpot 虚拟机堆中的对象"></a>HotSpot 虚拟机堆中的对象</h2><p>介绍完 Java 虚拟机的运行时数据区域后，我们大致了解的 Java 虚拟机内存模型的概况。这一小节将介绍 HotSpot 虚拟机在 Java 堆中对象分配、布局和访问的全过程。</p>
+<h3 id="对象的创建（new）"><a href="#对象的创建（new）" class="headerlink" title="对象的创建（new）"></a>对象的创建（new）</h3><p>当虚拟机遇到 new 指令时：</p>
+<ol>
+<li>检查这个指令的参数是否能在常量池中定位到一个类的符号引用，并检查这个符号引用代表的类是否已经被加载、解析和初始化过。如果没有，则先把这个类加载进内存</li>
+<li>类加载检查通过后，虚拟机将为这个新的对象分配内存，内存的大小在类加载完成后确定</li>
+<li>在 Java 堆中为新对象分配可用内存</li>
+<li>内存分配完成后，虚拟机将分配到的内存空间都初始化为零值</li>
+<li>虚拟机设置对象头中的数据</li>
+<li>此时，从虚拟机的角度看，对象已经创建好了，但从 Java 程序角度看，对象创建才刚刚开始，构造函数还没有执行</li>
+</ol>
+<p>第 3 步中，为对象分配可用内存时，会涉及两个问题：</p>
+<ol>
+<li>内存分配方式<ul>
+<li>指针碰撞（Java 堆中的内存是绝对规整的）<ul>
+<li>所有被使用过的内存放在一边，没有被使用过的内存放在另一边，中间放一个指针，作为分界点的指示器，那所分配的内存就仅仅是把那个指针向空闲内存空间方向挪一段与对象大小相等的距离</li>
+</ul>
+</li>
+<li>空闲列表（Java 堆中被使用的内存和空闲内存相互交错在一起）<ul>
+<li>Java 虚拟机需要维护一个列表，记录上哪些内存块是可用的，在分配的时候从列表中找一块大小足够大的空间划分给对象实例</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>在并发情况下虚拟机创建对象也并不是线程安全的，可能出现正在给对象 A 分配内存，指针还没来得及修改，对象 B 又同时使用了原来的指针来分配内存的情况<ul>
+<li>对分配内存空间的动作进行同步处理（ 采用 CAS 配上失败重试的方式保证更新操作的原子性 ）</li>
+<li>把内存分配的动作按照线程划分在不同的空间中进行（每个线程在 Java 堆中预先分配一块小内存（这个小内存称为<strong>本地线程分配缓冲区</strong>），哪个线程要分配内存，就在哪个线程的本地线程分配缓冲区中分配，只有这个本地线程分配缓冲区分配完了，分配新的本地线程分配缓冲区才需要同步锁定）<ul>
+<li>虚拟机参数设置：<code>-XX:+/-UseTLAB</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="对象的内存布局"><a href="#对象的内存布局" class="headerlink" title="对象的内存布局"></a>对象的内存布局</h3><p>在 HotSpot 虚拟机中，对象在堆内存中的存储布局分为三部分：</p>
+<ul>
+<li>对象头（包括两类信息）<ul>
+<li>用于存储对象自身的运行时数据，如 HashCode、GC 分代年龄、锁状态标志、线程持有的锁、偏向线程 ID、偏向时间戳等</li>
+<li>类型指针，即对象指向它的类型元数据的指针，虚拟机通过这个指针来确定该对象是哪个类的实例。</li>
+</ul>
+</li>
+<li>实例数据（存储我们在程序代码中定义的各种类型的字段内容）<ul>
+<li>这部分数据受到虚拟机分配策略参数（<code>-XX:FieldsAllocationStyle</code>）和字段在代码中定义顺序的影响</li>
+</ul>
+</li>
+<li>对齐填充（没有实际意义，起到占位符的作用）</li>
+</ul>
+<h3 id="对象的访问定位"><a href="#对象的访问定位" class="headerlink" title="对象的访问定位"></a>对象的访问定位</h3><p>我们创建对象之后自然是要使用对象，Java 程序会通过栈上的 reference 数据来操作堆上的具体对象（reference 是一个指向对象的引用）。</p>
+<p>主流的对象访问方式有两种：</p>
+<ul>
+<li>通过句柄访问（reference 中存储的是稳定的句柄地址，在对象被移动的时候只会改变句柄中的实例数据指针，而 reference 本身不需要被修改）</li>
+</ul>
+<p><img src="https://gitee.com/byojiaoxianz7/Img/raw/master/img/%E9%80%9A%E8%BF%87%E5%8F%A5%E6%9F%84%E8%AE%BF%E9%97%AE%E5%AF%B9%E8%B1%A1.png" alt=""></p>
+<ul>
+<li>通过直接指针访问（速度快得一批，节省了一次指针定位的时间开销）</li>
+</ul>
+<p><img src="https://gitee.com/byojiaoxianz7/Img/raw/master/img/%E9%80%9A%E8%BF%87%E7%9B%B4%E6%8E%A5%E6%8C%87%E9%92%88%E8%AE%BF%E9%97%AE%E5%AF%B9%E8%B1%A1.png" alt=""></p>
+<h2 id="本文小结"><a href="#本文小结" class="headerlink" title="本文小结"></a>本文小结</h2><p>本文从概念上介绍了 Java 虚拟机内存的各个区域以及这些区域的作用、服务对象和其中可能出现的异常等，还介绍了虚拟机创建对象（new）的过程、对象的内存布局和如何访问对象。</p>
+]]></content>
+      <categories>
+        <category>JVM</category>
+      </categories>
+      <tags>
+        <tag>JVM</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>【Java】谈谈Java中的多态</title>
+    <url>/2020/06/20/%E3%80%90Java%E3%80%91%E8%B0%88%E8%B0%88Java%E4%B8%AD%E7%9A%84%E5%A4%9A%E6%80%81/</url>
+    <content><![CDATA[<p>本文将介绍 Java 语言中面向对象的多态性。</p>
+<a id="more"></a>
+
+<p>多态是同一个行为具有多个不同的表现形态或形式的能力。</p>
+<p>比如：</p>
+<blockquote>
+<p>  小阿 giao，他是一名主播，同样也是一个人。</p>
+<p>  小阿 giao 是一个对象，</p>
+<p>  这个对象既有主播形态，也有人类形态。</p>
+</blockquote>
+<p>一个对象，拥有多种形态，这就是<strong>对象的多态性</strong>。</p>
+<h2 id="多态在代码中的体现"><a href="#多态在代码中的体现" class="headerlink" title="多态在代码中的体现"></a>多态在代码中的体现</h2><p>如何用代码来表现多态性？</p>
+<p>其实就是一句话：<strong>父类引用指向子类对象</strong>。</p>
+<pre><code class="java">父类名称 对象名 = new 子类名称();</code></pre>
+<p>不一定非得是父类引用，还可以这样：</p>
+<pre><code class="java">接口名称 对象名 = new 实现类名称();</code></pre>
+<p>创建一个父类 ：</p>
+<pre><code class="java">public class A {
+    public void method() {
+        System.out.println(&quot;父类方法&quot;);
+    }
+}</code></pre>
+<p>创建一个子类继承父类并覆盖重写父类的 <code>method</code> 方法：</p>
+<pre><code class="java">public class B extends A {
+    @Override
+    public void method() {
+        System.out.println(&quot;子类方法&quot;);
+    }
+}</code></pre>
+<p>使用多态写法：</p>
+<pre><code class="java">public class Main {
+    public static void main(String[] args) {
+        A a = new B();
+        a.method();
+    }
+}</code></pre>
+<p> 输出结果：</p>
+<blockquote>
+<p>  子类方法</p>
+</blockquote>
+<p>输出的是子类的方法，如果父类有的方法子类没有覆盖重写，那么就会向上查找，即子类没有，就找父类。</p>
+<p>我们在父类里添加一个新的方法：</p>
+<pre><code class="java">public class A {
+    public void method2() {
+        System.out.println(&quot;父类特有的方法&quot;);
+    }
+}</code></pre>
+<p>子类不去覆盖重写：</p>
+<pre><code class="java">public class B extends A {
+    // 什么都不写
+}</code></pre>
+<p>调用一下这个方法：</p>
+<pre><code class="java">public class Main {
+    public static void main(String[] args) {
+        A a = new B();
+        a.method2();
+    }
+}</code></pre>
+<p>输出结果：</p>
+<blockquote>
+<p>  父类特有的方法</p>
+</blockquote>
+<p>小结一下：</p>
+<ul>
+<li>直接通过对象名称访问成员变量，等号左边你 new 了谁，优先用谁的方法，如果没有，则向上找</li>
+</ul>
+<h2 id="多态中成员方法的使用特点"><a href="#多态中成员方法的使用特点" class="headerlink" title="多态中成员方法的使用特点"></a>多态中成员方法的使用特点</h2><p>有一句口诀：<strong>编译看左边，运行看右边</strong>。（这里的左边指的是等号的左边，右边指的是等号的右边）</p>
+<p>什么意思呢？先上代码：</p>
+<p>新建一个父类，写两个方法 <code>eat</code> 和 <code>giao</code>，注意，<code>giao</code> 方法是父类特有的，子类不覆盖重写：</p>
+<pre><code class="java">public class Animal {
+    public void eat() {
+        System.out.println(&quot;动物吃东西&quot;);
+    }
+
+    public void giao() {
+        System.out.println(&quot;动物在giao&quot;);
+    }
+}</code></pre>
+<p>新建一个子类继承父类并覆盖重写父类的 <code>eat</code> 方法，然后写一个特定的方法 <code>run</code>：</p>
+<pre><code class="java">public class Cat extends Animal {
+    @Override
+    public void eat() {
+        System.out.println(&quot;猫在吃鱼&quot;);
+    }
+
+    public void run() {
+        System.out.println(&quot;猫在跑&quot;);
+    }
+}</code></pre>
+<p>调用一下各个方法：</p>
+<pre><code class="java">public class Main {
+    public static void main(String[] args) {
+        Animal a = new Cat();
+        a.eat();  // 输出：猫在吃鱼
+        a.giao(); // 输出：动物在giao
+        a.run();  // 编译错误
+    }
+}</code></pre>
+<p>一行一行来解释：</p>
+<ul>
+<li>第 3 行，多态写法，父类引用指向子类对象</li>
+<li>第 4 行：调用 <code>eat</code> 方法，因为 <code>eat</code> 方法父子类都有，所以优先使用子类的，输出：猫在吃鱼。没毛病</li>
+<li>第 5 行：调用 <code>giao</code> 方法，这是父类特有的方法，子类没有，所以向上找，输出：动物在giao。也没毛病</li>
+<li>第 6 行，调用 <code>run</code> 方法，这是子类的特有方法，口诀：<strong>编译看左边</strong>。左边是父类，父类中没有 <code>run</code> 方法，所以编译报错（具体原因是：对象一旦<strong>向上转型</strong>为父类，那么就无法调用子类原本特有的内容，比如 <code>run</code> 方法）</li>
+</ul>
+<p>如果要想使用 <code>run</code> 方法，就得在父类中创建。</p>
+<h2 id="成员变量与成员方法的对比"><a href="#成员变量与成员方法的对比" class="headerlink" title="成员变量与成员方法的对比"></a>成员变量与成员方法的对比</h2><ul>
+<li>成员变量：编译看左边，运行还看左边</li>
+<li>成员方法：编译看左边，运行看右边</li>
+</ul>
+<h2 id="多态的好处"><a href="#多态的好处" class="headerlink" title="多态的好处"></a>多态的好处</h2><p>假设我们有三个类，都有 <code>work</code> 方法：</p>
+<ul>
+<li><p>员工类（父类）</p>
+<pre><code class="java">work();  // 抽象的</code></pre>
+</li>
+<li><p>讲师类（子类）</p>
+<pre><code class="java">work();  // 讲课</code></pre>
+</li>
+<li><p>助教类（子类）</p>
+<pre><code class="java">work();  // 辅导</code></pre>
+</li>
+</ul>
+<p>如果不用多态写法，只用子类：</p>
+<pre><code class="java">Teacher t = new Teacher();
+t.work();  // 老师讲课
+Assistant a = new Assistant();
+a.work();  // 助教辅导</code></pre>
+<p>我们唯一要做的事情就是调用 <code>work</code> 方法，不关心你是讲课还是辅导。</p>
+<p>如果使用多态写法：对比一下上面的代码：</p>
+<pre><code class="java">Employee t = new Teacher();
+t.work();
+Employee a = new Assistant();
+t.work();</code></pre>
+<p>好处就一目了然了：无论右边 new 的时候换成哪个子类对象，等号左边调用的方法都不会改变。</p>
+<p>当然还有其他的好处，以后会慢慢学习到。</p>
+<h2 id="对象的向上转型"><a href="#对象的向上转型" class="headerlink" title="对象的向上转型"></a>对象的向上转型</h2><p>对象的向上转型其实上面以及写过了，其实就是多态写法。</p>
+<p>格式：</p>
+<pre><code class="JAVA">父类名称 对象名 = new 子类名称();
+Animal animal = new Cat();</code></pre>
+<p>含义：</p>
+<blockquote>
+<p>  右侧创建一个子类对象，把它当作父类来看。</p>
+<p>  创建了一只猫，当作动物来看待。</p>
+</blockquote>
+<p>注意：<strong>向上转型一定是安全的</strong>。但是也有个弊端，一旦对象向上转型为父类，那么就无法调用子类原本特有的内容（解决方案：向下转型）。</p>
+<h2 id="对象的向下转型"><a href="#对象的向下转型" class="headerlink" title="对象的向下转型"></a>对象的向下转型</h2><p>对象的向下转型，其实就是一个<strong>还原</strong>的动作。</p>
+<p>格式：</p>
+<pre><code class="java">子类名称 对象名 = (子类名称) 父类对象;</code></pre>
+<p>含义：</p>
+<blockquote>
+<p>  将父类对象<strong>还原</strong>为本来的对象。</p>
+</blockquote>
+<p>简单来说，本来它是猫，经过向上转型为动物，再向下转型还原成猫。</p>
+<pre><code class="java">Animal animal = new Cat(); // 本来是猫，向上转型为动物
+Cat cat = (Cat) animal; // 本来是猫，已经被当作是动物了，还原为猫</code></pre>
+<p>类似于这样：</p>
+<pre><code class="java">int num = (int) 10.0; // true
+int num = (int) 10.5; // false -&gt; 精度损失</code></pre>
+<p>注意事项：</p>
+<blockquote>
+<p>  1、必须保证对象本来创建的时候就是猫，才能向下转型为猫</p>
+<p>  2、如果对象创建的时候不是猫，现在非要向下转型为猫，你说你是不是沙雕？报错：<strong>ClassCastException</strong></p>
+</blockquote>
+<h2 id="使用-instanceof-关键字进行类型判断"><a href="#使用-instanceof-关键字进行类型判断" class="headerlink" title="使用 instanceof 关键字进行类型判断"></a>使用 instanceof 关键字进行类型判断</h2><p>有一个问题：如何知道一个父类引用的对象，本来是什么子类？</p>
+<p>简单来说，就是你怎么知道父类的引用指向的本来是猫还是狗呢？</p>
+<p>答案是：使用关键字 <code>instanceof</code>。</p>
+<p>格式：</p>
+<pre><code class="java">对象名称 instanceof 子类名称</code></pre>
+<p>返回的是一个 <code>boolean</code> 类型：</p>
+<pre><code class="java">public class Main {
+    public static void main(String[] args) {
+        Animal animal = new Cat();  // 本来是猫
+        animal.eat();  // 猫吃鱼
+
+        // 如果希望使用子类特有的方法，需要向下转型
+        if (animal instanceof Cat) { // true
+            Cat cat = (Cat) animal;
+            cat.run(); // 猫在跑
+        }
+    }
+}</code></pre>
+<p>注意：使用向下转型，一定要使用 <code>instanceof</code> 关键字进行判断，避免 <code>ClassCastException</code> 异常。</p>
+]]></content>
+      <categories>
+        <category>Java</category>
+      </categories>
+      <tags>
+        <tag>Java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>【Java】谈谈Java中的接口</title>
+    <url>/2020/06/19/%E3%80%90Java%E3%80%91%E8%B0%88%E8%B0%88Java%E4%B8%AD%E7%9A%84%E6%8E%A5%E5%8F%A3/</url>
+    <content><![CDATA[<p>本文将介绍在 Java 语言中的接口。</p>
+<a id="more"></a>
+
+<p>通俗点来说，接口就是<strong>方法的集合</strong>。</p>
+<h2 id="接口的定义格式"><a href="#接口的定义格式" class="headerlink" title="接口的定义格式"></a>接口的定义格式</h2><p>定义接口的格式：</p>
+<pre><code class="java">public interface 接口名称 {
+    // 接口内容
+}</code></pre>
+<p>接口内容可以包含：</p>
+<p>JDK 1.7 中：</p>
+<ul>
+<li>常量</li>
+<li>抽象方法</li>
+</ul>
+<p>JDK 1.8 中：</p>
+<ul>
+<li>常量</li>
+<li>抽象方法</li>
+<li>默认方法</li>
+<li>静态方法</li>
+</ul>
+<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><ul>
+<li>接口中是没有静态代码块或者构造方法的</li>
+<li>一个类的直接父类是唯一的，但是一个类可以实现多个接口</li>
+</ul>
+<h2 id="接口中抽象方法的定义格式"><a href="#接口中抽象方法的定义格式" class="headerlink" title="接口中抽象方法的定义格式"></a>接口中抽象方法的定义格式</h2><p>接口的抽象方法定义格式如下：</p>
+<pre><code class="java">public abstract void 方法名称();</code></pre>
+<p>如果使用的是 IDEA 进行开发，那么会看到方法 method 的修饰符 <code>public abstract</code> 是灰色的，这是因为：在接口中，抽象方法的修饰符默认是 <code>public abstract</code>，所以我们可以省略这两个修饰符：</p>
+<pre><code class="java">void 方法名称();</code></pre>
+<p>也可以省略一个：</p>
+<pre><code class="java">public void 方法名称1();
+abstract void 方法名称2();</code></pre>
+<h3 id="抽象方法的使用"><a href="#抽象方法的使用" class="headerlink" title="抽象方法的使用"></a>抽象方法的使用</h3><p>接口不能直接使用，必须有一个类来实现这个接口，这个类必须实现（覆盖重写）接口中的所有抽象方法。</p>
+<p>定义一个接口 <code>MyInterfaceAbstract</code>：</p>
+<pre><code class="java">public interface MyInterfaceAbstract {
+    public abstract void method();
+}</code></pre>
+<p>定义一个实现类 <code>MyInterfaceAbstractImpl</code>：</p>
+<pre><code class="java">public class MyInterfaceAbstractImpl implements MyInterfaceAbstract {
+    @Override
+    public void method() {
+        System.out.println(&quot;这是抽象方法&quot;);
+    }
+}</code></pre>
+<p>创建实现类的对象进行使用：</p>
+<pre><code class="java">public class Main {
+    public static void main(String[] args) {
+        MyInterfaceAbstractImpl myInterfaceAbstract = new MyInterfaceAbstractImpl();
+        myInterfaceAbstract.method();
+    }
+}</code></pre>
+<p>输出结果为：</p>
+<blockquote>
+<p>  这是抽象方法</p>
+</blockquote>
+<h3 id="注意事项-1"><a href="#注意事项-1" class="headerlink" title="注意事项"></a>注意事项</h3><ul>
+<li><p>不能直接 new 接口的对象，而是 new 实现类的对象</p>
+</li>
+<li><p>如果实现类里没有实现接口中的所有抽象方法，那么这个实现类自己就必须是抽象类。</p>
+</li>
+</ul>
+<h2 id="接口中默认方法的定义格式"><a href="#接口中默认方法的定义格式" class="headerlink" title="接口中默认方法的定义格式"></a>接口中默认方法的定义格式</h2><p>从 JDK 8 开始，接口里允许定义默认方法，<strong>可以有方法体</strong>。</p>
+<p>接口的默认方法定义格式如下：</p>
+<pre><code class="java">public default 返回值类型 方法名称(参数列表) {
+    方法体...
+}</code></pre>
+<h3 id="默认方法的使用"><a href="#默认方法的使用" class="headerlink" title="默认方法的使用"></a>默认方法的使用</h3><p>假设有一个这样的场景：</p>
+<ul>
+<li><p>有一个接口 <code>MyInterfaceDefault</code>，这个接口有一个抽象方法 <code>method</code>，同样的，在 IDEA 里修饰符 <code>public</code> 是灰色的，可以省略：</p>
+<pre><code class="java">public interface MyInterfaceDefault {
+    public abstract void method();
+}</code></pre>
+</li>
+<li><p>有两个类实现了这个接口，分别是 <code>MyInterfaceDefaultA</code> 和 <code>MyInterfaceDefaultB</code> ：</p>
+<pre><code class="java">public class MyInterfaceDefaultA implements MyInterfaceDefault {
+    @Override
+    public void method() {
+        System.out.println(&quot;抽象方法,AAAAAA&quot;);
+    }
+}</code></pre>
+<pre><code class="java">public class MyInterfaceDefaultA implements MyInterfaceDefault {
+    @Override
+    public void method() {
+        System.out.println(&quot;抽象方法,BBBBBB&quot;);
+    }
+}</code></pre>
+</li>
+</ul>
+<p>这时候我想在接口中添加一个新的方法 <code>method2</code> ，但是如果添加了这个方法，就得在两个实现类里再实现这个方法，非常麻烦。</p>
+<p>如何解决这个问题？定一个默认方法（JDK 1.8 版本及以上）：</p>
+<pre><code class="java">public interface MyInterfaceDefault {
+    public abstract void method();
+    // 添加一个默认方法
+    public default void method2() {
+        // 方法体
+        System.out.println(&quot;我是默认方法&quot;);
+    }
+}</code></pre>
+<p>这样的话就不用在实现类里实现这个方法了，就很棒~</p>
+<h3 id="注意事项-2"><a href="#注意事项-2" class="headerlink" title="注意事项"></a>注意事项</h3><ul>
+<li>默认方法可以通过接口实现类对象，直接调用</li>
+<li>也可以被接口实现类进行覆盖重写</li>
+</ul>
+<h2 id="接口中静态方法的定义格式"><a href="#接口中静态方法的定义格式" class="headerlink" title="接口中静态方法的定义格式"></a>接口中静态方法的定义格式</h2><p>从 JDK 8 开始，接口里允许定义静态方法，<strong>也有方法体</strong>。</p>
+<p>定义格式如下：</p>
+<pre><code class="java">public static 返回值类型 方法名称(参数列表) {
+    方法体...
+}</code></pre>
+<h3 id="静态方法的使用"><a href="#静态方法的使用" class="headerlink" title="静态方法的使用"></a>静态方法的使用</h3><p>首先定一个接口 <code>MyInterfaceStatic</code>，里面有一个静态方法，如果使用的是 IDEA 进行开发，修饰符 <code>public</code> 也可以省略：</p>
+<pre><code class="java">public interface MyInterfaceStatic {
+    public static void method() {
+        System.out.println(&quot;我是静态方法&quot;);
+    }
+}</code></pre>
+<p>直接在类中使用即可，不用再定一个接口实现类：</p>
+<pre><code class="java">public class Main {
+    public static void main(String[] args) {
+        // 接口名称.方法名称();
+        MyInterfaceStatic.method();
+    }
+}</code></pre>
+<p>输出结果：</p>
+<blockquote>
+<p>  我是静态方法</p>
+</blockquote>
+<h3 id="注意事项-3"><a href="#注意事项-3" class="headerlink" title="注意事项"></a>注意事项</h3><ul>
+<li>不能通过接口实现类的对象来调用接口当中的静态方法</li>
+<li><strong>通过接口名称，直接调用其中的静态方法</strong></li>
+<li>仅限于 JDK 版本在 1.8 及以上</li>
+</ul>
+<h2 id="接口中常量的定义格式"><a href="#接口中常量的定义格式" class="headerlink" title="接口中常量的定义格式"></a>接口中常量的定义格式</h2><p>接口当中也可以定义”成员变量”，但必须通过 <code>public static final</code> 这三个关键字进行修饰，从效果上看，这其实就是接口的常量。</p>
+<p>接口的常量定义格式如下：</p>
+<pre><code class="java">public static final 数据类型 常量名称 = 数据值;</code></pre>
+<p>一旦使用 <code>final</code> 关键字进行修饰，就说明<strong>不可改变</strong>。</p>
+<p>这其实就是一个常量，一旦赋值，就不可以更改。</p>
+<h3 id="常量的使用"><a href="#常量的使用" class="headerlink" title="常量的使用"></a>常量的使用</h3><p>定义一个接口 <code>MyInterfaceConst</code>，如果使用 IDEA 进行开发， <code>public static final</code> 是灰色的，代表可以省略：</p>
+<pre><code class="java">public interface MyInterfaceConst {
+    public static final int NUM = 10;
+}</code></pre>
+<p>跟静态方法一样，直接在类中使用即可：</p>
+<pre><code class="java">public class Main {
+    public static void main(String[] args) {
+        System.out.println(MyInterfaceConst.NUM);
+    }
+}</code></pre>
+<p>输出结果：</p>
+<blockquote>
+<p>  10</p>
+</blockquote>
+<h3 id="注意事项-4"><a href="#注意事项-4" class="headerlink" title="注意事项"></a>注意事项</h3><ul>
+<li><strong>接口当中的常量，必须进行赋值</strong></li>
+<li>常量名称按照习惯使用大写字母，用下划线进行分隔</li>
+</ul>
+<h2 id="多个接口的实现"><a href="#多个接口的实现" class="headerlink" title="多个接口的实现"></a>多个接口的实现</h2><p>多个接口实现的格式：</p>
+<pre><code class="java">public class MyInterfaceImpl implements MyInterfaceA, MyInterfaceB {
+    // 覆盖重写所有抽象方法（接口 A 的和接口 B 的）
+}</code></pre>
+<p><img src="https://wx2.sbimg.cn/2020/06/19/Snipaste_2020-06-19_19-02-40.png" alt="Snipaste_2020-06-19_19-02-40.png"></p>
+<h3 id="注意事项-5"><a href="#注意事项-5" class="headerlink" title="注意事项"></a>注意事项</h3><ul>
+<li>如果实现类所实现的多个接口中，存在重复的<strong>抽象方法</strong>，那么只需要覆盖重写一次即可</li>
+<li>如果实现类所实现的多个接口中，存在重复的<strong>默认方法</strong>，那么实现类一定要对冲突的默认方法进行覆盖重写</li>
+<li>一个类的父类当中的方法和接口当中的默认方法产生冲突的话，优先用父类中的方法（<strong>父类优先，接口其次</strong>）</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Java</category>
+      </categories>
+      <tags>
+        <tag>Java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>【Java】谈谈Java中的覆盖和重载</title>
+    <url>/2020/06/17/%E3%80%90Java%E3%80%91%E8%B0%88%E8%B0%88Java%E4%B8%AD%E7%9A%84%E8%A6%86%E7%9B%96%E5%92%8C%E9%87%8D%E8%BD%BD/</url>
+    <content><![CDATA[<p>重载和覆盖是 Java 多态性的不同表现方式，本文将介绍什么是重载（Overload）和覆盖（Override）以及二者之间的区别。</p>
+<a id="more"></a>
+
+<h1 id="重载（Overload）"><a href="#重载（Overload）" class="headerlink" title="重载（Overload）"></a>重载（Overload）</h1><p>重载是在一个类里，方法名相同，而参数不同。返回的类型可以相同，也可以不同。每个重载的方法都必须有独一无二的参数列表。</p>
+<p><strong>最常用的地方就是构造器的重载</strong>。</p>
+<p>举个例子：</p>
+<pre><code class="java">public class A {
+    public int sum(int a) {
+        return a;
+    }
+    public int sum(int a, int b) {
+        return a + b;
+    }
+    public double sum(double a, double b) {
+        return a + b;
+    }
+    public double sum(int a, double b, int c) {
+        return a + b + c;
+    }
+
+    public static void main(String[] args) {
+        A a = new A();
+
+        int sum1 = a.sum(3);
+        System.out.println(sum1); 
+
+        double sum2 = a.sum(1, 2);
+        System.out.println(sum2); 
+
+        double sum3 = a.sum(1.0, 2.0);
+        System.out.println(sum3);
+
+        double sum4 = a.sum(1, 2.0, 3);
+        System.out.println(sum4);
+    }
+}
+</code></pre>
+<p>上述代码中，有四个方法，方法名都是 sum。</p>
+<p>方法名相同，参数列表不同，返回值的类型也不同，这就是<strong>方法的重载</strong>。</p>
+<h2 id="需要注意的点"><a href="#需要注意的点" class="headerlink" title="需要注意的点"></a>需要注意的点</h2><p>在使用重载时，需要注意以下几点：</p>
+<ul>
+<li>被重载的方法必须改变参数列表（参数个数或类型不一样）；</li>
+<li>被重载的方法可以改变返回类型；</li>
+<li>被重载的方法可以改变访问修饰符；</li>
+<li>被重载的方法可以声明新的或更广的检查异常；</li>
+<li>方法能够在同一个类中或者在一个子类中被重载。</li>
+<li>无法以返回值类型作为重载函数的区分标准。</li>
+</ul>
+<h1 id="覆盖（Override）"><a href="#覆盖（Override）" class="headerlink" title="覆盖（Override）"></a>覆盖（Override）</h1><p>覆盖（也叫重写）是指子类对父类允许访问的方法进行重新编写，返回值和形参都不可以改变。</p>
+<p>也就是说，<strong>外壳不变，核心重写！</strong></p>
+<p>覆盖的好处在于，可以根据自己的需要定义属于自己的方法。</p>
+<p>举个例子：</p>
+<pre><code class="java">class Animal{
+   public void move(){
+      System.out.println(&quot;动物可以移动&quot;);
+   }
+}
+
+class Dog extends Animal{
+   public void move(){
+      System.out.println(&quot;狗可以跑和走&quot;);
+   }
+}
+
+public class TestDog{
+   public static void main(String args[]){
+      Animal a = new Animal(); // Animal 对象
+      Animal b = new Dog(); // Dog 对象
+
+      a.move();// 执行 Animal 类的方法
+
+      b.move();//执行 Dog 类的方法
+   }
+}</code></pre>
+<p>编译后运行结果：</p>
+<pre><code>动物可以移动
+狗可以跑和走</code></pre><p>在上面的例子中，我们 new 一个 Animal 对象，将它赋值给 Animal 引用，然后运行 move 方法。</p>
+<p>然后 new 一个 Dog 对象，同样将它赋值给 Animal 引用，然后运行 move 方法。</p>
+<p>从结果中可以看出，尽管 b 属于 Animal 类型，但是它仍然运行的是 Dog 类里的 move 方法。</p>
+<p>原因是：在编译阶段，只是检查参数的引用类型，然而在运行的时候，JVM 指定对象的类型并运行该对象的方法。</p>
+<p>因此在上面的例子中，之所以能够编译成功，是因为 Animal 类中存在 move 方法，然而运行的时候，运行的是特定对象的方法。</p>
+<h2 id="需要注意的地方"><a href="#需要注意的地方" class="headerlink" title="需要注意的地方"></a>需要注意的地方</h2><ul>
+<li>参数列表必须<strong>完全</strong>与被重写方法的相同。</li>
+<li>返回类型与被重写方法的返回类型可以不相同，但是必须是父类返回值的派生类（java5 及更早版本返回类型要一样，java7 及更高版本可以不同）。</li>
+<li><strong>访问权限不能比父类中被重写的方法的访问权限更低</strong>。例如：如果父类的一个方法被声明为 public，那么在子类中重写该方法就不能声明为 protected。</li>
+<li><strong>父类的成员方法只能被它的子类重写</strong>。</li>
+<li><strong>声明为 final 的方法不能被重写。</strong></li>
+<li>声明为 static 的方法不能被重写，但是能够被再次声明。</li>
+<li>子类和父类在同一个包中，那么子类可以重写父类所有方法，除了声明为 private 和 final 的方法。</li>
+<li>子类和父类不在同一个包中，那么子类只能够重写父类的声明为 public 和 protected 的非 final 方法。</li>
+<li>重写的方法能够抛出任何非强制异常，无论被重写的方法是否抛出异常。但是，重写的方法不能抛出新的强制性异常，或者比被重写方法声明的更广泛的强制性异常，反之则可以。</li>
+<li><strong>构造方法不能被重写</strong>。</li>
+<li>如果不能继承一个方法，则不能重写这个方法</li>
+</ul>
+<h1 id="二者之间的区别"><a href="#二者之间的区别" class="headerlink" title="二者之间的区别"></a>二者之间的区别</h1><ul>
+<li>重载是同一个类中方法之间的关系，是水平关系；覆盖是子类和父类之间的关系，是垂直关系</li>
+<li>重载是多个方法之间的关系；覆盖只能由一个方法或一对方法产生关系</li>
+<li>重载要求参数列表不同；覆盖要求参数列表相同</li>
+<li>重载关系是根据调用时的实参表与形参表来选择方法体；覆盖关系中，调用方法是根据对象的类型来决定</li>
+</ul>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ul>
+<li>《Java 程序员面试笔试宝典》第四章</li>
+<li><a href="https://www.runoob.com/java/java-override-overload.html" target="_blank" rel="noopener">菜鸟教程-Java 重写(Override)与重载(Overload)</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>Java</category>
+      </categories>
+      <tags>
+        <tag>Java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>【Leetcode】《剑指offer》数组中重复的数字</title>
+    <url>/2020/06/15/%E3%80%90Leetcode%E3%80%91%E3%80%8A%E5%89%91%E6%8C%87offer%E3%80%8B%E6%95%B0%E7%BB%84%E4%B8%AD%E9%87%8D%E5%A4%8D%E7%9A%84%E6%95%B0%E5%AD%97/</url>
+    <content><![CDATA[<p>在一个长度为 n 的数组 nums 里的所有数字都在 0～n-1 的范围内。数组中某些数字是重复的，但不知道有几个数字重复了，也不知道每个数字重复了几次。请找出数组中任意一个重复的数字。</p>
+<a id="more"></a>
+
+<p>示例 1:</p>
+<blockquote>
+<p>输入:[2, 3, 1, 0, 2, 5, 3]</p>
+<p>输出: 2 或 3 </p>
+</blockquote>
+<h2 id="1-哈希表"><a href="#1-哈希表" class="headerlink" title="1. 哈希表"></a>1. 哈希表</h2><p>遍历数组，将元素依次放入集合中，每次放一个元素判断集合中是否存在此元素，若存在则返回这个元素</p>
+<pre><code class="java">class Solution {
+    public int findRepeatNumber(int[] nums) {
+        Set&lt;Integer&gt; set = new HashSet&lt;Integer&gt;();
+
+        // 题目中给定了取值范围 0~n-1，所以初始化为 -1
+        int repeat = -1;
+        for (int num : nums) {
+            // boolean add(E e)-&gt; 将指定的元素添加到此集合（如果尚未存在）。 
+            if (!set.add(num)) {
+                repeat = num;
+                break;
+            }
+        }
+        return repeat;
+    }
+}</code></pre>
+<ul>
+<li><strong>时间复杂度：O(n)</strong></li>
+<li><strong>空间复杂度：O(n)</strong></li>
+</ul>
+<h2 id="原地置换"><a href="#原地置换" class="headerlink" title="原地置换"></a>原地置换</h2><p>利用数组下标来匹配对应的元素，从前往后遍历数组，每个元素都要求下标与元素的值一一对应，如果在调换位置的过程中发现该位置的元素与别的位置的元素是相同的，那么就说明该数字重复，直接返回该数字</p>
+<pre><code class="java">class Solution {
+    public int findRepeatNumber(int[] nums) {
+
+        for (int i=0; i&lt;nums.length; i++) {
+            while (nums[i] != i) {
+                if (nums[i] == nums[nums[i]]) {
+                    return nums[i];
+                }    
+               swap(nums, i, nums[i]);
+            }
+        }
+        return -1;
+    }
+    private void swap(int[] nums, int a, int b) {
+        int temp = nums[a];
+        nums[a] = nums[b];
+        nums[b] = temp;
+    }
+}</code></pre>
+<ul>
+<li><strong>时间复杂度：O(n)</strong></li>
+<li><strong>空间复杂度：O(1)</strong></li>
+</ul>
+]]></content>
+      <categories>
+        <category>Leetcode</category>
+      </categories>
+      <tags>
+        <tag>Leetcode</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>【数据结构】数据结构之栈</title>
+    <url>/2020/06/13/%E3%80%90%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E3%80%91%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8B%E6%A0%88/</url>
+    <content><![CDATA[<p>什么是栈？</p>
+<p>想象一下，把栈当做一个装乒乓球的圆筒，一端是底，一端是口子。要想把乒乓球装入圆筒，就需要把乒乓球一个一个在口子放入；如果要想取出这些乒乓球，则需要从口子一个一个拿出来。放入乒乓球和取出乒乓球的顺序是相反的。先放入的乒乓球肯定是后取出，后放入的肯定是先取出。</p>
+<a id="more"></a>
+
+<p>所以得出概念：<strong>栈(stack)是一种线性数据结构，栈中的元素只能先入后出(First In Last Out, FILO)。最先放入栈的元素的位置叫栈底(bottom)，最后放入的元素的位置叫栈顶(top)</strong></p>
+<p>栈这种数据结构可以用数组实现，也可以用链表实现。</p>
+<h1 id="入栈-push"><a href="#入栈-push" class="headerlink" title="入栈(push)"></a>入栈(push)</h1><p>入栈操作就是把新元素放入栈中，只允许从栈顶放入，新元素的位置会成为新的栈顶，以数组为例：</p>
+<pre><code class="java">[ 1 , 2 , 3 , 4 ]</code></pre>
+<p>1 可以看做是栈底，则 4 就是栈顶，要想将新的元素入栈，则就要从 4 这个位置入栈</p>
+<pre><code class="java">[ 1 , 2 , 3 , 4 , 5]</code></pre>
+<p>新元素 5 入栈，会成为新的栈顶</p>
+<h1 id="出栈-pop"><a href="#出栈-pop" class="headerlink" title="出栈(pop)"></a>出栈(pop)</h1><p>出栈操作就是把元素从栈中弹出，只有栈顶的元素才能允许出栈，出栈元素的前一个元素会成为新的栈顶。</p>
+<pre><code class="java">[ 1 , 2 , 3 , 4 ]</code></pre>
+<p>还是把 1 看成栈底，4 看成栈顶，做出栈操作后，4 这个元素被弹出</p>
+<pre><code class="java">[ 1 , 2 , 3 ]</code></pre>
+<p>元素 3 变成新的栈顶</p>
+<h1 id="Java-用数组实现栈"><a href="#Java-用数组实现栈" class="headerlink" title="Java 用数组实现栈"></a>Java 用数组实现栈</h1><h2 id="Array"><a href="#Array" class="headerlink" title="Array"></a>Array</h2><pre><code class="java">/**
+ * @Author: weizujie
+ * @Date: 2020/5/4
+ * @Version: 1.0
+ * @Github: https://github.com/weizujie
+ */
+
+public class Array&lt;E&gt; {
+
+    private E[] data;
+    // 数组中元素的个数
+    // 指向数组中第一个没有元素的位置
+    private int size;
+
+    // 构造函数，传入数组的容量 capacity 构造 Array
+    public Array(int capacity) {
+        // data = new E[capacity];
+        data = (E[]) new Object[capacity];
+        size = 0;
+    }
+
+
+    // 无参构造，默认数组的容量为 10
+    public Array() {
+        this(10);
+    }
+
+
+    // 获取数组中的元素个数
+    public int getSize() {
+        return size;
+    }
+
+    // 获取数组的容量
+    public int getCapacity() {
+        return data.length;
+    }
+
+    // 返回数组是否为空
+    public boolean isEmpty() {
+        return size == 0;
+    }
+
+    // 向所有元素后添加一个新元素e
+    public void addLast(E e) {
+        add(size, e);
+    }
+
+    // 向所有元素前添加一个新元素e
+    public void addFirst(E e) {
+        add(0, e);
+    }
+
+    // 在第 index 个位置插入一个新元素 e
+    public void add(int index, E e) {
+
+        if (index &lt; 0 || index &gt; size) {
+            throw new IllegalArgumentException(&quot;需要 index &gt;=0 并且 index &lt;= size.&quot;);
+        }
+
+        if (size == data.length) {
+            // throw new IllegalArgumentException(&quot;数组已经满了&quot;);
+            // 数组扩容，旧数组的两倍
+            resize(2 * data.length);
+        }
+
+        // 从右到左遍历，逐个元素向右挪一位
+        for (int i = size - 1; i &gt;= index; i--) {
+            data[i + 1] = data[i];
+        }
+
+        data[index] = e;
+        size++;
+    }
+
+
+    // 获取 index 索引位置的元素
+    public E get(int index) {
+        if (index &lt; 0 || index &gt;= size) {
+            throw new IllegalArgumentException(&quot;Index 非法&quot;);
+        }
+        return data[index];
+    }
+
+    public E getLast() {
+        return get(size - 1);
+    }
+
+    // 修改 index 索引位置的元素为 e
+    void set(int index, E e) {
+        if (index &lt; 0 || index &gt;= size) {
+            throw new IllegalArgumentException(&quot;Index 非法&quot;);
+        }
+        data[index] = e;
+    }
+
+    // 查找数组中是否存在元素 e
+    public boolean contains(E e) {
+        for (int i = 0; i &lt; size; i++) {
+            // if (data[i] == e) {
+            if (data[i].equals(e)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // 查找元素中元素 e 所在的索引，如果不存在则返回 -1
+    public int find(E e) {
+        for (int i = 0; i &lt; size; i++) {
+            // if (data[i] == e) {
+            if (data[i].equals(e)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    // 从数组中删除 index 位置的元素，返回被删除的元素
+    public E remove(int index) {
+        if (index &lt; 0 || index &gt;= size) {
+            throw new IllegalArgumentException(&quot;Index 非法&quot;);
+        }
+
+        // 从 index 后一位开始，逐个向前挪一位
+        E ret = data[index];
+        for (int i = index + 1; i &lt; size; i++) {
+            data[i - 1] = data[i];
+        }
+
+        size--;
+        // 垃圾回收机制，不写这句也行
+        // loitering objects != memory leak
+        data[size] = null;
+
+        // 当数组删除到一定容量时，数组的容量缩小
+        if (size == data.length / 2) {
+            resize(data.length / 2);
+        }
+
+        return ret;
+    }
+
+    // 从数组中删除第一个元素
+    public E removeFirst() {
+        return remove(0);
+    }
+
+    // 从数组中删除最后一个元素
+    public E removeLast() {
+        return remove(size - 1);
+    }
+
+    // 从数组总删除元素 e
+    public void removeElement(E e) {
+        int index = find(e);
+        if (index != -1) {
+            remove(index);
+        }
+    }
+
+
+    @Override
+    public String toString() {
+        StringBuilder res = new StringBuilder();
+        res.append(String.format(&quot;元素的个数 = %d, 数组的容量 = %d \n&quot;, size, data.length));
+        res.append(&#39;[&#39;);
+        for (int i = 0; i &lt; size; i++) {
+            res.append(data[i]);
+            // 判断 i 是否为最后一个元素
+            if (i != size - 1) {
+                res.append(&quot;, &quot;);
+            }
+        }
+        res.append(&#39;]&#39;);
+        return res.toString();
+    }
+
+
+    // 私有方法，用户不能调用这个方法
+    private void resize(int newCapacity) {
+        E[] newData = (E[]) new Object[newCapacity];
+        for (int i = 0; i &lt; size; i++) {
+            newData[i] = data[i];
+        }
+        data = newData;
+    }
+
+}
+</code></pre>
+<h2 id="Stack-接口"><a href="#Stack-接口" class="headerlink" title="Stack 接口"></a>Stack 接口</h2><pre><code class="java">/**
+ * @Author: weizujie
+ * @Date: 2020/5/12
+ * @Version: 1.0
+ * @Github: https://github.com/weizujie
+ */
+public interface Stack&lt;E&gt; {
+    int getSize();
+
+    boolean isEmpty();
+
+    E pop();
+
+    E peek();
+}
+</code></pre>
+<h2 id="Stack-实现"><a href="#Stack-实现" class="headerlink" title="Stack 实现"></a>Stack 实现</h2><pre><code class="java">
+/**
+ * @Author: weizujie
+ * @Date: 2020/5/12
+ * @Version: 1.0
+ * @Github: https://github.com/weizujie
+ */
+public class ArrayStack&lt;E&gt; implements Stack&lt;E&gt; {
+
+
+    Array&lt;E&gt; array;
+
+
+    public ArrayStack() {
+        array = new Array&lt;E&gt;();
+    }
+
+    public ArrayStack(int capacity) {
+        array = new Array&lt;E&gt;(capacity);
+    }
+
+    public int getSize() {
+        return array.getSize();
+    }
+
+    public boolean isEmpty() {
+        return array.isEmpty();
+    }
+
+    public int getCapacity() {
+        return array.getCapacity();
+    }
+
+    public void push(E e) {
+        array.addLast(e);
+    }
+
+    public E pop() {
+        return array.removeLast();
+    }
+
+    public E peek() {
+        return array.getLast();
+    }
+
+
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(&quot;Stack: &quot;);
+        stringBuilder.append(&#39;[&#39;);
+        for (int i = 0; i &lt; array.getSize(); i++) {
+            stringBuilder.append(array.get(i));
+            if (i != array.getSize() - 1) {
+                stringBuilder.append(&quot;, &quot;);
+            }
+        }
+        stringBuilder.append(&quot;] top&quot;);
+        return stringBuilder.toString();
+    }
+}
+
+</code></pre>
+]]></content>
+      <categories>
+        <category>数据结构</category>
+      </categories>
+      <tags>
+        <tag>数据结构</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>【Leetcode】136.只出现一次的数字</title>
+    <url>/2020/06/12/%E3%80%90Leetcode%E3%80%91136.%E5%8F%AA%E5%87%BA%E7%8E%B0%E4%B8%80%E6%AC%A1%E7%9A%84%E6%95%B0%E5%AD%97/</url>
+    <content><![CDATA[<p>给定一个非空整数数组，除了某个元素只出现一次以外，其余每个元素均出现两次。找出那个只出现了一次的元素。</p>
+<a id="more"></a>
+
+<p>说明：</p>
+<p>你的算法应该具有线性时间复杂度。 你可以不使用额外空间来实现吗？</p>
+<p>示例 1:</p>
+<blockquote>
+<p>输入: [2,2,1]</p>
+<p>输出: 1</p>
+</blockquote>
+<p>示例 2:</p>
+<blockquote>
+<p>输入: [4,1,2,1,2]</p>
+<p>输出: 4</p>
+</blockquote>
+<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><p>看了一眼题目描述，用 HashSet 来做就行了，但是要求时间复杂度为 O(1)，如何才能让时间复杂度为 O(1)？</p>
+<p>题目有一个非常显眼的提示：<strong>除了某个元素只出现一次以外，其余每个元素均出现两次。</strong></p>
+<p>这不就明摆让我们用位运算嘛。</p>
+<h3 id="使用异或-XOR-运算"><a href="#使用异或-XOR-运算" class="headerlink" title="使用异或 (XOR)运算"></a>使用异或 (XOR)运算</h3><p>异或运算简单来说就是：相同为零，不同为一。</p>
+<p>不多bb，直接上代码：</p>
+<pre><code class="java">class Solution {
+    public int singleNumber(int[] nums) {
+        // 异或运算，相同为零不同为一
+        // 谁异或 0 都得它本身
+        int res = 0;
+        for (int num : nums) {
+            /**
+            * 输入： [2, 2, 1]
+            *   第一次：res = res ^ num = 00 ^ 10 = 10
+            *   第二次：res = res ^ num = 10 ^ 10 = 00
+            *   第三次：res = res ^ num = 00 ^ 01 = 01
+            * 则 res = 1
+            */
+            res = res ^ num;
+        }
+        return res;
+    }
+}</code></pre>
+]]></content>
+      <categories>
+        <category>Leetcode</category>
+      </categories>
+      <tags>
+        <tag>Leetcode</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>【数据结构】数据结构之数组</title>
+    <url>/2020/06/10/%E3%80%90%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E3%80%91%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8B%E6%95%B0%E7%BB%84/</url>
+    <content><![CDATA[<p>什么是数组？</p>
+<p>有限个<strong>相同类型</strong>的变量所组成的<strong>有序集合</strong>，称为数组。数组中的每一个变量称为<strong>元素</strong>。</p>
+<a id="more"></a>
+
+<p>数组是最简单、最常用的数据结构。</p>
+<h2 id="1-1-数组的特点"><a href="#1-1-数组的特点" class="headerlink" title="1.1 数组的特点"></a>1.1 数组的特点</h2><ul>
+<li>下标从 0 开始，一直到数组的长度 - 1</li>
+<li>在内存中<strong>顺序存储</strong>，可以很好地实现逻辑上的<strong>顺序表</strong></li>
+</ul>
+<h2 id="1-2-数组的基本操作"><a href="#1-2-数组的基本操作" class="headerlink" title="1.2 数组的基本操作"></a>1.2 数组的基本操作</h2><h3 id="1-2-1-读取元素"><a href="#1-2-1-读取元素" class="headerlink" title="1.2.1 读取元素"></a>1.2.1 读取元素</h3><p>由于数组在内存中是顺序存储的，所以只要给出一个数组的下标，就可以快速的读取到对应的数组元素。</p>
+<pre><code class="java">// 初始化一个数组
+int[] array = new int[] {1, 2, 3, 4};
+// 读取元素
+System.out.println(array[0]); // 结果：1</code></pre>
+<h3 id="1-2-2-更新元素"><a href="#1-2-2-更新元素" class="headerlink" title="1.2.2 更新元素"></a>1.2.2 更新元素</h3><p>直接利用数组下标，将新的值赋给该元素就好了。</p>
+<pre><code class="java">int[] array = new int[] {1, 2, 3, 4};
+array[0] = 100;
+System.out.println(array[0]); // 结果：100</code></pre>
+<h3 id="1-2-3-插入元素"><a href="#1-2-3-插入元素" class="headerlink" title="1.2.3 插入元素"></a>1.2.3 插入元素</h3><p>插入元素的操作分为 3 种情况：</p>
+<ul>
+<li><p>尾部插入：直接把插入的元素放在数组尾部的空闲位置即可，等同于更新元素的操作。</p>
+</li>
+<li><p>中间插入：由于数组的每一个元素都有固定的下标，使用需要先把插入位置以及后面的元素向后移动，腾出地方，再把要插入的元素放到对应的数组位置上。</p>
+<ul>
+<li><pre><code class="java">private int[] array;
+private int size;
+public void MyArray(int capacity) {
+    this.array = new int[capacity];
+    size = 0;
+}
+public void insert(int index, int element) throws Exception {
+    //判断访问下标是否超出范围
+    if (index &lt; 0 || index &gt; size) {
+        throw new IndexOutOfBoundsException(&quot;超出数组实际元素范围！&quot;);
+    }
+    //从右向左循环，逐个元素向右挪一位。
+    for (int i = size - 1; i &gt;= index; i--) {
+        array[i + 1] = array[i];
+    }
+    //腾出的位置放入新元素
+    array[index] = element;
+    size++;
+}</code></pre>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>超范围插入：假设数组装满了元素，再想插入新的元素就必须对数组进行扩容：</p>
+<ul>
+<li><p>创建一个新的数组，长度是旧数组的两倍</p>
+</li>
+<li><p>再把旧数组中的元素全部复制到新的数组上</p>
+</li>
+<li><pre><code class="java">private int[] array;
+private int size;
+public MyArray(int capacity) {
+    this.array = new int[capacity];
+    size = 0;
+}
+
+public void insert(int index, int element) throws Exception {
+    //判断访问下标是否超出范围
+    if (index &lt; 0 || index &gt; size) {
+        throw new IndexOutOfBoundsException(&quot;超出数组实际元素范围！&quot;);
+    }
+    //如果实际元素达到数组容量上线，数组扩容
+    if (size &gt;= array.length) {
+        resize();
+    }
+    //从右向左循环，逐个元素向右挪一位。
+    for (int i = size - 1; i &gt;= index; i--) {
+        array[i + 1] = array[i];
+    }
+    //腾出的位置放入新元素
+    array[index] = element;
+    size++;
+}
+
+public void resize() {
+    int[] arrayNew = new int[array.length * 2];
+    //从旧数组拷贝到新数组
+    System.arraycopy(array, 0, arrayNew, 0, array.length);
+    array = arrayNew;
+}</code></pre>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="1-2-4-删除元素"><a href="#1-2-4-删除元素" class="headerlink" title="1.2.4 删除元素"></a>1.2.4 删除元素</h3><p>数组的删除操作与插入操作相反，如果删除的元素位于数组的中间位置，则删除该元素后，后面的元素都要向前挪一位。</p>
+<pre><code class="java">public void delete(int index) throws Exception {
+    //判断访问下标是否超出范围
+    if (index &lt; 0 || index &gt;= size) {
+        throw new IndexOutOfBoundsException(&quot;超出数组实际元素范围！&quot;);
+    }
+    int deletedElement = array[index];
+    //从左向右循环，逐个元素向左挪一位。
+    for (int i = index; i &lt; size - 1; i++) {
+        array[i] = array[i + 1];
+    }
+    size--;
+}</code></pre>
+<h1 id="2、完整代码"><a href="#2、完整代码" class="headerlink" title="2、完整代码"></a>2、完整代码</h1><pre><code class="java">/**
+ * 数据结构：数组
+ * 实现数组的增删改查
+ *
+ * @Author: weizujie
+ * @Date: 2020/4/24
+ * @Version: 1.0
+ * @Github: https://github.com/byojiaoxianz7
+ */
+public class DataStructure_01_MyArray {
+
+    private int[] array;
+    // 数组中元素的个数
+    private int size;
+
+    /**
+     * @param capacity 数组的容量
+     */
+    public DataStructure_01_MyArray(int capacity) {
+        this.array = new int[capacity];
+        size = 0;
+    }
+
+    /**
+     * 数组插入元素
+     *
+     * @param index   插入的位置
+     * @param element 插入的元素
+     */
+    public void insert(int index, int element) throws Exception {
+        //判断访问下标是否超出范围
+        if (index &lt; 0 || index &gt; size) {
+            throw new IndexOutOfBoundsException(&quot;超出数组实际元素范围！&quot;);
+        }
+        //如果实际元素达到数组容量上线，数组扩容
+        if (size &gt;= array.length) {
+            resize();
+        }
+        //从右向左循环，逐个元素向右挪一位。
+        for (int i = size - 1; i &gt;= index; i--) {
+            array[i + 1] = array[i];
+        }
+        //腾出的位置放入新元素
+        array[index] = element;
+        size++;
+    }
+
+    /**
+     * 数组扩容
+     */
+    public void resize() {
+        int[] arrayNew = new int[array.length * 2];
+        //从旧数组拷贝到新数组
+        System.arraycopy(array, 0, arrayNew, 0, array.length);
+        array = arrayNew;
+    }
+
+    /**
+     * 数组删除元素
+     *
+     * @param index 删除的位置
+     */
+    public int delete(int index) throws Exception {
+        //判断访问下标是否超出范围
+        if (index &lt; 0 || index &gt;= size) {
+            throw new IndexOutOfBoundsException(&quot;超出数组实际元素范围！&quot;);
+        }
+        int deletedElement = array[index];
+        //从左向右循环，逐个元素向左挪一位。
+        for (int i = index; i &lt; size - 1; i++) {
+            array[i] = array[i + 1];
+        }
+        size--;
+        return deletedElement;
+    }
+
+    /**
+     * 输出数组
+     */
+    public void output() {
+        for (int i = 0; i &lt; size; i++) {
+            System.out.println(array[i]);
+        }
+    }
+
+    public static void main(String[] args) throws Exception {
+        DataStructure_01_MyArray myArray = new DataStructure_01_MyArray(4);
+        myArray.insert(0, 3);
+        myArray.insert(1, 7);
+        myArray.insert(2, 9);
+        myArray.insert(3, 5);
+        myArray.insert(1, 6);
+        myArray.insert(5, 8);
+        myArray.delete(3);
+        myArray.output();
+    }
+}</code></pre>
+]]></content>
+      <categories>
+        <category>数据结构</category>
+      </categories>
+      <tags>
+        <tag>数据结构</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>【折腾笔记】使用Pagehelper遇到的一些坑</title>
+    <url>/2020/04/19/%E3%80%90%E6%8A%98%E8%85%BE%E7%AC%94%E8%AE%B0%E3%80%91%E4%BD%BF%E7%94%A8Pagehelper%E9%81%87%E5%88%B0%E7%9A%84%E4%B8%80%E4%BA%9B%E5%9D%91/</url>
+    <content><![CDATA[<p>自己在使用 Pagehelper 分页插件的时候遇到的一些坑，记录一下。</p>
+<a id="more"></a>
+
+<h1 id="1-永远获取到第一页数据"><a href="#1-永远获取到第一页数据" class="headerlink" title="1. 永远获取到第一页数据"></a>1. 永远获取到第一页数据</h1><p>url输入: <a href="http://localhost:8082/user/list?page=2" target="_blank" rel="noopener">http://localhost:8082/user/list?page=2</a></p>
+<p>还是获取到第一页</p>
+<pre><code>==&gt;  Preparing: SELECT count(0) FROM sys_user 
+==&gt; Parameters: 
+&lt;==    Columns: count(0)
+&lt;==        Row: 9
+&lt;==      Total: 1
+==&gt;  Preparing: select * from sys_user LIMIT ? 
+==&gt; Parameters: 5(Integer)
+&lt;==    Columns: id, username, password
+&lt;==        Row: 1, admin, admin
+&lt;==        Row: 2, giao, giao
+&lt;==        Row: 3, 123, 123
+&lt;==        Row: 4, 1231321, 21312312
+&lt;==        Row: 5, 1231321, 31231231
+&lt;==      Total: 5</code></pre><p>看前端代码，参数 page 传入的是当前页 + 1，正确结果返回的数据应该是第二页，但是只查询到了 0, 5 条数据</p>
+<pre><code class="html">&lt;div&gt;
+    &lt;a th:if=&quot;${pageInfo.hasNextPage}&quot; th:href=&quot;@{&#39;/user/list?page=&#39;+${pageInfo.pageNum + 1}}&quot;&gt; 下一页&lt;/a&gt;
+&lt;/div&gt;</code></pre>
+<p>我想问题应该出在后端逻辑上，看代码</p>
+<pre><code class="java">@RequestMapping(value = &quot;/list&quot;, method = RequestMethod.GET)
+public String toUserList(@RequestParam(name = &quot;pageNum&quot;,defaultValue = &quot;1&quot;) Integer pageNum, Model model) {
+    PageHelper.startPage(pageNum, 5);
+    List&lt;User&gt; userList = userService.findAll();
+    PageInfo&lt;User&gt; pageInfo = new PageInfo&lt;&gt;(userList, 5);
+    model.addAttribute(&quot;pageInfo&quot;, pageInfo);
+    return &quot;user/user_list&quot;;
+}</code></pre>
+<p>问题出在哪一目了然，方法 toUserList 参数中 @RequestParam 的 name 是 pageNum，而在前端代码中却是 page</p>
+<p>所以该前端代码或者后端代码都行，只要参数名相同都能正确获取数据</p>
+]]></content>
+      <categories>
+        <category>折腾笔记</category>
+      </categories>
+      <tags>
+        <tag>折腾笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>【年终总结】2019年个人总结</title>
+    <url>/2019/12/31/%E3%80%90%E5%B9%B4%E7%BB%88%E6%80%BB%E7%BB%93%E3%80%912019%E5%B9%B4%E4%B8%AA%E4%BA%BA%E6%80%BB%E7%BB%93/</url>
+    <content><![CDATA[<p>对我来说，2019 年是无所事事的一年，既没有参加像样的比赛，也没有学到什么新的技术，只是在宿舍打游戏、追剧、偶尔 coding。</p>
+<a id="more"></a>
+
+<p>2019 快要结束了，按照惯例水一篇年末总结，也算是给自己一个交代。</p>
+<h1 id="2019·回顾"><a href="#2019·回顾" class="headerlink" title="2019·回顾"></a>2019·回顾</h1><h2 id="关于生活"><a href="#关于生活" class="headerlink" title="关于生活"></a>关于生活</h2><ul>
+<li>在微信群里听一位大四的学长说他找到了一份 Python 的实习，有点羡慕，同时也刺激了我，赶紧滚去读书。</li>
+<li>国庆期间，跟朋友去了趟市里，在杨光相声社听了人生中第一场相声，相比较电视里给我的感觉，在现场听相声有一种说不出的感觉。</li>
+<li>买前生产力，买后爱奇艺。开学不久买了一块明基的 BL2480T 显示器，说是为了 coding 用，其实多数时间用在了游戏和视频上。</li>
+</ul>
+<h2 id="关于计划"><a href="#关于计划" class="headerlink" title="关于计划"></a>关于计划</h2><p>以下是我在 2018 年对 2019 年作出的计划：</p>
+<blockquote>
+<p>1.折腾一个博客，坚持记录自己的所思所想；</p>
+<p>2.向 Linux 进击；</p>
+<p>3.学习 Python/C/数据库 基础知识；</p>
+<p>4.好好学习。在不挂科的基础上把成绩提升一些。</p>
+</blockquote>
+<ol>
+<li>暑假的时候跟着 B站的 Django 教程大概走了一遍，源码放在 <a href="https://github.com/Byojiaoxianz7/Django_Blog" target="_blank" rel="noopener">Gayhub</a>，但没有继续折腾博客，有时候用 Notion 来记录，有时候也会发布到简书或者个人公众号，以后有时间再搞一搞博客；</li>
+<li>折腾过 Ubuntu/Manjaro/Centos + Windows，觉得老是切换系统太麻烦于是放弃了,换为虚拟机；</li>
+<li>这学期选修了数据库这门课，基础知识应该了解得七七八八了；Python 没有深入，毕竟开始学 Java 了，Python 对于我来说只是一个工具语言，写一些小脚本还是非常方便的；C 的话就没有继续学了，原因就不说了，难顶；</li>
+<li>幸运的是，目前还没有挂过科，虽然成绩不高，但也说得过去，以后也要加油，不挂科。</li>
+</ol>
+<h2 id="关于技术"><a href="#关于技术" class="headerlink" title="关于技术"></a>关于技术</h2><ul>
+<li>开始学习 Java</li>
+<li>开始刷 LeetCode</li>
+<li>参加了一个学校的大创项目，负责后端，使用的是 PHP，没有用框架，开发起来有点折磨人，到后期想换成 Spring 框架，维护起来比较方便，正好借此巩固一下知识。</li>
+</ul>
+<h1 id="2020·展望"><a href="#2020·展望" class="headerlink" title="2020·展望"></a>2020·展望</h1><p><strong>1.  好好学习</strong></p>
+<p>时间紧迫，花更多的时间在 coding 上</p>
+<p><strong>2. 找到一份满意的实习</strong></p>
+<p>虽然目前还是大三，离毕业的时间却也快要到了，首要的任务还是找到一份令自己满意的实习才是</p>
+<p><strong>3. 坚持运动</strong></p>
+<p>身体是革命的本钱。</p>
+<p>北方的冬天着实寒冷，想要出门运动几乎是不可能的一件事。收假回来差不多温度上来了，就可以愉快的运动了</p>
+<p><strong>4. 开发并维护一个项目</strong></p>
+<p>目前已经有了想法，明年要付诸于实践</p>
+<p><strong>5. 坚持输出</strong></p>
+<blockquote>
+<p>输出的过程，也是学习的过程</p>
+</blockquote>
+<p><strong>6. 长胖</strong></p>
+<p>这个年年写，年年都不长</p>
+<p><strong>7. 坚持 ARTS 总结</strong></p>
+<ul>
+<li><strong>A *<em>代表 *</em>Algorithm</strong>，每周至少做一个 LeetCode 算法题；</li>
+<li><strong>R *<em>代表 *</em>Review</strong>，每周至少阅读并点评一篇技术文章；</li>
+<li><strong>T *<em>代表 *</em>Tip</strong>，每周至少学习一个技术技巧；</li>
+<li><strong>S *<em>代表 *</em>Share</strong>，每周分享一篇有观点和思考的文章.</li>
+</ul>
+<p><strong>8. Last but not least，跟她好好在一起</strong></p>
+]]></content>
+      <categories>
+        <category>年终总结</category>
+      </categories>
+      <tags>
+        <tag>年终总结</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>【期末复习】数据库期末复习</title>
+    <url>/2019/12/30/%E3%80%90%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0%E3%80%91%E6%95%B0%E6%8D%AE%E5%BA%93%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/</url>
+    <content><![CDATA[<p>大三上学期期末从各路收集来的以及根据老师上课所将的内容写的数据库复习总结。</p>
+<a id="more"></a>
+
+<h1 id="第一章-数据库概述"><a href="#第一章-数据库概述" class="headerlink" title="第一章:数据库概述"></a>第一章:数据库概述</h1><h2 id="1-2-数据库管理技术的发展-简答或选择"><a href="#1-2-数据库管理技术的发展-简答或选择" class="headerlink" title="1.2 数据库管理技术的发展(简答或选择)"></a>1.2 数据库管理技术的发展(简答或选择)</h2><p><strong>经历了管理文件和数据库管理两个阶段</strong></p>
+<ul>
+<li>文件管理的<strong>缺点</strong>：<ul>
+<li>编写应用程序不方便</li>
+<li>数据冗余不可避免</li>
+<li>应用程序依赖性</li>
+<li>不支持文件的并发访问</li>
+<li>数据间联系弱</li>
+<li>难以满足不同用户对数据的需求</li>
+<li>无安全控制功能</li>
+</ul>
+</li>
+<li>数据库管理的<strong>优点</strong>：<ul>
+<li>相互关联的数据集合</li>
+<li>较少的数据冗余</li>
+<li>程序与数据相互独立</li>
+<li>保证数据的安全可靠</li>
+<li>最大限度地保证数据的正确性</li>
+<li>数据可以共享并能保证数据的一致性</li>
+</ul>
+</li>
+</ul>
+<h2 id="1-3-数据独立性（简答或填空）"><a href="#1-3-数据独立性（简答或填空）" class="headerlink" title="1.3:数据独立性（简答或填空）"></a>1.3:数据独立性（简答或填空）</h2><p>数据独立性包含两个方面：</p>
+<ul>
+<li>物理独立性<ul>
+<li>当数据的存储位置或存储结构发生变化时，不影响应用程序的特性</li>
+</ul>
+</li>
+<li>逻辑独立性<ul>
+<li>当表达现实世界的信息内容发生变化时，也不影响应用程序的特性，如增加列、删除无用列</li>
+</ul>
+</li>
+</ul>
+<h2 id="1-4-数据库系统的组成（简答或选择）"><a href="#1-4-数据库系统的组成（简答或选择）" class="headerlink" title="1.4:数据库系统的组成（简答或选择）"></a>1.4:数据库系统的组成（简答或选择）</h2><p>数据库系统是基于数据库的计算机应用系统，包含三个部分：</p>
+<ul>
+<li>数据库：数据的汇集，它以一定的组织形式保存在存储介质上</li>
+<li>数据库管理系统（以及相应的实用工具）：管理数据库的系统软件，可以实现数据库系统的各种功能</li>
+<li>应用程序：专指以数据库数据为基础的程序</li>
+</ul>
+<h2 id="习题"><a href="#习题" class="headerlink" title="习题"></a>习题</h2><h3 id="3-与文件管理相比，应用程序是否需要关心数据的存储位置和存储结构？为什么？"><a href="#3-与文件管理相比，应用程序是否需要关心数据的存储位置和存储结构？为什么？" class="headerlink" title="3.与文件管理相比，应用程序是否需要关心数据的存储位置和存储结构？为什么？"></a>3.与文件管理相比，应用程序是否需要关心数据的存储位置和存储结构？为什么？</h3><p>不需要。因为在数据库系统中，数据的存储位置以及存储结构保存在数据库管理系统中，从数据到物理存储位置的转换是由数据库管理系统自动完成的。</p>
+<h3 id="7-数据库独立性指的是什么？它能带来哪些好处？"><a href="#7-数据库独立性指的是什么？它能带来哪些好处？" class="headerlink" title="7. 数据库独立性指的是什么？它能带来哪些好处？"></a>7. 数据库独立性指的是什么？它能带来哪些好处？</h3><p>数据库独立性是指物理独立性和逻辑独立性。物理独立性的好处是当数据的存储位置或存储结构发生变化时，不影响应用程序的特性；逻辑独立性的好处是当表达现实世界的信息内容发生变化时，也不影响应用程序的特性。</p>
+<h3 id="8-数据库系统由哪几部分组成，每一部分在数据库系统中作用大致是什么？"><a href="#8-数据库系统由哪几部分组成，每一部分在数据库系统中作用大致是什么？" class="headerlink" title="8.数据库系统由哪几部分组成，每一部分在数据库系统中作用大致是什么？"></a>8.数据库系统由哪几部分组成，每一部分在数据库系统中作用大致是什么？</h3><p>数据库系统由三个主要部分组成，数据库、数据库管理系统、应用程序。</p>
+<p>数据库：数据的汇集，它以一定的组织形式保存在存储介质上</p>
+<p>数据库管理系统（以及相应的实用工具）：管理数据库的系统软件，可以实现数据库系统的各种功能</p>
+<p>应用程序：专指以数据库数据为基础的程序</p>
+<h1 id="第二章-数据模型与数据库系统结构"><a href="#第二章-数据模型与数据库系统结构" class="headerlink" title="第二章:数据模型与数据库系统结构"></a>第二章:数据模型与数据库系统结构</h1><h2 id="习题-1"><a href="#习题-1" class="headerlink" title="习题"></a>习题</h2><h3 id="6-数据库系统包含哪三级模式？分别说明每一级模式的作用。"><a href="#6-数据库系统包含哪三级模式？分别说明每一级模式的作用。" class="headerlink" title="6. 数据库系统包含哪三级模式？分别说明每一级模式的作用。"></a>6. 数据库系统包含哪三级模式？分别说明每一级模式的作用。</h3><ul>
+<li>内模式：是对整个数据库的底层表示，描述了数据的存储结构</li>
+<li>模式：是数据库中全体数据的逻辑结构和特征的描述，是所有用户的公共数据视图</li>
+<li>外模式：对现实系统中用户感兴趣的整体数据结构的局部描述，用于满足不同数据库用户需求的数据视图，是数据库用户能够看见和使用的局部数据的逻辑结构和特征的描述，是对数据库整体数据结构的子集或局部重构</li>
+</ul>
+<h3 id="7-数据库管理系统的提供的两级映像的作用是什么？它带来哪些功能？"><a href="#7-数据库管理系统的提供的两级映像的作用是什么？它带来哪些功能？" class="headerlink" title="7. 数据库管理系统的提供的两级映像的作用是什么？它带来哪些功能？"></a>7. 数据库管理系统的提供的两级映像的作用是什么？它带来哪些功能？</h3><ul>
+<li><p>模式与内描述间的映像</p>
+<p>模式/内模式的映像定义了概念视图和存储的数据库的对应关系，说明了概念层的记录和字段在内部怎样表示。如果数据库的存储结构改变了，那么必须对模式/内模式的映像进行需要的调整，使模式可以保持不变</p>
+</li>
+<li><p>外模式与模式间的映像</p>
+<p>定义了特定的外部视图和概念视图之间的对应关系，当概念模式的结构可发送改变时，也可以通过调整外模式/模式间的映像关系，使外模式可以保持不变</p>
+</li>
+</ul>
+<h1 id="第三章-关系数据库"><a href="#第三章-关系数据库" class="headerlink" title="第三章:关系数据库"></a>第三章:关系数据库</h1><h2 id="习题-2"><a href="#习题-2" class="headerlink" title="习题"></a>习题</h2><h3 id="2-解释下列术语的含义："><a href="#2-解释下列术语的含义：" class="headerlink" title="2. 解释下列术语的含义："></a>2. 解释下列术语的含义：</h3><ul>
+<li>笛卡尔积：</li>
+</ul>
+<pre><code class="math">   设D1,D2,...,Dn为任意集合,
+   D1 \times D2 \times ... \times Dn = (d1,d2,...,dn)|di \in Di,  i=1,2,...,n</code></pre>
+<ul>
+<li>主键：表中的属性或属性组，用于唯一地确定一个元组</li>
+<li>候选键：能够唯二标识一个关系的元组而又不包含多余的属性</li>
+<li>外键：如果公共关键字在一个关系中是主关键字，那么这个公共关键字被称为另一个关系的外键</li>
+<li>关系：二维表</li>
+<li>关系模式：二维表的表框或表头结构</li>
+<li>关系数据库：对应于一个关系模型的所有关系的集合</li>
+</ul>
+<h3 id="（重点）3-关系数据库的三个完整性的约数是什么？各是什么含义？"><a href="#（重点）3-关系数据库的三个完整性的约数是什么？各是什么含义？" class="headerlink" title="（重点）3. 关系数据库的三个完整性的约数是什么？各是什么含义？"></a>（重点）3. 关系数据库的三个完整性的约数是什么？各是什么含义？</h3><ul>
+<li>实体完整性:关系数据库中所有的表都有主键,且表中不允许存在无主键值或主键值相同的记录</li>
+<li>参照完整性:用于描述实体之间的关系</li>
+<li>用户定义完整性:指明关系中的属性的取值范围,即保证数据库中数据符合现实意义</li>
+</ul>
+<h1 id="第五章-数据库类型及关系表创建"><a href="#第五章-数据库类型及关系表创建" class="headerlink" title="第五章:数据库类型及关系表创建"></a>第五章:数据库类型及关系表创建</h1><p>   SQL 按其功能可分为四大部分</p>
+<ul>
+<li>数据定义功</li>
+<li>数据控制功</li>
+<li>数据查询功能</li>
+<li>数据操作功能</li>
+</ul>
+<h1 id="第六章-数据库操作语句"><a href="#第六章-数据库操作语句" class="headerlink" title="第六章:数据库操作语句"></a>第六章:数据库操作语句</h1><ul>
+<li>对查询结果进行排序</li>
+</ul>
+<pre><code class="sql">   order by &lt;列名&gt; [asc | desc] [, ...n ]</code></pre>
+<ul>
+<li>对查询结果进行分组统计</li>
+</ul>
+<pre><code class="sql">   group by &lt;分组依据列&gt; [, ...n ]</code></pre>
+<pre><code class="sql">   -- 统计每门课程的选课人数,列出课程号和选课人数
+   select Cno as 课程号, count(Sno) as 选课人数 from SC group by Cno
+
+   -- 统计每个系的女生人数
+   select Sdept, count(*) 女生人数 from Student where Ssex = &#39;女&#39; group by Sdept</code></pre>
+<ul>
+<li>确定范围</li>
+</ul>
+<pre><code class="sql">   列名|表达式 [not] between 下限值 and 上限值</code></pre>
+<pre><code class="sql">   -- 查询年龄在 20 ~ 30 岁之间的学生的姓名,所在系和年龄
+   select Sname, Sdept, Sage from Student where Sage between 20 and 30
+   -- 等价于:select Sname, Sdept, Sage from Student where Sage&gt;=20 and Sage&lt;=30
+
+   -- 查询年龄不在 20 ~ 30 岁之间的学生的姓名,所在系和年龄
+   select Sname, Sdept, Sage from Student where Sage not between 20 and 30</code></pre>
+<ul>
+<li>确定集合</li>
+</ul>
+<pre><code class="sql">   列名 [not] in (常量1, 常量2, ...)</code></pre>
+<pre><code class="sql">   -- 查询信息系,数学系和计算机系学生的姓名和性别. 注意:字符串用单引号
+   select Sname, Ssex from Student where Sdept in (&#39;信息系&#39;, &#39;数学系&#39;, &#39;计算机系&#39;);</code></pre>
+<ul>
+<li><p>字符串匹配 (LIKE)</p>
+<ul>
+<li><p>_  : 匹配任意一个字符</p>
+</li>
+<li><p>%  : 匹配 0 个或多个字符</p>
+</li>
+<li><p>[] : 匹配 [] 中的任意一个字符</p>
+</li>
+<li><p>[^]: 不匹配 [] 中的任意一个字符</p>
+<p>like 用于查找指定列中与匹配串匹配的元组</p>
+</li>
+</ul>
+</li>
+</ul>
+<pre><code class="sql">   列名 [not] like &lt;匹配串&gt;</code></pre>
+<pre><code class="sql">   -- 查询姓&quot;张&quot;的学生的详细信息
+   select * from Student where Sname like &#39;张%&#39;
+
+   -- 查询姓&quot;张&quot;,&quot;李&quot;,&quot;刘&quot;的学生的详细信息
+   select * from Student where Sname like &#39;[张李刘]%&#39;</code></pre>
+<ul>
+<li><p>多表连接查询</p>
+<ul>
+<li>内连接</li>
+</ul>
+<pre><code class="sql">from 表1 join 表2 on &lt;连接条件&gt;</code></pre>
+<pre><code class="sql">-- 查询每个学生及其选课的详细信息
+-- 由于学生的基本信息放在 Student 表中,学生选课信息放在 SC 表中,因此这个查询涉及两个表,两个表之间进行连接的连接条件是这两个表中的 Sno 相等
+select * from Student join sc on Student.Sno = SC.Sno -- 将 Student 表和 SC 表连接起来</code></pre>
+</li>
+<li><p>嵌套子查询</p>
+</li>
+</ul>
+<pre><code class="sql">   -- 查询没选&quot;c01&quot;课程的学生姓名和所在系
+   select Sname, Sdept from Student where Sno in (select Sno from SC where Cno != &#39;c01&#39;)</code></pre>
+<ul>
+<li>将查询结果保存到新表中</li>
+</ul>
+<pre><code class="sql">   -- 将计算机系的学生信息保存到 #ComputerStudent 局部临时表中
+   select * into #ComputerStudent from Student where Sdept = &#39;计算机系&#39;</code></pre>
+<ul>
+<li>插入数据</li>
+</ul>
+<pre><code class="sql">   insert into Student values(12345, &#39;老逼杰&#39;, &#39;男&#39;, 18, &#39;电子系&#39;)</code></pre>
+<ul>
+<li>更新数据</li>
+</ul>
+<pre><code class="sql">   update Student set Sage = Sage + 1
+
+   update Student set Sage = 21 where Sno = &#39;12345&#39;
+
+   -- 计算机系全体学生的成绩加 5 分
+   update SC set Grade = Grade + 5
+       where Sno in (select Sno from Stduent
+           where Sdept = &#39;计算机系&#39;)</code></pre>
+<ul>
+<li>删除数据</li>
+</ul>
+<pre><code class="sql">   delete from SC where Grade &lt; 60</code></pre>
+<h1 id="第七章-索引和视图"><a href="#第七章-索引和视图" class="headerlink" title="第七章:索引和视图"></a>第七章:索引和视图</h1><h2 id="7-1-索引"><a href="#7-1-索引" class="headerlink" title="7.1 索引"></a>7.1 索引</h2><h3 id="7-1-1-基本概念"><a href="#7-1-1-基本概念" class="headerlink" title="7.1.1 基本概念"></a>7.1.1 基本概念</h3><h3 id="7-1-2-索引的存储结构及分类-考点"><a href="#7-1-2-索引的存储结构及分类-考点" class="headerlink" title="7.1.2 索引的存储结构及分类 (考点)"></a>7.1.2 索引的存储结构及分类 (考点)</h3><p>   索引分为两大类</p>
+<ul>
+<li>聚集索引: 对数据按索引关键字进行物理排序<ul>
+<li>聚集索引的项的值按物理排序</li>
+</ul>
+</li>
+<li>非聚集索引: 不对数据进行物理排序<ul>
+<li>数据不按非聚集索引关键字值的顺序排序和存储</li>
+<li>非聚集索引的叶级节点不是存放数据的数据页</li>
+</ul>
+</li>
+</ul>
+<h2 id="7-2-视图"><a href="#7-2-视图" class="headerlink" title="7.2 视图"></a>7.2 视图</h2><p>   <strong>外模式对应到关系数据库中的概念就是视图</strong></p>
+<h3 id="7-2-5-视图的作用-题"><a href="#7-2-5-视图的作用-题" class="headerlink" title="7.2.5 视图的作用 (题)"></a>7.2.5 视图的作用 (题)</h3><ul>
+<li>简化数据查询语句</li>
+<li>使用户能从多角度看待同一数据</li>
+<li>提高了数据的安全性</li>
+<li>提供了一定程度的逻辑独立性</li>
+</ul>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><ul>
+<li>在一个表中只能建立一个索引,但能建立多个非聚集索引</li>
+<li>建立索引是为了加快数据的查询速度</li>
+<li>建立聚集索引时,数据库管理系统首先按聚集索引列的值对数据进行物理排序</li>
+<li>视图是基于数据库基本表的虚表,视图所包含的数据并不被物理存储,视图的数据全部来自于基本表</li>
+<li><strong>通过视图访问数据比直接从基本表访问数据效率会低一些</strong></li>
+</ul>
+<h2 id="习题-3"><a href="#习题-3" class="headerlink" title="习题"></a>习题</h2><h3 id="10-说明视图的好处"><a href="#10-说明视图的好处" class="headerlink" title="10. 说明视图的好处."></a>10. 说明视图的好处.</h3><ul>
+<li>简化数据查询语句</li>
+<li>使用户能从多角度看待同一数据</li>
+<li>提高了数据的安全性</li>
+<li>提供了一定程度的逻辑独立性</li>
+</ul>
+<h3 id="11-使用视图可以加快数据查询的速度-这句话对吗-为什么"><a href="#11-使用视图可以加快数据查询的速度-这句话对吗-为什么" class="headerlink" title="11. 使用视图可以加快数据查询的速度,这句话对吗?为什么?"></a>11. 使用视图可以加快数据查询的速度,这句话对吗?为什么?</h3><p>   这句话不对.通过视图访问数据比直接从基本表访问数据效率会低一些,因为它多了一层转换操作,即从外模式转到模式.</p>
+<h1 id="第九章-事务与并发控制"><a href="#第九章-事务与并发控制" class="headerlink" title="第九章:事务与并发控制"></a>第九章:事务与并发控制</h1><h2 id="9-1-事务"><a href="#9-1-事务" class="headerlink" title="9.1 事务"></a>9.1 事务</h2><h3 id="9-1-1-基本概念"><a href="#9-1-1-基本概念" class="headerlink" title="9.1.1 基本概念"></a>9.1.1 基本概念</h3><p>   <strong>事务是用户定义的数据操作系列,这些操作作为一个完整的工作单元执行.一个事务内的所有语句作为一个整体,要么全部执行,要么全部不执行.</strong></p>
+<h3 id="9-1-2-事务的特征"><a href="#9-1-2-事务的特征" class="headerlink" title="9.1.2 事务的特征"></a>9.1.2 事务的特征</h3><ul>
+<li>原子性</li>
+<li>一致性</li>
+<li>隔离性</li>
+<li>持久性</li>
+</ul>
+<h1 id="第十章-数据库设计"><a href="#第十章-数据库设计" class="headerlink" title="第十章:数据库设计"></a>第十章:数据库设计</h1><h2 id="例-10-3-有-m-n-联系的-E-R-模型如图所示-请将其转化为合适的关系模式"><a href="#例-10-3-有-m-n-联系的-E-R-模型如图所示-请将其转化为合适的关系模式" class="headerlink" title="例 10.3  有 m:n 联系的 E-R 模型如图所示,请将其转化为合适的关系模式."></a>例 10.3  有 m:n 联系的 E-R 模型如图所示,请将其转化为合适的关系模式.</h2><p><img src="https://gitee.com/byojiaoxianz7/Img/raw/master/img/%E6%9C%89mn%E8%81%94%E7%B3%BB%E7%9A%84ER%E6%A8%A1%E5%9E%8B%E5%A6%82%E5%9B%BE%E6%89%80%E7%A4%BA,%E8%AF%B7%E5%B0%86%E5%85%B6%E8%BD%AC%E5%8C%96%E4%B8%BA%E5%90%88%E9%80%82%E7%9A%84%E5%85%B3%E7%B3%BB%E6%A8%A1%E5%BC%8F.png" alt=""></p>
+<p>   教师(教师号, 教师名, 职称), “教师号”为主键.</p>
+<p>   课程(课程号, 课程名, 学分), “课程号”为主键.</p>
+<p>   授课(教师号, 课程号, 授课时数), (教师号, 课程号)为主键</p>
+<p>   同时”教师号”为引用”教师”关系模式的教师号的外键, “课程号”为引用课程关系模式的课程号的外键</p>
+<h1 id="第十一章-存储过程和触发器"><a href="#第十一章-存储过程和触发器" class="headerlink" title="第十一章:存储过程和触发器"></a>第十一章:存储过程和触发器</h1><h2 id="11-3-触发器"><a href="#11-3-触发器" class="headerlink" title="11.3 触发器"></a>11.3 触发器</h2><p>   触发器是一种特殊的存储过程,其特殊性在与它不需要由用户调用执行,而是在用户对表中数据进行 UPDATE, INSERT 或 DELETE 操作时自动触发执行的.</p>
+<h3 id="11-3-1-创建触发器"><a href="#11-3-1-创建触发器" class="headerlink" title="11.3.1 创建触发器"></a>11.3.1 创建触发器</h3><p>   在触发器中科院和私用两个特殊的零时表: INSERTED 表和 DELETED 表,这两个表的构建同建立触发器的表的结构完全相同,而且这两个临时表只能用在触发器代码中.</p>
+<ul>
+<li>INSERTED 表保存了 INSERT 操作中新插入的数据和 UPDATE 操作中更新后的数据</li>
+<li>DELETED 保存了 DELETED 操作删除的数据和 UPDATE 操作中更新前的数据</li>
+</ul>
+<h2 id="小结-1"><a href="#小结-1" class="headerlink" title="小结"></a>小结</h2><p>   <strong>(选择/填空) 引发触发器的操作可以是对数据的增删改操作</strong></p>
+<h1 id="第十二章-函数和游标"><a href="#第十二章-函数和游标" class="headerlink" title="第十二章:函数和游标"></a>第十二章:函数和游标</h1><h2 id="DATEDIFF-考试"><a href="#DATEDIFF-考试" class="headerlink" title="DATEDIFF (考试)"></a>DATEDIFF (考试)</h2><p>   作用:返回两个指定日期之间相差的日期</p>
+<pre><code class="sql">   datediff(datepart, start_date, end_date)</code></pre>
+<pre><code class="sql">   -- 计算 2016年1月1日 到 2016年6月15日 之间的天数
+   select datediff(DAY, &#39;2016/1/1&#39;, &#39;2016/6/15&#39;)
+   -- 执行结果: 165</code></pre>
+<h1 id="第十四章-备份和恢复数据库"><a href="#第十四章-备份和恢复数据库" class="headerlink" title="第十四章:备份和恢复数据库"></a>第十四章:备份和恢复数据库</h1><h2 id="14-1-3-SQL-Server-支持的备份类型"><a href="#14-1-3-SQL-Server-支持的备份类型" class="headerlink" title="14.1.3 SQL Server 支持的备份类型"></a>14.1.3 SQL Server 支持的备份类型</h2><ul>
+<li>完整备份:将数据库的全部内容均备份下来,对数据进行的第一个备份必须是完整备份</li>
+<li>差异备份</li>
+<li>事务日志备份</li>
+</ul>
+<h2 id="14-2-1-恢复数据库的顺序"><a href="#14-2-1-恢复数据库的顺序" class="headerlink" title="14.2.1 恢复数据库的顺序"></a>14.2.1 恢复数据库的顺序</h2><ol>
+<li>恢复最近完整备份</li>
+<li>恢复完整备份之后最后一次差异备份(如果有的话)</li>
+<li>按事务日志备份的先后顺序恢复自完整备份或差异备份之后的所有日志备份</li>
+</ol>
+<h1 id="其他习题"><a href="#其他习题" class="headerlink" title="其他习题"></a>其他习题</h1><h2 id="查询今天加上100天后的新的日期"><a href="#查询今天加上100天后的新的日期" class="headerlink" title="查询今天加上100天后的新的日期"></a>查询今天加上100天后的新的日期</h2><pre><code class="sql">   SELECT DATEADD(day,100, getdate() FROM 日期表;</code></pre>
+<h2 id="计算-2016年1月1日-到-2016年6月15日-之间的天数"><a href="#计算-2016年1月1日-到-2016年6月15日-之间的天数" class="headerlink" title="计算 2016年1月1日 到 2016年6月15日 之间的天数"></a>计算 2016年1月1日 到 2016年6月15日 之间的天数</h2><pre><code class="sql">   select datediff(DAY, &#39;2016/1/1&#39;, &#39;2016/6/15&#39;)</code></pre>
+<h2 id="查询全体学生不同的姓氏"><a href="#查询全体学生不同的姓氏" class="headerlink" title="查询全体学生不同的姓氏"></a>查询全体学生不同的姓氏</h2><pre><code class="sql">select distinct left(姓名, 1) from 学生表;</code></pre>
+<h2 id="查询学生姓名、学号的后五位和所在系"><a href="#查询学生姓名、学号的后五位和所在系" class="headerlink" title="查询学生姓名、学号的后五位和所在系"></a>查询学生姓名、学号的后五位和所在系</h2><pre><code class="sql">   select 姓名, right(学号, 5), 系别 from 学生表;</code></pre>
+<h2 id="查询学生姓名和姓名的汉字个数"><a href="#查询学生姓名和姓名的汉字个数" class="headerlink" title="查询学生姓名和姓名的汉字个数"></a>查询学生姓名和姓名的汉字个数</h2><pre><code class="sql">   select 姓名, len(姓名) from 学生表;</code></pre>
+<h2 id="查询名字的第二个字是“小”或是“大”的学生姓名、性别和所在系"><a href="#查询名字的第二个字是“小”或是“大”的学生姓名、性别和所在系" class="headerlink" title="查询名字的第二个字是“小”或是“大”的学生姓名、性别和所在系"></a>查询名字的第二个字是“小”或是“大”的学生姓名、性别和所在系</h2><pre><code class="sql">select 姓名, 性别, 系 from 学生表 where 姓名 like &#39;%小%&#39; or 姓名 like &#39;%大%&#39;</code></pre>
+]]></content>
+      <categories>
+        <category>期末复习</category>
+      </categories>
+      <tags>
+        <tag>期末复习</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>【期末复习】Verilog期末复习</title>
+    <url>/2019/12/29/%E3%80%90%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0%E3%80%91Verilog%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/</url>
+    <content><![CDATA[<p>大三上学期期末从各路收集来的以及根据老师上课所将的内容写的 Verilog 复习总结。</p>
+<a id="more"></a>
+
+<h1 id="术语解释"><a href="#术语解释" class="headerlink" title="术语解释"></a>术语解释</h1><ul>
+<li>EDA: Electronic Design Automation 电子设计自动化</li>
+<li>HDL: Hardware Description Language 硬件描述语言</li>
+<li>ASIC: Application Specific Integrated Circuit 专用集成电路</li>
+<li>SoC: System on Chip 片上系统</li>
+<li>PLD: Programmable Logic Device 可编程逻辑器件</li>
+<li>CPLD: Complex Programmable Logic Device 复杂可编程逻辑器件</li>
+<li>FPGA: Field Programmable Gate Array 现场可编辑门阵列</li>
+<li>LUT: Look Up Table 查找表</li>
+<li>IP核: Intelligent Property Core 知识产权核</li>
+</ul>
+<h2 id="IP核"><a href="#IP核" class="headerlink" title="IP核"></a>IP核</h2><ul>
+<li>分为：<ul>
+<li>软 IP：用 Verilog/VHDL 等硬件描述语言描述的功能块，但并不设计用什么具体电路实现这些功能</li>
+<li>固 IP：完成了综合的模块，以网表文件的形式提交客户使用</li>
+<li>硬 IP：提供设计的最终阶段产品：掩模</li>
+</ul>
+</li>
+</ul>
+<h1 id="什么是硬件描述语言？HDL-的功能和优点？"><a href="#什么是硬件描述语言？HDL-的功能和优点？" class="headerlink" title="什么是硬件描述语言？HDL 的功能和优点？"></a>什么是硬件描述语言？HDL 的功能和优点？</h1><ul>
+<li>用形式化的方法描述硬件电路的语言称为硬件描述语言</li>
+<li>功能<ul>
+<li>描述电路的连接、功能、时序</li>
+<li>在不同抽象级上描述电路</li>
+<li>表达具有并行性</li>
+</ul>
+</li>
+<li>优点<ul>
+<li>设计在高层次进行，与实物无关</li>
+<li>设计开发更加容易</li>
+<li>自动将高级描述映射到具体工艺实现</li>
+<li>缩小开发周期</li>
+<li>具体实现时才做出某些决定</li>
+</ul>
+</li>
+</ul>
+<h1 id="CPLD-与-FPGA-的区别"><a href="#CPLD-与-FPGA-的区别" class="headerlink" title="CPLD 与 FPGA 的区别"></a>CPLD 与 FPGA 的区别</h1><ul>
+<li>从<strong>可编程逻辑结构</strong>上<ul>
+<li>CPLD 基于乘积项的可编程逻辑机构</li>
+<li>FPGA 基于查找表的可编程逻辑结构</li>
+</ul>
+</li>
+<li>从<strong>编程方式</strong>上<ul>
+<li>CPLD 叫做复杂可编程逻辑器件。特点是，编程数据在掉电时不丢失</li>
+<li>FPGA 叫做现场可编程门阵列。特点是，数据在掉电后就回丢失，需要专门的数据芯片来存储其编程数据</li>
+</ul>
+</li>
+</ul>
+<h1 id="自底向上与自顶向下的设计方法"><a href="#自底向上与自顶向下的设计方法" class="headerlink" title="自底向上与自顶向下的设计方法"></a>自底向上与自顶向下的设计方法</h1><ul>
+<li><p>自底向上的设计方法，是以固定功能元件为基础，基于电路板的设计方法。手工设计一般先按电子系统的具体功能要求进行功能划分，然后对每个模块画出真值表，用卡诺图进行手工逻辑简化，写出布尔表达式，画出相应的逻辑线路图，再根据此选择元器件，设计电路板，最后进行实测与调试</p>
+</li>
+<li><p>自顶向下的分析算法通过在最左推导中描述出各个步骤来分析记号串输入。将大型的数字电路设计分割成大小不一的小模块来实现特定的功能，最后通过由顶层模块调用子模块来实现整体功能，这就是Top-Down的设计思想。</p>
+</li>
+</ul>
+<h1 id="什么是综合，与编译器有什么区别？"><a href="#什么是综合，与编译器有什么区别？" class="headerlink" title="什么是综合，与编译器有什么区别？"></a>什么是综合，与编译器有什么区别？</h1><ul>
+<li>综合：将用硬件语言描述的设计转化为电路。电路中没有时间概念，是同步进行的</li>
+<li>编译：将用硬件语言描述的设计转化为 CPU 可执行的代码。可得到机器码，并按时间排序</li>
+<li>区别：编译得到机器码，机器码是 CPU 所执行的每一个基础动作，将这些动作在时间序列上排列起来就是程序；综合就是把设计变成了硬件电路，在时间序列上没有先后顺序</li>
+</ul>
+<h1 id="Verilog-HDL-的模块组成"><a href="#Verilog-HDL-的模块组成" class="headerlink" title="Verilog HDL 的模块组成"></a>Verilog HDL 的模块组成</h1><ul>
+<li>module / endmodule 引导的电路模块描述</li>
+<li>input / output 引导的队模块的外部端口的语句</li>
+<li>reg 等关键词定义的数据类型</li>
+<li>always@ 等关键字引导的对模块逻辑功能描述的语句</li>
+</ul>
+<h1 id="Verilog-文字规则"><a href="#Verilog-文字规则" class="headerlink" title="Verilog 文字规则"></a>Verilog 文字规则</h1><ul>
+<li>0：二进制数 0、低电平、逻辑 0、事件为假的判断结果</li>
+<li>1：二进制数 1、高电平、逻辑 1、事件为真的判断结果</li>
+<li>z 或 Z：高阻态或高阻值。可用 “?”代替</li>
+<li>x 或 X：不确定，或位置的逻辑状态</li>
+</ul>
+<p>x 值和 z 值都是不分大小写</p>
+<h1 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h1><p>数据类型是 Verilog 用来表示数字电路硬件中的物理连接、数据存储对象和传输单元等</p>
+<ul>
+<li><p>线网类型（net 型）</p>
+<ul>
+<li>最常用的 net 型：wire</li>
+</ul>
+</li>
+<li><p>寄存器类型（register 型）</p>
+<ul>
+<li><p>格式：</p>
+<pre><code class="verilog">reg 变量名1, 变量名2, ...;
+reg [msb:lsb] 变量名1, 变量名2, ...;</code></pre>
+</li>
+<li><p>reg 型变量必须放在过程语句中， 如 initial，always 等</p>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="parameter"><a href="#parameter" class="headerlink" title="parameter"></a>parameter</h1><ul>
+<li>parameter：用于定义延时和变量的宽度<pre><code class="verilog">parameter param1 = const_expr1,
+       ...</code></pre>
+</li>
+</ul>
+<h1 id="过程赋值-always-语句的特点"><a href="#过程赋值-always-语句的特点" class="headerlink" title="过程赋值 always 语句的特点"></a>过程赋值 always 语句的特点</h1><ul>
+<li>无限循环语句</li>
+<li>具有顺序和并行双重性</li>
+<li>本身是并行语句</li>
+<li>只允许描述对应单一时钟的同步时序逻辑</li>
+<li>不完整的条件语句可能引入时序电路</li>
+</ul>
+<h1 id="运算"><a href="#运算" class="headerlink" title="运算"></a>运算</h1><h2 id="条件运算符"><a href="#条件运算符" class="headerlink" title="条件运算符"></a>条件运算符</h2><pre><code>条件表达式？表达式1：表达式2
+（注意：问号后面为两个分支，前面为一是选择哪个分支）</code></pre><h2 id="相等运算符"><a href="#相等运算符" class="headerlink" title="相等运算符"></a>相等运算符</h2><ul>
+<li>相等运算 ==</li>
+<li>逻辑不等 !=</li>
+<li>非全等  !==</li>
+<li>全等运算 === (必须考虑 x 和 z 两种状态)</li>
+</ul>
+<h2 id="规约运算符"><a href="#规约运算符" class="headerlink" title="规约运算符"></a>规约运算符</h2><ul>
+<li>&amp; 规约与</li>
+<li>~&amp; 规约与非</li>
+<li>| 规约或</li>
+<li>~| 规约或非</li>
+<li>^ 规约异或</li>
+<li>~^ 规约异或非<pre><code class="verilog">a = 1001, b = 1011;
+a &amp; b = 1001（位运算）
+&amp;a = 0 （规约运算：结果只有一位，要么 0 要么 1）</code></pre>
+</li>
+</ul>
+<h2 id="位宽、进制、数值"><a href="#位宽、进制、数值" class="headerlink" title="位宽、进制、数值"></a>位宽、进制、数值</h2><pre><code class="verilog">4&#39;b1010
+----------
+4：位宽
+&#39;b：二进制
+1010：数值</code></pre>
+<blockquote>
+<p>没有加位宽和进制时默认为十进制</p>
+</blockquote>
+<h1 id="赋值语句"><a href="#赋值语句" class="headerlink" title="赋值语句"></a>赋值语句</h1><h2 id="阻塞型赋值"><a href="#阻塞型赋值" class="headerlink" title="阻塞型赋值"></a>阻塞型赋值</h2><ul>
+<li>格式：目标变量名 = 驱动表达式</li>
+<li>“阻塞”指在当前的赋值完成前阻塞或停止其他语句的赋值行为</li>
+<li>阻塞型赋值一旦执行，目标变量被立即更新，不存在延时</li>
+<li>阻塞赋值可以使用在 assign 语句中，也可以使用在过程语句中</li>
+<li>在同一过程中，允许对同一目标变量多次阻塞赋值中</li>
+</ul>
+<h2 id="非阻塞赋值"><a href="#非阻塞赋值" class="headerlink" title="非阻塞赋值"></a>非阻塞赋值</h2><ul>
+<li>格式：目标变量名 &lt;= 驱动表达式</li>
+<li>“非阻塞”：存在一个特殊的延时操作，且在赋值过程中不影响其他同类语句的赋值操作</li>
+<li>非阻塞赋值在执行时，目标变量并没有马上进行更新，而是等待语句块结束时统一进行赋值</li>
+<li>只能用在过程语句中</li>
+</ul>
+<h1 id="优化设计"><a href="#优化设计" class="headerlink" title="优化设计"></a>优化设计</h1><h2 id="资源优化"><a href="#资源优化" class="headerlink" title="资源优化"></a>资源优化</h2><ul>
+<li>资源共享</li>
+<li>逻辑优化</li>
+<li>串行化</li>
+</ul>
+<h2 id="速度优化"><a href="#速度优化" class="headerlink" title="速度优化"></a>速度优化</h2><ul>
+<li>流水线设计</li>
+<li>寄存器配平</li>
+<li>关键路径法</li>
+<li>乒乓操作法</li>
+<li>加法树法</li>
+</ul>
+<h1 id="状态机"><a href="#状态机" class="headerlink" title="状态机"></a>状态机</h1><h2 id="常用编码方式"><a href="#常用编码方式" class="headerlink" title="常用编码方式"></a>常用编码方式</h2><ul>
+<li>顺序编码</li>
+<li>一位热编码</li>
+</ul>
+<h2 id="一般形式"><a href="#一般形式" class="headerlink" title="一般形式"></a>一般形式</h2><ul>
+<li>有限状态机（FSM），是表示有限个状态以及在这些状态之间的转移的动作等行为的模型</li>
+<li>只要涉及触发器的电路，无论电路大小都能归结为状态机。如二分频电路、4位二进制计数器等</li>
+</ul>
+<h2 id="一般结构"><a href="#一般结构" class="headerlink" title="一般结构"></a>一般结构</h2><ul>
+<li>从信号输出方式上分为<ul>
+<li>Mealy 型<ul>
+<li>异步输出，输出的是当前状态和所有输入信号的函数，它的输出是在输入变化后立即发生的，不依赖时钟同步</li>
+<li>下一状态和输出都取决于当前状态和当前输入</li>
+</ul>
+</li>
+<li>Moore 型<ul>
+<li>同步输出，输出的仅为当前状态的函数，在输入发生变化时必须等待时钟的到来，比 Mealy机要多等待一个时钟周期</li>
+<li>下一状态取决于当前状态和当前输入，输出取决于当前状态</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>状态机结构包含<ul>
+<li>说明部分</li>
+<li>主控时序过程</li>
+<li>主控组合过程</li>
+<li>辅助过程</li>
+</ul>
+</li>
+</ul>
+<h2 id="状态机设计的一般步骤"><a href="#状态机设计的一般步骤" class="headerlink" title="状态机设计的一般步骤"></a>状态机设计的一般步骤</h2><ul>
+<li>抽象逻辑，得出状态转换图</li>
+<li>状态简化</li>
+<li>状态分配</li>
+<li>Verilog HDL 来描述</li>
+</ul>
+<h1 id="按键消抖（去毛刺）"><a href="#按键消抖（去毛刺）" class="headerlink" title="按键消抖（去毛刺）"></a>按键消抖（去毛刺）</h1><h2 id="什么是按键抖动？如何进行按键消抖？"><a href="#什么是按键抖动？如何进行按键消抖？" class="headerlink" title="什么是按键抖动？如何进行按键消抖？"></a>什么是按键抖动？如何进行按键消抖？</h2><blockquote>
+<p>由于按键的机械触电的弹性作用，按键在按下和释放的瞬间产生接触不稳定（弹性抖动），造成电压信号的抖动现象，称为按键抖动。</p>
+</blockquote>
+<p>按键消抖的方法：</p>
+<ul>
+<li>延时方法去毛刺</li>
+<li>逻辑方法去毛刺</li>
+<li>定时方法去毛刺<ul>
+<li>每隔一段时间扫描一次键盘，如果连续两次或三次所获得的按键状态相同，就认为按键保持稳定了</li>
+</ul>
+</li>
+</ul>
+<h1 id="程序题"><a href="#程序题" class="headerlink" title="程序题"></a>程序题</h1><ul>
+<li><p>多路选择器：组合逻辑电路；if-else；case，条件运算符</p>
+<pre><code class="verilog">// 4 选 1 多路选择器
+module mux41a(a, b, c, d, s1, s0, y);
+  input a, b, c, d, s1, s0;
+  output y;  // 输出信号
+  reg[1:0] SEL; // 模块内部的暂存变量 SEL
+  reg y;
+
+  always @ (a, b, c, d, SEL)
+  begin
+  SEL = {s1, s0}; // s1,s0 并位为 2 元素矢量变量 SEL
+  if(SEL == 0)
+      y = a;
+  else if(SEL == 1)
+      y = b;
+  else if(SEL == 2)
+      y = c;
+  else
+      y = d;
+  end
+endmodule</code></pre>
+</li>
+<li><p>计数器：时序逻辑电路；复位、使能、进（借）位</p>
+<pre><code class="verilog">// 万能计数器   verilog 中没有 { }, 用 begin/end 代替
+module cntN(clk, en, rstn, cnt, co);
+  input clk, rstn, en;
+  output[M-1:0] cnt; // 2^M &gt;= N, M 取最小值
+  output co;
+  reg[M-1:0] cnt;
+  reg co;
+
+  always @ (posedge clk or negedge rstn) // 低电平有效的异步复位
+  {
+      if(!rstn)
+      {
+          // 复位
+          cnt &lt;= 0;
+          co &lt;= 0;
+      }
+      else
+      {
+          if(en)
+          {
+              if(cnt == N-1)
+              {
+                  // 进位
+                  cnt &lt;= 0;
+                  co &lt;= 0;
+              }
+              else
+              {
+                  // 计数
+                  cnt &lt;= cnt + 1;
+                  co &lt;= 0;
+              }
+          }
+      }
+  }
+endmodule</code></pre>
+</li>
+</ul>
+<pre><code class="verilog">module cnt8(clk, en, rstn, cnt, co);
+    input clk, en, rstn;
+    output[2:0] cnt;
+    output co;
+    reg[2:0] cnt;
+    reg co;
+
+    always @ (posedge clk or negedge rstn)
+    begin
+        if(!rstn)
+        begin
+            cnt &lt;= 0;
+            co &lt;= 0;
+        end
+        else
+        begin
+            if(en)
+            begin
+                if(cnt == 7)
+                begin
+                    cnt &lt;= 0;
+                    co &lt;= 0;
+                end
+                else
+                begin
+                    cnt &lt;= cnt + 1;
+                    co &lt;=0;
+                end
+            end
+        end
+    end
+endmodule</code></pre>
+<ul>
+<li><p>编码器、译码器：组合逻辑电路，和实际结合</p>
+<pre><code class="verilog">// 3-8 译码器  题目会给真值表
+module decoder38(din, dout);
+  input[2:0] din;
+  output[7:0] dout;
+  reg[7:0] dout;
+
+  always @ (*)
+  begin
+      case(din)
+          3&#39;b000:dout = 8&#39;01111111;
+          3&#39;b001:dout = 8&#39;10111111;
+          3&#39;b010:dout = 8&#39;11011111;
+          3&#39;b011:dout = 8&#39;11101111;
+          3&#39;b100:dout = 8&#39;11110111;
+          3&#39;b101:dout = 8&#39;11111011;
+          3&#39;b110:dout = 8&#39;11111101;
+          3&#39;b111:dout = 8&#39;11111110;
+          default:dout = 8&#39;b11111111;
+      endcase
+  end
+endmodule</code></pre>
+</li>
+</ul>
+<pre><code class="verilog">// 8-3 编码器  具体数值见真值表
+module coder83(din, dout);
+    input[7:0] din;
+    output[7:0] dout;
+    reg[2:0] dout;
+
+    always @ (din)
+    case(din)  // x 表示真值表中的数值
+        8&#39;bxxxxxxxx: dout&lt;=3&#39;b000;
+        8&#39;bxxxxxxxx: dout&lt;=3&#39;b001;
+        8&#39;bxxxxxxxx: dout&lt;=3&#39;b010;
+        8&#39;bxxxxxxxx: dout&lt;=3&#39;b011;
+        8&#39;bxxxxxxxx: dout&lt;=3&#39;b100;
+        8&#39;bxxxxxxxx: dout&lt;=3&#39;b101;
+        8&#39;bxxxxxxxx: dout&lt;=3&#39;b110;
+        8&#39;bxxxxxxxx: dout&lt;=3&#39;b111;
+        default: dout&lt;=3&#39;b000;
+    endcase
+endmodule</code></pre>
+<ul>
+<li><p>移位寄存器：普通移位、循环移位；并串转换</p>
+<pre><code class="verilog">// 用移位寄存器设计串并转换电路
+module SeriToPara(din, dout, clk, rstn);
+  input clk, din, rstn;
+  output[7:0] dout;
+  reg[7:0] dout;
+
+  always @ (posedge clk or negedge rstn)
+  begin
+      if(!rstn)
+          dout &lt;= 0;
+      else
+          dout &lt;= {dout[6:0], din};
+  end
+endmodule</code></pre>
+</li>
+<li><p>结构建模：利用库元件、子模块调用方式编写程序</p>
+</li>
+</ul>
+<p><img src="https://gitee.com/byojiaoxianz7/Img/raw/master/img/%E5%88%A9%E7%94%A8%E5%BA%93%E5%85%83%E4%BB%B6%E3%80%81%E5%AD%90%E6%A8%A1%E5%9D%97%E8%B0%83%E7%94%A8%E6%96%B9%E5%BC%8F%E7%BC%96%E5%86%99%E7%A8%8B%E5%BA%8F.png" alt=""></p>
+<pre><code class="verilog">// 利用库元件、子模块调用方式编写程序
+module f_adder(ain, bin, cin, cout, sum);
+  input ain, bin, cin;
+  output cout, sum;
+  wire d, e, f;
+  h_adder u1(.A(ain), .B(bin), .so(e), .co(d));
+  h_adder u2(.A(e), .B(cin), .so(sum), .co(f));
+  or u3(cout, d, f);
+endmodule</code></pre>
+<ul>
+<li>低电平有效复位<pre><code class="verilog">always @ (posedge clk or negedge rstn)
+  if(!rstn)
+      ...</code></pre>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>期末复习</category>
+      </categories>
+      <tags>
+        <tag>期末复习</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>【年终总结】2018年个人总结</title>
+    <url>/2018/12/31/%E3%80%90%E5%B9%B4%E7%BB%88%E6%80%BB%E7%BB%93%E3%80%912018%E5%B9%B4%E4%B8%AA%E4%BA%BA%E6%80%BB%E7%BB%93/</url>
+    <content><![CDATA[<p>2019 年过了将近一个月才动笔写总结，是不是有点迟了。</p>
+<a id="more"></a>
+
+<p>对于2018年这一年，其实我已经记不太清发生了什么事了，不过幸好我有写日记的习惯，去翻翻日记总能想起来。不过这个日记是从五月份开始的，五月之前的事情还得好好想想是怎么过的。</p>
+<p>2018年发生了许多事情，重要的不重要的。</p>
+<h3 id="2018年1月"><a href="#2018年1月" class="headerlink" title="2018年1月"></a><strong>2018年1月</strong></h3><h3 id="红月亮"><a href="#红月亮" class="headerlink" title="红月亮"></a><strong>红月亮</strong></h3><p>我记得是31号，这还是翻手机相册的时候看到的，我还记得在阳台拍了一张照然后又跑下楼去拍了一张。很漂亮。</p>
+<h3 id="2018年2月"><a href="#2018年2月" class="headerlink" title="2018年2月"></a><strong>2018年2月</strong></h3><p>2月份就是过年了，与往年没什么不同。除夕夜去老家吃饭，初一去老家吃饭然后去开山寺逛逛，初二去老家吃饭晚上打打球赛。</p>
+<h3 id="游英山"><a href="#游英山" class="headerlink" title="游英山"></a><strong>游英山</strong></h3><p>手机相册上显示的2018-2-16去了英山。</p>
+<p>我记得我姐就在那边工作，弄什么开发区花花草草之类的，记不清了。不过还挺漂亮的。</p>
+<h3 id="开学"><a href="#开学" class="headerlink" title="开学"></a><strong>开学</strong></h3><p>没想到这次开学去学校买到的是<strong>硬座</strong>，坐了28小时才到北京，我的老腰和我的屁股，难受啊弟弟。</p>
+<p>不到万不得已不要在春运买硬座，jio都没有地方放啊我的哥。</p>
+<h3 id="2018年3月"><a href="#2018年3月" class="headerlink" title="2018年3月"></a><strong>2018年3月</strong></h3><h3 id="篮球馆"><a href="#篮球馆" class="headerlink" title="篮球馆"></a><strong>篮球馆</strong></h3><p>第一次去篮球馆打球，这场地，舒服得丫批。里面个个都是人才，说话又好听，超喜欢这里面。</p>
+<h3 id="2018年4月"><a href="#2018年4月" class="headerlink" title="2018年4月"></a><strong>2018年4月</strong></h3><h3 id="北京"><a href="#北京" class="headerlink" title="北京"></a><strong>北京</strong></h3><p>人生中第一次到北京玩。</p>
+<p>寝室四人。</p>
+<p>鼓楼、什刹海、故宫(票卖完了进不去)，好像就去了这几个地方。</p>
+<h3 id="2018年5月"><a href="#2018年5月" class="headerlink" title="2018年5月"></a><strong>2018年5月</strong></h3><p>上学期的时候就听五月份要军训，因为天津全运会的延期。</p>
+<p>五月的天津也不是很热，主要还是教官猛。</p>
+<p>军训五分钟，休息一小时。</p>
+<h3 id="剑网三校园行"><a href="#剑网三校园行" class="headerlink" title="剑网三校园行"></a>剑网三校园行</h3><p>就在一个网吧里举行，跟了一个秀秀coser合照。</p>
+<h3 id="3v3篮球赛"><a href="#3v3篮球赛" class="headerlink" title="3v3篮球赛"></a><strong>3v3篮球赛</strong></h3><p>学校举办了一场球赛，参加比赛的人很多。</p>
+<p>学校大佬还是多，激情的一批。</p>
+<p>我这菜比不好意思去参赛就偷偷的拍了写照片。</p>
+<h3 id="大创项目"><a href="#大创项目" class="headerlink" title="大创项目"></a><strong>大创项目</strong></h3><p>终于找到有我撸代码时的照片了，辛苦。</p>
+<p>参加了一个大创项目，具体是啥就不说了。</p>
+<h3 id="英语四级"><a href="#英语四级" class="headerlink" title="英语四级"></a><strong>英语四级</strong></h3><p>大学第一学期期末英语考了个90分，有机会参加了一波四级考试。成绩惨不忍睹，下次加油。</p>
+<h3 id="毕业晚会"><a href="#毕业晚会" class="headerlink" title="毕业晚会"></a><strong>毕业晚会</strong></h3><p>听说有毕业晚会，远远的拍了一张，没过去看。</p>
+<p>当时在想，三年后是不是我就坐在下面看人家跳舞啊</p>
+<h3 id="2018年7月"><a href="#2018年7月" class="headerlink" title="2018年7月"></a><strong>2018年7月</strong></h3><h3 id="暑假"><a href="#暑假" class="headerlink" title="暑假"></a><strong>暑假</strong></h3><p>又到了放假的时候，为了回家快一些就选择了飞机，肉疼。</p>
+<h3 id="心心念念螺蛳粉"><a href="#心心念念螺蛳粉" class="headerlink" title="心心念念螺蛳粉"></a><strong>心心念念螺蛳粉</strong></h3><p>终于，吃到了螺蛳粉，你问我为什么不一回家就吃?这等好事当然要等她回来一起吃啊。(秀一脸)</p>
+<h3 id="2018年8月"><a href="#2018年8月" class="headerlink" title="2018年8月"></a><strong>2018年8月</strong></h3><h3 id="深圳"><a href="#深圳" class="headerlink" title="深圳"></a><strong>深圳</strong></h3><p>貌似这是我第三次到广东玩。</p>
+<p>深圳很热，又下雨。</p>
+<p>雨过后我爸带我去吃了河豚，回来路上拍的。</p>
+<p>这滤镜还有点好看。</p>
+<h3 id="窑埠古镇"><a href="#窑埠古镇" class="headerlink" title="窑埠古镇"></a><strong>窑埠古镇</strong></h3><p>难得暑假，虽然天气很热，但是也不能阻挡去玩的热情。</p>
+<p>去了古镇玩，一路上没几个人，热得丫批。</p>
+<h3 id="2018年9月"><a href="#2018年9月" class="headerlink" title="2018年9月"></a><strong>2018年9月</strong></h3><h3 id="天津之眼"><a href="#天津之眼" class="headerlink" title="天津之眼"></a><strong>天津之眼</strong></h3><p>开学之后去了天津之眼，天气不热，也不冷，刚刚好。</p>
+<h3 id="2018年10月"><a href="#2018年10月" class="headerlink" title="2018年10月"></a><strong>2018年10月</strong></h3><h3 id="社团第一次全体大会"><a href="#社团第一次全体大会" class="headerlink" title="社团第一次全体大会"></a><strong>社团第一次全体大会</strong></h3><p>我记得这是第二次了吧，上一次被吃了。</p>
+<p>照片没得到授权就不放出来。</p>
+<h3 id="2018年11月"><a href="#2018年11月" class="headerlink" title="2018年11月"></a><strong>2018年11月</strong></h3><h3 id="智慧山"><a href="#智慧山" class="headerlink" title="智慧山"></a><strong>智慧山</strong></h3><p>智慧山那边搞了个什么失恋博物馆，过去看了一把，搞得还像模像样。我只是为了好玩才去的。</p>
+<h3 id="2018年12月"><a href="#2018年12月" class="headerlink" title="2018年12月"></a><strong>2018年12月</strong></h3><h3 id="跨年"><a href="#跨年" class="headerlink" title="跨年"></a><strong>跨年</strong></h3><p>实不相瞒，跨年住在滨江道旁边，当晚房价高达700一晚，我都不敢看价格。</p>
+<p>不过十月份的时候就预订了这个房间，花了200多。</p>
+<p>风景那是相当的不错。</p>
+<h2 id="年末总结"><a href="#年末总结" class="headerlink" title="年末总结"></a><strong>年末总结</strong></h2><p>说是年末总结，其实我都不知道该总结什么。</p>
+<h3 id="关于学习"><a href="#关于学习" class="headerlink" title="关于学习"></a>关于<strong>学习</strong></h3><p>这学期要是一科不挂，我必泡图书馆，flag立在这了。</p>
+<p>期末太痛苦了，几个晚上学完一个学期的课程，还不一定能过是最骚的，所以在学习方面还是要加强。</p>
+<p>游戏少玩一些(这个等我jjc上13段再说)。</p>
+<p>写代码能力还是要努力学习，都奔三了该为自己以后着想了。</p>
+<h2 id="2019要做的事情"><a href="#2019要做的事情" class="headerlink" title="2019要做的事情"></a><strong>2019要做的事情</strong></h2><h3 id="要改正的地方"><a href="#要改正的地方" class="headerlink" title="要改正的地方"></a><strong>要改正的地方</strong></h3><ul>
+<li>不要找借口</li>
+<li>改掉拖延症</li>
+<li>输出少</li>
+<li>缺乏锻炼</li>
+</ul>
+<h3 id="几个flag"><a href="#几个flag" class="headerlink" title="几个flag"></a><strong>几个flag</strong></h3><p>1.折腾一个博客，坚持记录。之前一直在简书上写文章，这次要自己折腾一个博客，好好维护。</p>
+<p>2.向 Linux 进击。就当对Linux多一些了解吧，还在考虑用哪个发行版。</p>
+<p><strong>3.学习 Python/C/SQL 基础知识</strong>。C可是重中之重，必须要把基础给打好。</p>
+<p>4.好好学习。在不挂科的基础上把成绩提升一些。</p>
+]]></content>
+      <categories>
+        <category>年终总结</category>
+      </categories>
+      <tags>
+        <tag>年终总结</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>【年终总结】2017年个人总结</title>
+    <url>/2017/12/31/%E3%80%90%E5%B9%B4%E7%BB%88%E6%80%BB%E7%BB%93%E3%80%912017%E5%B9%B4%E4%B8%AA%E4%BA%BA%E6%80%BB%E7%BB%93/</url>
+    <content><![CDATA[<p><strong>这是我第一次离家那么远。</strong></p>
+<a id="more"></a>
+
+
+<h2 id="上大学没那么简单"><a href="#上大学没那么简单" class="headerlink" title="上大学没那么简单"></a>上大学没那么简单</h2><p>收到录取通知书的时候，我不知道该用怎样的词汇来表达我内心的那种情感，是喜悦？兴奋？还是其他的一些什么东西？我不关心了。</p>
+<p>我要去北方了。</p>
+<p>暑假三个月，真是有点儿漫长，我迫不及待的想要迎接开学的到来，以至于打游戏都没有激情，也不出去玩，就是在家宅着，等待开学啊。</p>
+<p>按照录取通知书上的时间来说，我需要在9月15日至16日这段时间到学校报道。很巧的是我在天津的亲戚会到我家，所以我可以提前到天津去，可以在那玩几天，然后再到学校去报道，完美。</p>
+<p>到了9月1日，亲戚也要回天津了，所以我们买了第二天的飞机票，休息一晚上，直飞天津。</p>
+<p>那天晚上，我爸不在家，是我妈帮我收拾行李，因为是第一次出远门，所以该叮嘱的她唠叨了几遍，我完全沉浸在要去北方的喜悦之情中，不顾得她说的话，只是一个劲的点头说是是是，我知道了。</p>
+<p>我出发的那天，因为要去赶飞机，走得急了，没有跟其他亲戚朋友说。以至于我到了天津之后亲戚还专门打电话过来责怪我，说没有机会一起吃一个饭为我送行，我嘿嘿一笑，说等我回去。</p>
+<h2 id="天津的农村，别有一番风味"><a href="#天津的农村，别有一番风味" class="headerlink" title="天津的农村，别有一番风味"></a>天津的农村，别有一番风味</h2><p>飞机降落了那一刻，我有点儿想哭，因为已经是第二天凌晨一点了，很困的好吗！匆匆忙忙的到了亲戚家，也没有洗澡就直接睡了。</p>
+<p>早上天刚亮，大概是6:50左右，亲戚叫我起床洗漱然后去吃早餐。</p>
+<p>在我的印象中，北方主要以面食为主，我就先入为主的认为北方顿顿吃馒头，事实上并不是我想的这样，北方的食物跟南方的食物相比较，其实也没差。亲戚的老公是天津本地人，顿顿馒头是可以有的，还要配上一个咸鸭蛋，这就是早餐，我也尝试了一下，咸鸭蛋……好咸啊!亲戚说这是自家养的鸭子下的。我微微一愣，问她，还养鸭子呢？她说不仅养鸭子，什么鸡、鹅都有，我瞬间就来了兴趣，就让她吃饱饭后带我去看一下。</p>
+<p>嘿，还别说，鸡鸭鹅样样不少，还有一只狗呢(有点凶)。其实我小的时候是在农村长大的，也赶过牛，但是就是没有养过鸡鸭，就莫名觉得很有趣。看了一会儿后我就回到房间了，确实也没什么好看的，家禽而已。</p>
+<h2 id="我居然是系里最后一个报道的"><a href="#我居然是系里最后一个报道的" class="headerlink" title="我居然是系里最后一个报道的"></a>我居然是系里最后一个报道的</h2><p>在亲戚家待了大概半个月后，终于是开学了。亲戚家里学校还是有些远的，所以我打算早一些出发，正好可以留一些时间整理寝室内务。但是事与愿违，我成了系里最后一个报道的，过程就不说了，一把辛酸泪。</p>
+<p>在开学之前已经和室友们在贴吧上认识了，报道后，室友来接了我，所以很快的回到了寝室。四人间，上床下桌，标准寝室配置，美中不足的就是没有独立卫浴。</p>
+<h2 id="讲讲一些娱乐方面的事情"><a href="#讲讲一些娱乐方面的事情" class="headerlink" title="讲讲一些娱乐方面的事情"></a>讲讲一些娱乐方面的事情</h2><p>上了大学，课余的时间也是挺多的，偶尔跟舍友去看看电影是挺不错的。</p>
+<h3 id="电影"><a href="#电影" class="headerlink" title="电影"></a>电影</h3><ul>
+<li>《羞羞的铁拳》</li>
+<li>《芳华》</li>
+<li>《烟花》</li>
+<li>《解忧杂货店》</li>
+<li>《前任3》</li>
+</ul>
+<h3 id="技术方面的书"><a href="#技术方面的书" class="headerlink" title="技术方面的书"></a>技术方面的书</h3><ul>
+<li>《黑客与画家》</li>
+<li>《Python基础教程(第三版)》</li>
+<li>《C语言从入门到精通》</li>
+<li>《编码：隐匿在计算机软硬件背后的语言》</li>
+<li>《Python数据采集》</li>
+<li>《Python网络爬虫》</li>
+</ul>
+<h3 id="小说"><a href="#小说" class="headerlink" title="小说"></a>小说</h3><ul>
+<li>《龙族》1/2/3/4/5</li>
+<li>《挪威的森林》</li>
+<li>《1973年的弹子球》</li>
+<li>《寻羊冒险记》</li>
+<li>《且听风吟》</li>
+<li>《暗恋》</li>
+</ul>
+<h2 id="有意思的“创宇杯IOT竞技大赛”"><a href="#有意思的“创宇杯IOT竞技大赛”" class="headerlink" title="有意思的“创宇杯IOT竞技大赛”"></a>有意思的“创宇杯IOT竞技大赛”</h2><p>“创宇杯IOT竞技大赛”是我们系里联合知道创宇举办的一个比赛，简单来说就是一个有关物联网硬件软件的这么一个比赛。报名之后要进行面试选拔，面试的问题也都不难，因为我填申请表的时候写了我高中有自学过C和Python，所以面试的学长问了我一些相关的问题，最后通过面试的一共有十来个人，我是其中一个。</p>
+<p>通过选拔后自然是要想自己要做什么东西，这对刚进学校的大一菜鸟来说无疑是巨大的挑战，幸好我认识一个大三学长，可以说是他手把手教我怎么做这个东西，很感谢他。</p>
+<p>我做的东西是一个蓝牙控制单片机开锁的小玩意儿，现在看来很简单，但在当时是非常困难的。</p>
+<p>结果还是没有做出来，还把宿舍给弄跳闸了，所以我就没有拿着半成品去参加最后的选拔。后来听说，无论做没做出来成品，都能得奖，我TM……血亏。</p>
+<p>下面是当时的设计方案，贴上来纪念一下。是有够傻屌的。</p>
+<h2 id="关于-2018"><a href="#关于-2018" class="headerlink" title="关于 2018"></a>关于 2018</h2><ul>
+<li>继续学习 Python</li>
+<li>备考计算机二级</li>
+<li>学习英语</li>
+</ul>
+]]></content>
+      <categories>
+        <category>年终总结</category>
+      </categories>
+      <tags>
+        <tag>年终总结</tag>
+      </tags>
+  </entry>
+</search>

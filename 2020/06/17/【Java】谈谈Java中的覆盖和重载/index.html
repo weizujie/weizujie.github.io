@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>【Java】谈谈Java中的覆盖和重载 | 韦祖杰的博客</title>
+  <meta name="description" content="重载和覆盖是 Java 多态性的不同表现方式，本文将介绍什么是重载（Overload）和覆盖（Override）以及二者之间的区别。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【Java】谈谈Java中的覆盖和重载">
+<meta property="og:url" content="https://weizujie.vip/2020/06/17/%E3%80%90Java%E3%80%91%E8%B0%88%E8%B0%88Java%E4%B8%AD%E7%9A%84%E8%A6%86%E7%9B%96%E5%92%8C%E9%87%8D%E8%BD%BD/index.html">
+<meta property="og:site_name" content="韦祖杰的博客">
+<meta property="og:description" content="重载和覆盖是 Java 多态性的不同表现方式，本文将介绍什么是重载（Overload）和覆盖（Override）以及二者之间的区别。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-06-17T05:27:11.000Z">
+<meta property="article:modified_time" content="2020-11-27T12:32:36.186Z">
+<meta property="article:author" content="weizujie">
+<meta property="article:tag" content="Java">
+<meta name="twitter:card" content="summary">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://weizujie.vip/2020/06/17/%E3%80%90Java%E3%80%91%E8%B0%88%E8%B0%88Java%E4%B8%AD%E7%9A%84%E8%A6%86%E7%9B%96%E5%92%8C%E9%87%8D%E8%BD%BD/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="韦祖杰的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/weizujie" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jfif" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">韦祖杰</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">退堂鼓表演艺术家</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Tianjin, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/weizujie" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/weizujie" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/byojiaoxianz7" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>公众号：慢慢学编程</p><p></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JVM/">JVM</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Leetcode/">Leetcode</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B9%B4%E7%BB%88%E6%80%BB%E7%BB%93/">年终总结</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%8A%98%E8%85%BE%E7%AC%94%E8%AE%B0/">折腾笔记</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/">期末复习</a><span class="category-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/" rel="tag">Java</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Leetcode/" rel="tag">Leetcode</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B4%E7%BB%88%E6%80%BB%E7%BB%93/" rel="tag">年终总结</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8A%98%E8%85%BE%E7%AC%94%E8%AE%B0/" rel="tag">折腾笔记</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">数据结构</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/" rel="tag">期末复习</a><span class="tag-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/JVM/" style="font-size: 13px;">JVM</a> <a href="/tags/Java/" style="font-size: 14px;">Java</a> <a href="/tags/Leetcode/" style="font-size: 14px;">Leetcode</a> <a href="/tags/%E5%B9%B4%E7%BB%88%E6%80%BB%E7%BB%93/" style="font-size: 14px;">年终总结</a> <a href="/tags/%E6%8A%98%E8%85%BE%E7%AC%94%E8%AE%B0/" style="font-size: 13px;">折腾笔记</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 13.5px;">数据结构</a> <a href="/tags/%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/" style="font-size: 13.5px;">期末复习</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">十一月 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">六月 2020</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">四月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">十二月 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">十二月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Leetcode/">Leetcode</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/11/27/%E3%80%90Leetcode%E3%80%91%E9%9D%A2%E8%AF%95%E9%A2%98%2016.01.%E4%BA%A4%E6%8D%A2%E6%95%B0%E5%AD%97/" class="title">【Leetcode】面试题 16.01. 交换数字</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-11-27T12:32:36.187Z" itemprop="datePublished">2020-11-27</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/JVM/">JVM</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/11/25/%E3%80%90JVM%E3%80%91Java%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F%E8%AF%A6%E8%A7%A3/" class="title">【JVM】Java内存区域详解</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-11-25T14:28:11.000Z" itemprop="datePublished">2020-11-25</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Java/">Java</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/06/20/%E3%80%90Java%E3%80%91%E8%B0%88%E8%B0%88Java%E4%B8%AD%E7%9A%84%E5%A4%9A%E6%80%81/" class="title">【Java】谈谈Java中的多态</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-06-20T14:28:11.000Z" itemprop="datePublished">2020-06-20</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Java/">Java</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/06/19/%E3%80%90Java%E3%80%91%E8%B0%88%E8%B0%88Java%E4%B8%AD%E7%9A%84%E6%8E%A5%E5%8F%A3/" class="title">【Java】谈谈Java中的接口</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-06-19T09:24:22.000Z" itemprop="datePublished">2020-06-19</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Java/">Java</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/06/17/%E3%80%90Java%E3%80%91%E8%B0%88%E8%B0%88Java%E4%B8%AD%E7%9A%84%E8%A6%86%E7%9B%96%E5%92%8C%E9%87%8D%E8%BD%BD/" class="title">【Java】谈谈Java中的覆盖和重载</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-06-17T05:27:11.000Z" itemprop="datePublished">2020-06-17</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-【Java】谈谈Java中的覆盖和重载" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      【Java】谈谈Java中的覆盖和重载
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2020/06/17/%E3%80%90Java%E3%80%91%E8%B0%88%E8%B0%88Java%E4%B8%AD%E7%9A%84%E8%A6%86%E7%9B%96%E5%92%8C%E9%87%8D%E8%BD%BD/" class="article-date">
+	  <time datetime="2020-06-17T05:27:11.000Z" itemprop="datePublished">2020-06-17</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/Java/">Java</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/Java/" rel="tag">Java</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2020/06/17/%E3%80%90Java%E3%80%91%E8%B0%88%E8%B0%88Java%E4%B8%AD%E7%9A%84%E8%A6%86%E7%9B%96%E5%92%8C%E9%87%8D%E8%BD%BD/#comments" class="article-comment-link">评论</a></span>
+        
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <p>重载和覆盖是 Java 多态性的不同表现方式，本文将介绍什么是重载（Overload）和覆盖（Override）以及二者之间的区别。</p>
+<a id="more"></a>
+
+<h1 id="重载（Overload）"><a href="#重载（Overload）" class="headerlink" title="重载（Overload）"></a>重载（Overload）</h1><p>重载是在一个类里，方法名相同，而参数不同。返回的类型可以相同，也可以不同。每个重载的方法都必须有独一无二的参数列表。</p>
+<p><strong>最常用的地方就是构造器的重载</strong>。</p>
+<p>举个例子：</p>
+<pre><code class="java">public class A {
+    public int sum(int a) {
+        return a;
+    }
+    public int sum(int a, int b) {
+        return a + b;
+    }
+    public double sum(double a, double b) {
+        return a + b;
+    }
+    public double sum(int a, double b, int c) {
+        return a + b + c;
+    }
+
+    public static void main(String[] args) {
+        A a = new A();
+
+        int sum1 = a.sum(3);
+        System.out.println(sum1); 
+
+        double sum2 = a.sum(1, 2);
+        System.out.println(sum2); 
+
+        double sum3 = a.sum(1.0, 2.0);
+        System.out.println(sum3);
+
+        double sum4 = a.sum(1, 2.0, 3);
+        System.out.println(sum4);
+    }
+}
+</code></pre>
+<p>上述代码中，有四个方法，方法名都是 sum。</p>
+<p>方法名相同，参数列表不同，返回值的类型也不同，这就是<strong>方法的重载</strong>。</p>
+<h2 id="需要注意的点"><a href="#需要注意的点" class="headerlink" title="需要注意的点"></a>需要注意的点</h2><p>在使用重载时，需要注意以下几点：</p>
+<ul>
+<li>被重载的方法必须改变参数列表（参数个数或类型不一样）；</li>
+<li>被重载的方法可以改变返回类型；</li>
+<li>被重载的方法可以改变访问修饰符；</li>
+<li>被重载的方法可以声明新的或更广的检查异常；</li>
+<li>方法能够在同一个类中或者在一个子类中被重载。</li>
+<li>无法以返回值类型作为重载函数的区分标准。</li>
+</ul>
+<h1 id="覆盖（Override）"><a href="#覆盖（Override）" class="headerlink" title="覆盖（Override）"></a>覆盖（Override）</h1><p>覆盖（也叫重写）是指子类对父类允许访问的方法进行重新编写，返回值和形参都不可以改变。</p>
+<p>也就是说，<strong>外壳不变，核心重写！</strong></p>
+<p>覆盖的好处在于，可以根据自己的需要定义属于自己的方法。</p>
+<p>举个例子：</p>
+<pre><code class="java">class Animal{
+   public void move(){
+      System.out.println(&quot;动物可以移动&quot;);
+   }
+}
+
+class Dog extends Animal{
+   public void move(){
+      System.out.println(&quot;狗可以跑和走&quot;);
+   }
+}
+
+public class TestDog{
+   public static void main(String args[]){
+      Animal a = new Animal(); // Animal 对象
+      Animal b = new Dog(); // Dog 对象
+
+      a.move();// 执行 Animal 类的方法
+
+      b.move();//执行 Dog 类的方法
+   }
+}</code></pre>
+<p>编译后运行结果：</p>
+<pre><code>动物可以移动
+狗可以跑和走</code></pre><p>在上面的例子中，我们 new 一个 Animal 对象，将它赋值给 Animal 引用，然后运行 move 方法。</p>
+<p>然后 new 一个 Dog 对象，同样将它赋值给 Animal 引用，然后运行 move 方法。</p>
+<p>从结果中可以看出，尽管 b 属于 Animal 类型，但是它仍然运行的是 Dog 类里的 move 方法。</p>
+<p>原因是：在编译阶段，只是检查参数的引用类型，然而在运行的时候，JVM 指定对象的类型并运行该对象的方法。</p>
+<p>因此在上面的例子中，之所以能够编译成功，是因为 Animal 类中存在 move 方法，然而运行的时候，运行的是特定对象的方法。</p>
+<h2 id="需要注意的地方"><a href="#需要注意的地方" class="headerlink" title="需要注意的地方"></a>需要注意的地方</h2><ul>
+<li>参数列表必须<strong>完全</strong>与被重写方法的相同。</li>
+<li>返回类型与被重写方法的返回类型可以不相同，但是必须是父类返回值的派生类（java5 及更早版本返回类型要一样，java7 及更高版本可以不同）。</li>
+<li><strong>访问权限不能比父类中被重写的方法的访问权限更低</strong>。例如：如果父类的一个方法被声明为 public，那么在子类中重写该方法就不能声明为 protected。</li>
+<li><strong>父类的成员方法只能被它的子类重写</strong>。</li>
+<li><strong>声明为 final 的方法不能被重写。</strong></li>
+<li>声明为 static 的方法不能被重写，但是能够被再次声明。</li>
+<li>子类和父类在同一个包中，那么子类可以重写父类所有方法，除了声明为 private 和 final 的方法。</li>
+<li>子类和父类不在同一个包中，那么子类只能够重写父类的声明为 public 和 protected 的非 final 方法。</li>
+<li>重写的方法能够抛出任何非强制异常，无论被重写的方法是否抛出异常。但是，重写的方法不能抛出新的强制性异常，或者比被重写方法声明的更广泛的强制性异常，反之则可以。</li>
+<li><strong>构造方法不能被重写</strong>。</li>
+<li>如果不能继承一个方法，则不能重写这个方法</li>
+</ul>
+<h1 id="二者之间的区别"><a href="#二者之间的区别" class="headerlink" title="二者之间的区别"></a>二者之间的区别</h1><ul>
+<li>重载是同一个类中方法之间的关系，是水平关系；覆盖是子类和父类之间的关系，是垂直关系</li>
+<li>重载是多个方法之间的关系；覆盖只能由一个方法或一对方法产生关系</li>
+<li>重载要求参数列表不同；覆盖要求参数列表相同</li>
+<li>重载关系是根据调用时的实参表与形参表来选择方法体；覆盖关系中，调用方法是根据对象的类型来决定</li>
+</ul>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ul>
+<li>《Java 程序员面试笔试宝典》第四章</li>
+<li><a href="https://www.runoob.com/java/java-override-overload.html" target="_blank" rel="noopener">菜鸟教程-Java 重写(Override)与重载(Overload)</a></li>
+</ul>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/weizujie" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jfif" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/weizujie" target="_blank"><span class="text-dark">韦祖杰</span><small class="ml-1x">退堂鼓表演艺术家</small></a></h3>
+        <div>个人简介。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2020/06/19/%E3%80%90Java%E3%80%91%E8%B0%88%E8%B0%88Java%E4%B8%AD%E7%9A%84%E6%8E%A5%E5%8F%A3/" title="【Java】谈谈Java中的接口"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2020/06/15/%E3%80%90Leetcode%E3%80%91%E3%80%8A%E5%89%91%E6%8C%87offer%E3%80%8B%E6%95%B0%E7%BB%84%E4%B8%AD%E9%87%8D%E5%A4%8D%E7%9A%84%E6%95%B0%E5%AD%97/" title="【Leetcode】《剑指offer》数组中重复的数字"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/weizujie" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/weizujie" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/byojiaoxianz7" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+
+
+
+
+   
+
+
+
+
+
+
+</body>
+</html>
