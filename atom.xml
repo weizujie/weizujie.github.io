@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>韦祖杰的博客</title>
+  <title>Kaizen&#39;s Blog</title>
   
   
   <link href="https://weizujie.vip/atom.xml" rel="self"/>
@@ -10,7 +10,7 @@
   <id>https://weizujie.vip/</id>
   
   <author>
-    <name>weizujie</name>
+    <name>Kaizen</name>
     
   </author>
   
