@@ -1,0 +1,62 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="weizujie"><title>【Leetcode】《剑指offer》数组中重复的数字 · Kaizen</title><meta name="description" content="在一个长度为 n 的数组 nums 里的所有数字都在 0～n-1 的范围内。数组中某些数字是重复的，但不知道有几个数字重复了，也不知道每个数字重复了几次。请找出数组中任意一个重复的数字。
+
+
+示例 1:
+
+输入:[2, 3, 1, 0, 2, 5, 3]
+输出: 2 或 3 
+
+1. 哈希表遍历数组"><meta name="keywords" content="kaizen, blog"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><script src="/js/jquery.js"></script><meta name="generator" content="Hexo 4.2.1"></head><body><div class="sidebar animated fadeInDown"><div class="logo-title"><div class="title"><img src="/images/logo@2x.png" style="width:127px;"><h3 title=""><a href="/">Kaizen</a></h3><div class="description"><p>心之所愿，无事不成。<br> Nothing is impossible to a willing heart.</p></div></div></div><ul class="social-links"><li><a href="https://github.com/weizujie" target="_blank" rel="noopener"><i class="fa fa-github"></i></a></li><li><a href="byojiaoxianz7@outlook.com"><i class="fa fa-envelope"></i></a></li></ul><div class="footer"><div class="p"> <span>© 2017 - 2020 </span><i class="fa fa-star"></i><span> weizujie</span></div><div class="by_farbox"><span>Powered by </span><a href="https://hexo.io/zh-cn/" target="_blank">Hexo </a><span> & </span><a href="https://github.com/mrcore/hexo-theme-Anatole-Core" target="_blank">Anatole-Core  </a></div><div class="beian"><a href="http://www.beian.miit.gov.cn/" target="_blank"></a><span style="height:10px;margin-left: 10px;">|</span><img src="https://qn.jixian.io/gongan.png" style="height:10px;margin-left: 10px;position: relative;top: 1px;"><span style="margin-left: 2px;"></span></div></div></div><div class="main"><div class="page-top animated fadeInDown"><div class="nav"><li><a href="/">首页</a></li><li><a href="/archives">归档</a></li><li><a href="/tags">Tags</a></li><li><a href="/about">关于</a></li><li><a href="/guestbook">Guestbook</a></li></div><div class="information"><div class="back_btn"><li><a class="fa fa-chevron-left" onclick="window.history.go(-1)"> </a></li></div></div></div><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post animated fadeInDown"><div class="post-title"><h3><a>【Leetcode】《剑指offer》数组中重复的数字</a></h3></div><div class="post-content"><p>在一个长度为 n 的数组 nums 里的所有数字都在 0～n-1 的范围内。数组中某些数字是重复的，但不知道有几个数字重复了，也不知道每个数字重复了几次。请找出数组中任意一个重复的数字。</p>
+<a id="more"></a>
+
+<p>示例 1:</p>
+<blockquote>
+<p>输入:[2, 3, 1, 0, 2, 5, 3]</p>
+<p>输出: 2 或 3 </p>
+</blockquote>
+<h2 id="1-哈希表"><a href="#1-哈希表" class="headerlink" title="1. 哈希表"></a>1. 哈希表</h2><p>遍历数组，将元素依次放入集合中，每次放一个元素判断集合中是否存在此元素，若存在则返回这个元素</p>
+<pre><code class="java">class Solution {
+    public int findRepeatNumber(int[] nums) {
+        Set&lt;Integer&gt; set = new HashSet&lt;Integer&gt;();
+
+        // 题目中给定了取值范围 0~n-1，所以初始化为 -1
+        int repeat = -1;
+        for (int num : nums) {
+            // boolean add(E e)-&gt; 将指定的元素添加到此集合（如果尚未存在）。 
+            if (!set.add(num)) {
+                repeat = num;
+                break;
+            }
+        }
+        return repeat;
+    }
+}</code></pre>
+<ul>
+<li><strong>时间复杂度：O(n)</strong></li>
+<li><strong>空间复杂度：O(n)</strong></li>
+</ul>
+<h2 id="原地置换"><a href="#原地置换" class="headerlink" title="原地置换"></a>原地置换</h2><p>利用数组下标来匹配对应的元素，从前往后遍历数组，每个元素都要求下标与元素的值一一对应，如果在调换位置的过程中发现该位置的元素与别的位置的元素是相同的，那么就说明该数字重复，直接返回该数字</p>
+<pre><code class="java">class Solution {
+    public int findRepeatNumber(int[] nums) {
+
+        for (int i=0; i&lt;nums.length; i++) {
+            while (nums[i] != i) {
+                if (nums[i] == nums[nums[i]]) {
+                    return nums[i];
+                }    
+               swap(nums, i, nums[i]);
+            }
+        }
+        return -1;
+    }
+    private void swap(int[] nums, int a, int b) {
+        int temp = nums[a];
+        nums[a] = nums[b];
+        nums[b] = temp;
+    }
+}</code></pre>
+<ul>
+<li><strong>时间复杂度：O(n)</strong></li>
+<li><strong>空间复杂度：O(1)</strong></li>
+</ul>
+</div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2020-06-15</span><i class="fa fa-tag"></i><a class="tag" href="/categories/Leetcode/" title="Leetcode">Leetcode </a><a class="tag" href="/tags/Leetcode/" title="Leetcode">Leetcode </a><span class="leancloud_visitors"></span></div></div></div></div><div class="share"><div class="evernote"><a class="fa fa-bookmark" href="" onclick="javascript:join_favorite()" ref="sidebar"></a></div><div class="weibo"><a class="fa fa-weibo" href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&amp;title=',e(d.title),'&amp;appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a></div><div class="twitter"><a class="fa fa-twitter" href="http://twitter.com/home?status=,https://weizujie.vip/2020/06/15/【Leetcode】《剑指offer》数组中重复的数字/,Kaizen,【Leetcode】《剑指offer》数组中重复的数字,;" target="_blank" rel="noopener"></a></div></div><div class="pagination"><ul class="clearfix"><li class="pre pagbuttons"><a class="btn" role="navigation" href="/2020/06/17/%E3%80%90Java%E3%80%91%E8%B0%88%E8%B0%88Java%E4%B8%AD%E7%9A%84%E8%A6%86%E7%9B%96%E5%92%8C%E9%87%8D%E8%BD%BD/" title="【Java】谈谈Java中的覆盖和重载">上一篇</a></li><li class="next pagbuttons"><a class="btn" role="navigation" href="/2020/06/13/%E3%80%90%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E3%80%91%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8B%E6%A0%88/" title="【数据结构】数据结构之栈">下一篇</a></li></ul></div><script src="/js/visitors.js"></script></div></div></div></div><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/add-bookmark.js"></script><script src="/js/baidu-tongji.js"></script></body></html>

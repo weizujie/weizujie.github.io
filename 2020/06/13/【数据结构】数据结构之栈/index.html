@@ -1,0 +1,290 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="weizujie"><title>【数据结构】数据结构之栈 · Kaizen</title><meta name="description" content="什么是栈？
+想象一下，把栈当做一个装乒乓球的圆筒，一端是底，一端是口子。要想把乒乓球装入圆筒，就需要把乒乓球一个一个在口子放入；如果要想取出这些乒乓球，则需要从口子一个一个拿出来。放入乒乓球和取出乒乓球的顺序是相反的。先放入的乒乓球肯定是后取出，后放入的肯定是先取出。
+
+
+所以得出概念：栈(stac"><meta name="keywords" content="kaizen, blog"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><script src="/js/jquery.js"></script><meta name="generator" content="Hexo 4.2.1"></head><body><div class="sidebar animated fadeInDown"><div class="logo-title"><div class="title"><img src="/images/logo@2x.png" style="width:127px;"><h3 title=""><a href="/">Kaizen</a></h3><div class="description"><p>心之所愿，无事不成。<br> Nothing is impossible to a willing heart.</p></div></div></div><ul class="social-links"><li><a href="https://github.com/weizujie" target="_blank" rel="noopener"><i class="fa fa-github"></i></a></li><li><a href="byojiaoxianz7@outlook.com"><i class="fa fa-envelope"></i></a></li></ul><div class="footer"><div class="p"> <span>© 2017 - 2020 </span><i class="fa fa-star"></i><span> weizujie</span></div><div class="by_farbox"><span>Powered by </span><a href="https://hexo.io/zh-cn/" target="_blank">Hexo </a><span> & </span><a href="https://github.com/mrcore/hexo-theme-Anatole-Core" target="_blank">Anatole-Core  </a></div><div class="beian"><a href="http://www.beian.miit.gov.cn/" target="_blank"></a><span style="height:10px;margin-left: 10px;">|</span><img src="https://qn.jixian.io/gongan.png" style="height:10px;margin-left: 10px;position: relative;top: 1px;"><span style="margin-left: 2px;"></span></div></div></div><div class="main"><div class="page-top animated fadeInDown"><div class="nav"><li><a href="/">首页</a></li><li><a href="/archives">归档</a></li><li><a href="/tags">Tags</a></li><li><a href="/about">关于</a></li><li><a href="/guestbook">Guestbook</a></li></div><div class="information"><div class="back_btn"><li><a class="fa fa-chevron-left" onclick="window.history.go(-1)"> </a></li></div></div></div><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post animated fadeInDown"><div class="post-title"><h3><a>【数据结构】数据结构之栈</a></h3></div><div class="post-content"><p>什么是栈？</p>
+<p>想象一下，把栈当做一个装乒乓球的圆筒，一端是底，一端是口子。要想把乒乓球装入圆筒，就需要把乒乓球一个一个在口子放入；如果要想取出这些乒乓球，则需要从口子一个一个拿出来。放入乒乓球和取出乒乓球的顺序是相反的。先放入的乒乓球肯定是后取出，后放入的肯定是先取出。</p>
+<a id="more"></a>
+
+<p>所以得出概念：<strong>栈(stack)是一种线性数据结构，栈中的元素只能先入后出(First In Last Out, FILO)。最先放入栈的元素的位置叫栈底(bottom)，最后放入的元素的位置叫栈顶(top)</strong></p>
+<p>栈这种数据结构可以用数组实现，也可以用链表实现。</p>
+<h1 id="入栈-push"><a href="#入栈-push" class="headerlink" title="入栈(push)"></a>入栈(push)</h1><p>入栈操作就是把新元素放入栈中，只允许从栈顶放入，新元素的位置会成为新的栈顶，以数组为例：</p>
+<pre><code class="java">[ 1 , 2 , 3 , 4 ]</code></pre>
+<p>1 可以看做是栈底，则 4 就是栈顶，要想将新的元素入栈，则就要从 4 这个位置入栈</p>
+<pre><code class="java">[ 1 , 2 , 3 , 4 , 5]</code></pre>
+<p>新元素 5 入栈，会成为新的栈顶</p>
+<h1 id="出栈-pop"><a href="#出栈-pop" class="headerlink" title="出栈(pop)"></a>出栈(pop)</h1><p>出栈操作就是把元素从栈中弹出，只有栈顶的元素才能允许出栈，出栈元素的前一个元素会成为新的栈顶。</p>
+<pre><code class="java">[ 1 , 2 , 3 , 4 ]</code></pre>
+<p>还是把 1 看成栈底，4 看成栈顶，做出栈操作后，4 这个元素被弹出</p>
+<pre><code class="java">[ 1 , 2 , 3 ]</code></pre>
+<p>元素 3 变成新的栈顶</p>
+<h1 id="Java-用数组实现栈"><a href="#Java-用数组实现栈" class="headerlink" title="Java 用数组实现栈"></a>Java 用数组实现栈</h1><h2 id="Array"><a href="#Array" class="headerlink" title="Array"></a>Array</h2><pre><code class="java">/**
+ * @Author: weizujie
+ * @Date: 2020/5/4
+ * @Version: 1.0
+ * @Github: https://github.com/weizujie
+ */
+
+public class Array&lt;E&gt; {
+
+    private E[] data;
+    // 数组中元素的个数
+    // 指向数组中第一个没有元素的位置
+    private int size;
+
+    // 构造函数，传入数组的容量 capacity 构造 Array
+    public Array(int capacity) {
+        // data = new E[capacity];
+        data = (E[]) new Object[capacity];
+        size = 0;
+    }
+
+
+    // 无参构造，默认数组的容量为 10
+    public Array() {
+        this(10);
+    }
+
+
+    // 获取数组中的元素个数
+    public int getSize() {
+        return size;
+    }
+
+    // 获取数组的容量
+    public int getCapacity() {
+        return data.length;
+    }
+
+    // 返回数组是否为空
+    public boolean isEmpty() {
+        return size == 0;
+    }
+
+    // 向所有元素后添加一个新元素e
+    public void addLast(E e) {
+        add(size, e);
+    }
+
+    // 向所有元素前添加一个新元素e
+    public void addFirst(E e) {
+        add(0, e);
+    }
+
+    // 在第 index 个位置插入一个新元素 e
+    public void add(int index, E e) {
+
+        if (index &lt; 0 || index &gt; size) {
+            throw new IllegalArgumentException(&quot;需要 index &gt;=0 并且 index &lt;= size.&quot;);
+        }
+
+        if (size == data.length) {
+            // throw new IllegalArgumentException(&quot;数组已经满了&quot;);
+            // 数组扩容，旧数组的两倍
+            resize(2 * data.length);
+        }
+
+        // 从右到左遍历，逐个元素向右挪一位
+        for (int i = size - 1; i &gt;= index; i--) {
+            data[i + 1] = data[i];
+        }
+
+        data[index] = e;
+        size++;
+    }
+
+
+    // 获取 index 索引位置的元素
+    public E get(int index) {
+        if (index &lt; 0 || index &gt;= size) {
+            throw new IllegalArgumentException(&quot;Index 非法&quot;);
+        }
+        return data[index];
+    }
+
+    public E getLast() {
+        return get(size - 1);
+    }
+
+    // 修改 index 索引位置的元素为 e
+    void set(int index, E e) {
+        if (index &lt; 0 || index &gt;= size) {
+            throw new IllegalArgumentException(&quot;Index 非法&quot;);
+        }
+        data[index] = e;
+    }
+
+    // 查找数组中是否存在元素 e
+    public boolean contains(E e) {
+        for (int i = 0; i &lt; size; i++) {
+            // if (data[i] == e) {
+            if (data[i].equals(e)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // 查找元素中元素 e 所在的索引，如果不存在则返回 -1
+    public int find(E e) {
+        for (int i = 0; i &lt; size; i++) {
+            // if (data[i] == e) {
+            if (data[i].equals(e)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    // 从数组中删除 index 位置的元素，返回被删除的元素
+    public E remove(int index) {
+        if (index &lt; 0 || index &gt;= size) {
+            throw new IllegalArgumentException(&quot;Index 非法&quot;);
+        }
+
+        // 从 index 后一位开始，逐个向前挪一位
+        E ret = data[index];
+        for (int i = index + 1; i &lt; size; i++) {
+            data[i - 1] = data[i];
+        }
+
+        size--;
+        // 垃圾回收机制，不写这句也行
+        // loitering objects != memory leak
+        data[size] = null;
+
+        // 当数组删除到一定容量时，数组的容量缩小
+        if (size == data.length / 2) {
+            resize(data.length / 2);
+        }
+
+        return ret;
+    }
+
+    // 从数组中删除第一个元素
+    public E removeFirst() {
+        return remove(0);
+    }
+
+    // 从数组中删除最后一个元素
+    public E removeLast() {
+        return remove(size - 1);
+    }
+
+    // 从数组总删除元素 e
+    public void removeElement(E e) {
+        int index = find(e);
+        if (index != -1) {
+            remove(index);
+        }
+    }
+
+
+    @Override
+    public String toString() {
+        StringBuilder res = new StringBuilder();
+        res.append(String.format(&quot;元素的个数 = %d, 数组的容量 = %d \n&quot;, size, data.length));
+        res.append(&#39;[&#39;);
+        for (int i = 0; i &lt; size; i++) {
+            res.append(data[i]);
+            // 判断 i 是否为最后一个元素
+            if (i != size - 1) {
+                res.append(&quot;, &quot;);
+            }
+        }
+        res.append(&#39;]&#39;);
+        return res.toString();
+    }
+
+
+    // 私有方法，用户不能调用这个方法
+    private void resize(int newCapacity) {
+        E[] newData = (E[]) new Object[newCapacity];
+        for (int i = 0; i &lt; size; i++) {
+            newData[i] = data[i];
+        }
+        data = newData;
+    }
+
+}
+</code></pre>
+<h2 id="Stack-接口"><a href="#Stack-接口" class="headerlink" title="Stack 接口"></a>Stack 接口</h2><pre><code class="java">/**
+ * @Author: weizujie
+ * @Date: 2020/5/12
+ * @Version: 1.0
+ * @Github: https://github.com/weizujie
+ */
+public interface Stack&lt;E&gt; {
+    int getSize();
+
+    boolean isEmpty();
+
+    E pop();
+
+    E peek();
+}
+</code></pre>
+<h2 id="Stack-实现"><a href="#Stack-实现" class="headerlink" title="Stack 实现"></a>Stack 实现</h2><pre><code class="java">
+/**
+ * @Author: weizujie
+ * @Date: 2020/5/12
+ * @Version: 1.0
+ * @Github: https://github.com/weizujie
+ */
+public class ArrayStack&lt;E&gt; implements Stack&lt;E&gt; {
+
+
+    Array&lt;E&gt; array;
+
+
+    public ArrayStack() {
+        array = new Array&lt;E&gt;();
+    }
+
+    public ArrayStack(int capacity) {
+        array = new Array&lt;E&gt;(capacity);
+    }
+
+    public int getSize() {
+        return array.getSize();
+    }
+
+    public boolean isEmpty() {
+        return array.isEmpty();
+    }
+
+    public int getCapacity() {
+        return array.getCapacity();
+    }
+
+    public void push(E e) {
+        array.addLast(e);
+    }
+
+    public E pop() {
+        return array.removeLast();
+    }
+
+    public E peek() {
+        return array.getLast();
+    }
+
+
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(&quot;Stack: &quot;);
+        stringBuilder.append(&#39;[&#39;);
+        for (int i = 0; i &lt; array.getSize(); i++) {
+            stringBuilder.append(array.get(i));
+            if (i != array.getSize() - 1) {
+                stringBuilder.append(&quot;, &quot;);
+            }
+        }
+        stringBuilder.append(&quot;] top&quot;);
+        return stringBuilder.toString();
+    }
+}
+
+</code></pre>
+</div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2020-06-13</span><i class="fa fa-tag"></i><a class="tag" href="/categories/数据结构/" title="数据结构">数据结构 </a><a class="tag" href="/tags/数据结构/" title="数据结构">数据结构 </a><span class="leancloud_visitors"></span></div></div></div></div><div class="share"><div class="evernote"><a class="fa fa-bookmark" href="" onclick="javascript:join_favorite()" ref="sidebar"></a></div><div class="weibo"><a class="fa fa-weibo" href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&amp;title=',e(d.title),'&amp;appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a></div><div class="twitter"><a class="fa fa-twitter" href="http://twitter.com/home?status=,https://weizujie.vip/2020/06/13/【数据结构】数据结构之栈/,Kaizen,【数据结构】数据结构之栈,;" target="_blank" rel="noopener"></a></div></div><div class="pagination"><ul class="clearfix"><li class="pre pagbuttons"><a class="btn" role="navigation" href="/2020/06/15/%E3%80%90Leetcode%E3%80%91%E3%80%8A%E5%89%91%E6%8C%87offer%E3%80%8B%E6%95%B0%E7%BB%84%E4%B8%AD%E9%87%8D%E5%A4%8D%E7%9A%84%E6%95%B0%E5%AD%97/" title="【Leetcode】《剑指offer》数组中重复的数字">上一篇</a></li><li class="next pagbuttons"><a class="btn" role="navigation" href="/2020/06/12/%E3%80%90Leetcode%E3%80%91136.%E5%8F%AA%E5%87%BA%E7%8E%B0%E4%B8%80%E6%AC%A1%E7%9A%84%E6%95%B0%E5%AD%97/" title="【Leetcode】136.只出现一次的数字">下一篇</a></li></ul></div><script src="/js/visitors.js"></script></div></div></div></div><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/add-bookmark.js"></script><script src="/js/baidu-tongji.js"></script></body></html>

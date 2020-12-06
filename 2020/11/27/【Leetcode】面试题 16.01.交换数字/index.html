@@ -1,0 +1,41 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="weizujie"><title>【Leetcode】面试题 16.01. 交换数字 · Kaizen</title><meta name="description" content="编写一个函数，不用临时变量，直接交换numbers = [a, b]中a与b的值。
+
+
+示例：
+
+输入：numbers = [1, 2]输出：[2, 1]
+
+日常逛牛客网，看到了一道面试题，面试官让说一下：不用额外变量交换两个变量的值。
+这不是 Leetcode 上的原题吗？我做过。
+面试题 16."><meta name="keywords" content="kaizen, blog"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><script src="/js/jquery.js"></script><meta name="generator" content="Hexo 4.2.1"></head><body><div class="sidebar animated fadeInDown"><div class="logo-title"><div class="title"><img src="/images/logo@2x.png" style="width:127px;"><h3 title=""><a href="/">Kaizen</a></h3><div class="description"><p>心之所愿，无事不成。<br> Nothing is impossible to a willing heart.</p></div></div></div><ul class="social-links"><li><a href="https://github.com/weizujie" target="_blank" rel="noopener"><i class="fa fa-github"></i></a></li><li><a href="byojiaoxianz7@outlook.com"><i class="fa fa-envelope"></i></a></li></ul><div class="footer"><div class="p"> <span>© 2017 - 2020 </span><i class="fa fa-star"></i><span> weizujie</span></div><div class="by_farbox"><span>Powered by </span><a href="https://hexo.io/zh-cn/" target="_blank">Hexo </a><span> & </span><a href="https://github.com/mrcore/hexo-theme-Anatole-Core" target="_blank">Anatole-Core  </a></div><div class="beian"><a href="http://www.beian.miit.gov.cn/" target="_blank"></a><span style="height:10px;margin-left: 10px;">|</span><img src="https://qn.jixian.io/gongan.png" style="height:10px;margin-left: 10px;position: relative;top: 1px;"><span style="margin-left: 2px;"></span></div></div></div><div class="main"><div class="page-top animated fadeInDown"><div class="nav"><li><a href="/">首页</a></li><li><a href="/archives">归档</a></li><li><a href="/tags">Tags</a></li><li><a href="/about">关于</a></li><li><a href="/guestbook">Guestbook</a></li></div><div class="information"><div class="back_btn"><li><a class="fa fa-chevron-left" onclick="window.history.go(-1)"> </a></li></div></div></div><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post animated fadeInDown"><div class="post-title"><h3><a>【Leetcode】面试题 16.01. 交换数字</a></h3></div><div class="post-content"><p>编写一个函数，不用临时变量，直接交换numbers = [a, b]中a与b的值。</p>
+<a id="more"></a>
+
+<p>示例：</p>
+<blockquote>
+<p>输入：numbers = [1, 2]<br>输出：[2, 1]</p>
+</blockquote>
+<p>日常逛牛客网，看到了一道面试题，面试官让说一下：<strong>不用额外变量交换两个变量的值</strong>。</p>
+<p>这不是 Leetcode 上的原题吗？我做过。</p>
+<p><a href="https://leetcode-cn.com/problems/swap-numbers-lcci/" target="_blank" rel="noopener">面试题 16.01. 交换数字</a></p>
+<h2 id="异或"><a href="#异或" class="headerlink" title="异或"></a>异或</h2><p>我思考了一会儿，只会一种方法：<strong>异或</strong>（相同为零，不同为一）。</p>
+<p>代码如下： </p>
+<pre><code class="java">public int[] swapNumbers(int[] numbers) {
+    numbers[0] = numbers[0] ^ numbers[1];
+    numbers[1] = numbers[1] ^ numbers[0];
+    numbers[0] = numbers[0] ^ numbers[1];
+    return numbers;
+}</code></pre>
+<p>其他的方法也想不出来了，随后看了一眼题解，还有另外两种解法，也是用的<strong>位运算</strong>。</p>
+<h2 id="加法"><a href="#加法" class="headerlink" title="加法"></a>加法</h2><pre><code class="java">public int[] swapNumbers(int[] numbers) {
+    numbers[0] = numbers[0] + numbers[1];
+    numbers[1] = numbers[0] - numbers[1];
+    numbers[0] = numbers[0] - numbers[1];
+    return numbers;
+}</code></pre>
+<h2 id="减法"><a href="#减法" class="headerlink" title="减法"></a>减法</h2><pre><code class="java">public int[] swapNumbers(int[] numbers) {
+    numbers[0] = numbers[0] - numbers[1];
+    numbers[1] = numbers[0] + numbers[1];
+    numbers[0] = numbers[1] - numbers[0];
+    return numbers;
+}</code></pre>
+</div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2020-11-27</span><i class="fa fa-tag"></i><a class="tag" href="/categories/Leetcode/" title="Leetcode">Leetcode </a><a class="tag" href="/tags/Leetcode/" title="Leetcode">Leetcode </a><span class="leancloud_visitors"></span></div></div></div></div><div class="share"><div class="evernote"><a class="fa fa-bookmark" href="" onclick="javascript:join_favorite()" ref="sidebar"></a></div><div class="weibo"><a class="fa fa-weibo" href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&amp;title=',e(d.title),'&amp;appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a></div><div class="twitter"><a class="fa fa-twitter" href="http://twitter.com/home?status=,https://weizujie.vip/2020/11/27/【Leetcode】面试题 16.01.交换数字/,Kaizen,【Leetcode】面试题 16.01. 交换数字,;" target="_blank" rel="noopener"></a></div></div><div class="pagination"><ul class="clearfix"><li class="pre pagbuttons"><a class="btn" role="navigation" href="/2020/12/05/%E3%80%90Java%E3%80%91Shiro%E8%AF%A6%E8%A7%A3%E4%BB%A5%E5%8F%8A%E5%9C%A8SpringBoot%E4%B8%AD%E7%9A%84%E4%BD%BF%E7%94%A8/" title="【Java】Shiro详解以及在SpringBoot中的使用">上一篇</a></li><li class="next pagbuttons"><a class="btn" role="navigation" href="/2020/11/25/%E3%80%90JVM%E3%80%91Java%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F%E8%AF%A6%E8%A7%A3/" title="【JVM】Java内存区域详解">下一篇</a></li></ul></div><script src="/js/visitors.js"></script></div></div></div></div><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/add-bookmark.js"></script><script src="/js/baidu-tongji.js"></script></body></html>

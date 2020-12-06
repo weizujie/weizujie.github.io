@@ -1,0 +1,183 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="weizujie"><title>【Java】谈谈Java中的接口 · Kaizen</title><meta name="description" content="本文将介绍在 Java 语言中的接口。
+
+
+通俗点来说，接口就是方法的集合。
+接口的定义格式定义接口的格式：
+public interface 接口名称 {
+    // 接口内容
+}
+接口内容可以包含：
+JDK 1.7 中：
+
+常量
+抽象方法
+
+JDK 1.8 中：
+
+常量
+抽象方法
+默认方法
+静"><meta name="keywords" content="kaizen, blog"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><script src="/js/jquery.js"></script><meta name="generator" content="Hexo 4.2.1"></head><body><div class="sidebar animated fadeInDown"><div class="logo-title"><div class="title"><img src="/images/logo@2x.png" style="width:127px;"><h3 title=""><a href="/">Kaizen</a></h3><div class="description"><p>心之所愿，无事不成。<br> Nothing is impossible to a willing heart.</p></div></div></div><ul class="social-links"><li><a href="https://github.com/weizujie" target="_blank" rel="noopener"><i class="fa fa-github"></i></a></li><li><a href="byojiaoxianz7@outlook.com"><i class="fa fa-envelope"></i></a></li></ul><div class="footer"><div class="p"> <span>© 2017 - 2020 </span><i class="fa fa-star"></i><span> weizujie</span></div><div class="by_farbox"><span>Powered by </span><a href="https://hexo.io/zh-cn/" target="_blank">Hexo </a><span> & </span><a href="https://github.com/mrcore/hexo-theme-Anatole-Core" target="_blank">Anatole-Core  </a></div><div class="beian"><a href="http://www.beian.miit.gov.cn/" target="_blank"></a><span style="height:10px;margin-left: 10px;">|</span><img src="https://qn.jixian.io/gongan.png" style="height:10px;margin-left: 10px;position: relative;top: 1px;"><span style="margin-left: 2px;"></span></div></div></div><div class="main"><div class="page-top animated fadeInDown"><div class="nav"><li><a href="/">首页</a></li><li><a href="/archives">归档</a></li><li><a href="/tags">Tags</a></li><li><a href="/about">关于</a></li><li><a href="/guestbook">Guestbook</a></li></div><div class="information"><div class="back_btn"><li><a class="fa fa-chevron-left" onclick="window.history.go(-1)"> </a></li></div></div></div><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post animated fadeInDown"><div class="post-title"><h3><a>【Java】谈谈Java中的接口</a></h3></div><div class="post-content"><p>本文将介绍在 Java 语言中的接口。</p>
+<a id="more"></a>
+
+<p>通俗点来说，接口就是<strong>方法的集合</strong>。</p>
+<h2 id="接口的定义格式"><a href="#接口的定义格式" class="headerlink" title="接口的定义格式"></a>接口的定义格式</h2><p>定义接口的格式：</p>
+<pre><code class="java">public interface 接口名称 {
+    // 接口内容
+}</code></pre>
+<p>接口内容可以包含：</p>
+<p>JDK 1.7 中：</p>
+<ul>
+<li>常量</li>
+<li>抽象方法</li>
+</ul>
+<p>JDK 1.8 中：</p>
+<ul>
+<li>常量</li>
+<li>抽象方法</li>
+<li>默认方法</li>
+<li>静态方法</li>
+</ul>
+<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><ul>
+<li>接口中是没有静态代码块或者构造方法的</li>
+<li>一个类的直接父类是唯一的，但是一个类可以实现多个接口</li>
+</ul>
+<h2 id="接口中抽象方法的定义格式"><a href="#接口中抽象方法的定义格式" class="headerlink" title="接口中抽象方法的定义格式"></a>接口中抽象方法的定义格式</h2><p>接口的抽象方法定义格式如下：</p>
+<pre><code class="java">public abstract void 方法名称();</code></pre>
+<p>如果使用的是 IDEA 进行开发，那么会看到方法 method 的修饰符 <code>public abstract</code> 是灰色的，这是因为：在接口中，抽象方法的修饰符默认是 <code>public abstract</code>，所以我们可以省略这两个修饰符：</p>
+<pre><code class="java">void 方法名称();</code></pre>
+<p>也可以省略一个：</p>
+<pre><code class="java">public void 方法名称1();
+abstract void 方法名称2();</code></pre>
+<h3 id="抽象方法的使用"><a href="#抽象方法的使用" class="headerlink" title="抽象方法的使用"></a>抽象方法的使用</h3><p>接口不能直接使用，必须有一个类来实现这个接口，这个类必须实现（覆盖重写）接口中的所有抽象方法。</p>
+<p>定义一个接口 <code>MyInterfaceAbstract</code>：</p>
+<pre><code class="java">public interface MyInterfaceAbstract {
+    public abstract void method();
+}</code></pre>
+<p>定义一个实现类 <code>MyInterfaceAbstractImpl</code>：</p>
+<pre><code class="java">public class MyInterfaceAbstractImpl implements MyInterfaceAbstract {
+    @Override
+    public void method() {
+        System.out.println(&quot;这是抽象方法&quot;);
+    }
+}</code></pre>
+<p>创建实现类的对象进行使用：</p>
+<pre><code class="java">public class Main {
+    public static void main(String[] args) {
+        MyInterfaceAbstractImpl myInterfaceAbstract = new MyInterfaceAbstractImpl();
+        myInterfaceAbstract.method();
+    }
+}</code></pre>
+<p>输出结果为：</p>
+<blockquote>
+<p>  这是抽象方法</p>
+</blockquote>
+<h3 id="注意事项-1"><a href="#注意事项-1" class="headerlink" title="注意事项"></a>注意事项</h3><ul>
+<li><p>不能直接 new 接口的对象，而是 new 实现类的对象</p>
+</li>
+<li><p>如果实现类里没有实现接口中的所有抽象方法，那么这个实现类自己就必须是抽象类。</p>
+</li>
+</ul>
+<h2 id="接口中默认方法的定义格式"><a href="#接口中默认方法的定义格式" class="headerlink" title="接口中默认方法的定义格式"></a>接口中默认方法的定义格式</h2><p>从 JDK 8 开始，接口里允许定义默认方法，<strong>可以有方法体</strong>。</p>
+<p>接口的默认方法定义格式如下：</p>
+<pre><code class="java">public default 返回值类型 方法名称(参数列表) {
+    方法体...
+}</code></pre>
+<h3 id="默认方法的使用"><a href="#默认方法的使用" class="headerlink" title="默认方法的使用"></a>默认方法的使用</h3><p>假设有一个这样的场景：</p>
+<ul>
+<li><p>有一个接口 <code>MyInterfaceDefault</code>，这个接口有一个抽象方法 <code>method</code>，同样的，在 IDEA 里修饰符 <code>public</code> 是灰色的，可以省略：</p>
+<pre><code class="java">public interface MyInterfaceDefault {
+    public abstract void method();
+}</code></pre>
+</li>
+<li><p>有两个类实现了这个接口，分别是 <code>MyInterfaceDefaultA</code> 和 <code>MyInterfaceDefaultB</code> ：</p>
+<pre><code class="java">public class MyInterfaceDefaultA implements MyInterfaceDefault {
+    @Override
+    public void method() {
+        System.out.println(&quot;抽象方法,AAAAAA&quot;);
+    }
+}</code></pre>
+<pre><code class="java">public class MyInterfaceDefaultA implements MyInterfaceDefault {
+    @Override
+    public void method() {
+        System.out.println(&quot;抽象方法,BBBBBB&quot;);
+    }
+}</code></pre>
+</li>
+</ul>
+<p>这时候我想在接口中添加一个新的方法 <code>method2</code> ，但是如果添加了这个方法，就得在两个实现类里再实现这个方法，非常麻烦。</p>
+<p>如何解决这个问题？定一个默认方法（JDK 1.8 版本及以上）：</p>
+<pre><code class="java">public interface MyInterfaceDefault {
+    public abstract void method();
+    // 添加一个默认方法
+    public default void method2() {
+        // 方法体
+        System.out.println(&quot;我是默认方法&quot;);
+    }
+}</code></pre>
+<p>这样的话就不用在实现类里实现这个方法了，就很棒~</p>
+<h3 id="注意事项-2"><a href="#注意事项-2" class="headerlink" title="注意事项"></a>注意事项</h3><ul>
+<li>默认方法可以通过接口实现类对象，直接调用</li>
+<li>也可以被接口实现类进行覆盖重写</li>
+</ul>
+<h2 id="接口中静态方法的定义格式"><a href="#接口中静态方法的定义格式" class="headerlink" title="接口中静态方法的定义格式"></a>接口中静态方法的定义格式</h2><p>从 JDK 8 开始，接口里允许定义静态方法，<strong>也有方法体</strong>。</p>
+<p>定义格式如下：</p>
+<pre><code class="java">public static 返回值类型 方法名称(参数列表) {
+    方法体...
+}</code></pre>
+<h3 id="静态方法的使用"><a href="#静态方法的使用" class="headerlink" title="静态方法的使用"></a>静态方法的使用</h3><p>首先定一个接口 <code>MyInterfaceStatic</code>，里面有一个静态方法，如果使用的是 IDEA 进行开发，修饰符 <code>public</code> 也可以省略：</p>
+<pre><code class="java">public interface MyInterfaceStatic {
+    public static void method() {
+        System.out.println(&quot;我是静态方法&quot;);
+    }
+}</code></pre>
+<p>直接在类中使用即可，不用再定一个接口实现类：</p>
+<pre><code class="java">public class Main {
+    public static void main(String[] args) {
+        // 接口名称.方法名称();
+        MyInterfaceStatic.method();
+    }
+}</code></pre>
+<p>输出结果：</p>
+<blockquote>
+<p>  我是静态方法</p>
+</blockquote>
+<h3 id="注意事项-3"><a href="#注意事项-3" class="headerlink" title="注意事项"></a>注意事项</h3><ul>
+<li>不能通过接口实现类的对象来调用接口当中的静态方法</li>
+<li><strong>通过接口名称，直接调用其中的静态方法</strong></li>
+<li>仅限于 JDK 版本在 1.8 及以上</li>
+</ul>
+<h2 id="接口中常量的定义格式"><a href="#接口中常量的定义格式" class="headerlink" title="接口中常量的定义格式"></a>接口中常量的定义格式</h2><p>接口当中也可以定义”成员变量”，但必须通过 <code>public static final</code> 这三个关键字进行修饰，从效果上看，这其实就是接口的常量。</p>
+<p>接口的常量定义格式如下：</p>
+<pre><code class="java">public static final 数据类型 常量名称 = 数据值;</code></pre>
+<p>一旦使用 <code>final</code> 关键字进行修饰，就说明<strong>不可改变</strong>。</p>
+<p>这其实就是一个常量，一旦赋值，就不可以更改。</p>
+<h3 id="常量的使用"><a href="#常量的使用" class="headerlink" title="常量的使用"></a>常量的使用</h3><p>定义一个接口 <code>MyInterfaceConst</code>，如果使用 IDEA 进行开发， <code>public static final</code> 是灰色的，代表可以省略：</p>
+<pre><code class="java">public interface MyInterfaceConst {
+    public static final int NUM = 10;
+}</code></pre>
+<p>跟静态方法一样，直接在类中使用即可：</p>
+<pre><code class="java">public class Main {
+    public static void main(String[] args) {
+        System.out.println(MyInterfaceConst.NUM);
+    }
+}</code></pre>
+<p>输出结果：</p>
+<blockquote>
+<p>  10</p>
+</blockquote>
+<h3 id="注意事项-4"><a href="#注意事项-4" class="headerlink" title="注意事项"></a>注意事项</h3><ul>
+<li><strong>接口当中的常量，必须进行赋值</strong></li>
+<li>常量名称按照习惯使用大写字母，用下划线进行分隔</li>
+</ul>
+<h2 id="多个接口的实现"><a href="#多个接口的实现" class="headerlink" title="多个接口的实现"></a>多个接口的实现</h2><p>多个接口实现的格式：</p>
+<pre><code class="java">public class MyInterfaceImpl implements MyInterfaceA, MyInterfaceB {
+    // 覆盖重写所有抽象方法（接口 A 的和接口 B 的）
+}</code></pre>
+<p><img src="https://wx2.sbimg.cn/2020/06/19/Snipaste_2020-06-19_19-02-40.png" alt="Snipaste_2020-06-19_19-02-40.png"></p>
+<h3 id="注意事项-5"><a href="#注意事项-5" class="headerlink" title="注意事项"></a>注意事项</h3><ul>
+<li>如果实现类所实现的多个接口中，存在重复的<strong>抽象方法</strong>，那么只需要覆盖重写一次即可</li>
+<li>如果实现类所实现的多个接口中，存在重复的<strong>默认方法</strong>，那么实现类一定要对冲突的默认方法进行覆盖重写</li>
+<li>一个类的父类当中的方法和接口当中的默认方法产生冲突的话，优先用父类中的方法（<strong>父类优先，接口其次</strong>）</li>
+</ul>
+</div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2020-06-19</span><i class="fa fa-tag"></i><a class="tag" href="/categories/Java/" title="Java">Java </a><a class="tag" href="/tags/Java/" title="Java">Java </a><span class="leancloud_visitors"></span></div></div></div></div><div class="share"><div class="evernote"><a class="fa fa-bookmark" href="" onclick="javascript:join_favorite()" ref="sidebar"></a></div><div class="weibo"><a class="fa fa-weibo" href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&amp;title=',e(d.title),'&amp;appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a></div><div class="twitter"><a class="fa fa-twitter" href="http://twitter.com/home?status=,https://weizujie.vip/2020/06/19/【Java】谈谈Java中的接口/,Kaizen,【Java】谈谈Java中的接口,;" target="_blank" rel="noopener"></a></div></div><div class="pagination"><ul class="clearfix"><li class="pre pagbuttons"><a class="btn" role="navigation" href="/2020/06/20/%E3%80%90Java%E3%80%91%E8%B0%88%E8%B0%88Java%E4%B8%AD%E7%9A%84%E5%A4%9A%E6%80%81/" title="【Java】谈谈Java中的多态">上一篇</a></li><li class="next pagbuttons"><a class="btn" role="navigation" href="/2020/06/17/%E3%80%90Java%E3%80%91%E8%B0%88%E8%B0%88Java%E4%B8%AD%E7%9A%84%E8%A6%86%E7%9B%96%E5%92%8C%E9%87%8D%E8%BD%BD/" title="【Java】谈谈Java中的覆盖和重载">下一篇</a></li></ul></div><script src="/js/visitors.js"></script></div></div></div></div><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/add-bookmark.js"></script><script src="/js/baidu-tongji.js"></script></body></html>

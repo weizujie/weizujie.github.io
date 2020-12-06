@@ -1,273 +1,57 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8">
-    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
-    <title>Kaizen</title>
-    
-<link rel="stylesheet" href="/css/style.css">
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="weizujie"><title>Kaizen</title><meta name="description" content="心之所愿，无事不成。&lt;br&gt; Nothing is impossible to a willing heart."><meta name="keywords" content="kaizen, blog"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><script src="/js/jquery.js"></script><meta name="generator" content="Hexo 4.2.1"></head><body><div class="sidebar animated fadeInDown"><div class="logo-title"><div class="title"><img src="/images/logo@2x.png" style="width:127px;"><h3 title=""><a href="/">Kaizen</a></h3><div class="description"><p>心之所愿，无事不成。<br> Nothing is impossible to a willing heart.</p></div></div></div><ul class="social-links"><li><a href="https://github.com/weizujie" target="_blank" rel="noopener"><i class="fa fa-github"></i></a></li><li><a href="byojiaoxianz7@outlook.com"><i class="fa fa-envelope"></i></a></li></ul><div class="footer"><div class="p"> <span>© 2017 - 2020 </span><i class="fa fa-star"></i><span> weizujie</span></div><div class="by_farbox"><span>Powered by </span><a href="https://hexo.io/zh-cn/" target="_blank">Hexo </a><span> & </span><a href="https://github.com/mrcore/hexo-theme-Anatole-Core" target="_blank">Anatole-Core  </a></div><div class="beian"><a href="http://www.beian.miit.gov.cn/" target="_blank"></a><span style="height:10px;margin-left: 10px;">|</span><img src="https://qn.jixian.io/gongan.png" style="height:10px;margin-left: 10px;position: relative;top: 1px;"><span style="margin-left: 2px;"></span></div></div></div><div class="main"><div class="page-top animated fadeInDown"><div class="nav"><li><a class="current" href="/">首页</a></li><li><a href="/archives">归档</a></li><li><a href="/tags">Tags</a></li><li><a href="/about">关于</a></li><li><a href="/guestbook">Guestbook</a></li></div><div class="information"><div class="back_btn"><li><a class="fa fa-chevron-left" onclick="window.history.go(-1)" style="display:none;"> </a></li></div></div></div><div class="autopagerize_page_element"><div class="content"><div class="post animated fadeInDown"><div class="post-title"><h3><a href="/2020/12/05/%E3%80%90Java%E3%80%91Shiro%E8%AF%A6%E8%A7%A3%E4%BB%A5%E5%8F%8A%E5%9C%A8SpringBoot%E4%B8%AD%E7%9A%84%E4%BD%BF%E7%94%A8/">【Java】Shiro详解以及在SpringBoot中的使用</a></h3></div><div class="post-content"><p>本文介绍 Shiro 以及在 SpringBoot 中的使用。
 
-    
-<link rel="stylesheet" href="/css/gitment.css">
 
-    <link rel="stylesheet" type="text/css" href="//at.alicdn.com/t/font_859455_eaq7v6w8ktj.css">
-<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="Kaizen" type="application/atom+xml">
-</head>
-<body>
-<header class="header">
-    <div class="header-inner">
-        <div class="header-title">
+Shiro 简介
+Apache Shiro 是一个强大易用的 Java 安全框架，提供了认证、授权、加密和会话管理等功能，对于任何一个应用程序，Shiro 都可以提供全面的安全管理服务。
 
-        </div>
-        <nav class="header-nav">
-            
-            <a href="/" class="header-nav-link" >
-                首页
-            </a>
-            
+</p></div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2020-12-05</span><i class="fa fa-tag"></i><a class="tag" href="/categories/Java/" title="Java">Java </a><a class="tag" href="/tags/Java/" title="Java">Java </a><span class="leancloud_visitors"></span></div></div></div></div><div class="post animated fadeInDown"><div class="post-title"><h3><a href="/2020/11/27/%E3%80%90Leetcode%E3%80%91%E9%9D%A2%E8%AF%95%E9%A2%98%2016.01.%E4%BA%A4%E6%8D%A2%E6%95%B0%E5%AD%97/">【Leetcode】面试题 16.01. 交换数字</a></h3></div><div class="post-content"><p>编写一个函数，不用临时变量，直接交换numbers = [a, b]中a与b的值。
 
-            
-            <a href="/archives" class="header-nav-link">
-                归档
-            </a>
-            
 
-            
-            <a href="/tags" class="header-nav-link">
-                标签
-            </a>
-            
+示例：
 
-            
-            <a href="/about/" class="header-nav-link">
-                关于
-            </a>
-            
-        </nav>
-    </div>
-</header>
-<header class="mobile-header">
-    <div class="mobile-nav">
-        <div class="mobile-nav-icon">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-        <div class="mobile-nav-title">
-            <a href="/" class="mobile-nav-title-link">Kaizen's Blog</a>
-        </div>
+输入：numbers = [1, 2]输出：[2, 1]
 
-    </div>
-    <nav class="mobile-menu">
-        <ul class="mobile-menu-list">
-            <li class="mobile-menu-item">
-                <i class="iconfont icon-home"></i>
-                <a href="/" class="mobile-nav-link">首页</a>
-            </li>
-            <li class="mobile-menu-item">
-                <i class="iconfont icon-archive"></i>
-                <a href="/archives" class="mobile-nav-link">归档</a>
-            </li>
-            <li class="mobile-menu-item">
-                <i class="iconfont icon-tag"></i>
-                <a href="/tags" class="mobile-nav-link">标签</a>
-            </li>
-            <li class="mobile-menu-item">
-                <i class="iconfont icon-about"></i>
-                <a href="/about/" class="mobile-nav-link">关于</a>
-            </li>
-        </ul>
-    </nav>
-</header>
-<div class="main">
-    <div class="content-inner">
-        <div class="posts">
-    
-        <article class="post-abstract">
-            <div class="post-title">
-                <h2><a class="post-title-link" href="/2020/12/05/%E3%80%90Java%E3%80%91Shiro%E8%AF%A6%E8%A7%A3%E4%BB%A5%E5%8F%8A%E5%9C%A8SpringBoot%E4%B8%AD%E7%9A%84%E4%BD%BF%E7%94%A8/">【Java】Shiro详解以及在SpringBoot中的使用</a></h2>
-            </div>
-            <div class="post-meta">
-                <span class="post-time">2020-12-05</span>
-                
-                <span class="post-category">
-                    
-                    <a class="category" href="/categories/Java/">Java</a>
-                    
-                </span>
-                
-            </div>
-            <div class="post-content">
-                
-                    <p>本文介绍 Shiro 以及在 SpringBoot 中的使用。</p>
-                    <div class="read-more">
-                        <a href="/2020/12/05/%E3%80%90Java%E3%80%91Shiro%E8%AF%A6%E8%A7%A3%E4%BB%A5%E5%8F%8A%E5%9C%A8SpringBoot%E4%B8%AD%E7%9A%84%E4%BD%BF%E7%94%A8/" class="read-more-link">
-                            阅读全文
-                            <i class="iconfont icon-readmore"></i>
-                        </a>
-                    </div>
-                
-            </div>
-        </article>
-    
-        <article class="post-abstract">
-            <div class="post-title">
-                <h2><a class="post-title-link" href="/2020/11/27/%E3%80%90Leetcode%E3%80%91%E9%9D%A2%E8%AF%95%E9%A2%98%2016.01.%E4%BA%A4%E6%8D%A2%E6%95%B0%E5%AD%97/">【Leetcode】面试题 16.01. 交换数字</a></h2>
-            </div>
-            <div class="post-meta">
-                <span class="post-time">2020-11-27</span>
-                
-                <span class="post-category">
-                    
-                    <a class="category" href="/categories/Leetcode/">Leetcode</a>
-                    
-                </span>
-                
-            </div>
-            <div class="post-content">
-                
-                    <p>编写一个函数，不用临时变量，直接交换numbers = [a, b]中a与b的值。</p>
-                    <div class="read-more">
-                        <a href="/2020/11/27/%E3%80%90Leetcode%E3%80%91%E9%9D%A2%E8%AF%95%E9%A2%98%2016.01.%E4%BA%A4%E6%8D%A2%E6%95%B0%E5%AD%97/" class="read-more-link">
-                            阅读全文
-                            <i class="iconfont icon-readmore"></i>
-                        </a>
-                    </div>
-                
-            </div>
-        </article>
-    
-        <article class="post-abstract">
-            <div class="post-title">
-                <h2><a class="post-title-link" href="/2020/11/25/%E3%80%90JVM%E3%80%91Java%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F%E8%AF%A6%E8%A7%A3/">【JVM】Java内存区域详解</a></h2>
-            </div>
-            <div class="post-meta">
-                <span class="post-time">2020-11-25</span>
-                
-                <span class="post-category">
-                    
-                    <a class="category" href="/categories/JVM/">JVM</a>
-                    
-                </span>
-                
-            </div>
-            <div class="post-content">
-                
-                    <p>本文将介绍了 Java 虚拟机内存的各个区域以及这些区域的作用、服务对象和其中可能出现的异常等。</p>
-                    <div class="read-more">
-                        <a href="/2020/11/25/%E3%80%90JVM%E3%80%91Java%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F%E8%AF%A6%E8%A7%A3/" class="read-more-link">
-                            阅读全文
-                            <i class="iconfont icon-readmore"></i>
-                        </a>
-                    </div>
-                
-            </div>
-        </article>
-    
-        <article class="post-abstract">
-            <div class="post-title">
-                <h2><a class="post-title-link" href="/2020/06/20/%E3%80%90Java%E3%80%91%E8%B0%88%E8%B0%88Java%E4%B8%AD%E7%9A%84%E5%A4%9A%E6%80%81/">【Java】谈谈Java中的多态</a></h2>
-            </div>
-            <div class="post-meta">
-                <span class="post-time">2020-06-20</span>
-                
-                <span class="post-category">
-                    
-                    <a class="category" href="/categories/Java/">Java</a>
-                    
-                </span>
-                
-            </div>
-            <div class="post-content">
-                
-                    <p>本文将介绍 Java 语言中面向对象的多态性。</p>
-                    <div class="read-more">
-                        <a href="/2020/06/20/%E3%80%90Java%E3%80%91%E8%B0%88%E8%B0%88Java%E4%B8%AD%E7%9A%84%E5%A4%9A%E6%80%81/" class="read-more-link">
-                            阅读全文
-                            <i class="iconfont icon-readmore"></i>
-                        </a>
-                    </div>
-                
-            </div>
-        </article>
-    
-        <article class="post-abstract">
-            <div class="post-title">
-                <h2><a class="post-title-link" href="/2020/06/19/%E3%80%90Java%E3%80%91%E8%B0%88%E8%B0%88Java%E4%B8%AD%E7%9A%84%E6%8E%A5%E5%8F%A3/">【Java】谈谈Java中的接口</a></h2>
-            </div>
-            <div class="post-meta">
-                <span class="post-time">2020-06-19</span>
-                
-                <span class="post-category">
-                    
-                    <a class="category" href="/categories/Java/">Java</a>
-                    
-                </span>
-                
-            </div>
-            <div class="post-content">
-                
-                    <p>本文将介绍在 Java 语言中的接口。</p>
-                    <div class="read-more">
-                        <a href="/2020/06/19/%E3%80%90Java%E3%80%91%E8%B0%88%E8%B0%88Java%E4%B8%AD%E7%9A%84%E6%8E%A5%E5%8F%A3/" class="read-more-link">
-                            阅读全文
-                            <i class="iconfont icon-readmore"></i>
-                        </a>
-                    </div>
-                
-            </div>
-        </article>
-    
-</div>
-<div class="paginator">
-    
-        
-        
-        <a class="next" href="/page/2/">
-            下一页
-            <i class="iconfont icon-next"></i>
-        </a>
-        
-    
-</div>
+日常逛牛客网，看到了一道面试题，面试官让说一下：不用额外变量交换两个变量的值。
+这不是 Leetcode 上的原题吗？我做过。
+面试题 16.01. 交换数...</p></div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2020-11-27</span><i class="fa fa-tag"></i><a class="tag" href="/categories/Leetcode/" title="Leetcode">Leetcode </a><a class="tag" href="/tags/Leetcode/" title="Leetcode">Leetcode </a><span class="leancloud_visitors"></span></div></div></div></div><div class="post animated fadeInDown"><div class="post-title"><h3><a href="/2020/11/25/%E3%80%90JVM%E3%80%91Java%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F%E8%AF%A6%E8%A7%A3/">【JVM】Java内存区域详解</a></h3></div><div class="post-content"><p>本文将介绍了 Java 虚拟机内存的各个区域以及这些区域的作用、服务对象和其中可能出现的异常等。
 
-    </div>
-</div>
-<footer class="footer-social">
-    
-    <a class="social-link" target="_blank" href="https://github.com/weizujie">
-        <i class="iconfont icon-github"></i>
-    </a>
-    
 
-    
+JVM 运行时数据区域Java 虚拟机在执行 Java 程序的过程中会把它所管理的内存划分为五个不同的数据区域（如图所示）。
 
-    
 
-    <div class="footer-copyright">
-        <p class="time-line">
-            &copy;
-            
-            
-            2020
-            &nbsp;<i class="iconfont icon-heart"></i>&nbsp;
-            <a target="_blank" href="https://github.com/iJinxin">Kaizen</a>
-        </p>
-        <p class="theme-info">
-            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme -
-            <a target="_blank" href="https://github.com/iJinxin/hexo-theme-sky">Sky</a>
-        </p>
-    </div>
-</footer>
-</body>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+红色边框的是由所有线程共享的数据区
+蓝色边框的是线程隔离的数据区
 
-<script src="/js/index.js"></script>
+除了程序计数器...</p></div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2020-11-25</span><i class="fa fa-tag"></i><a class="tag" href="/categories/JVM/" title="JVM">JVM </a><a class="tag" href="/tags/JVM/" title="JVM">JVM </a><span class="leancloud_visitors"></span></div></div></div></div><div class="post animated fadeInDown"><div class="post-title"><h3><a href="/2020/06/20/%E3%80%90Java%E3%80%91%E8%B0%88%E8%B0%88Java%E4%B8%AD%E7%9A%84%E5%A4%9A%E6%80%81/">【Java】谈谈Java中的多态</a></h3></div><div class="post-content"><p>本文将介绍 Java 语言中面向对象的多态性。
 
-<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
-<script>
-    
 
-</script>
-</html>
+多态是同一个行为具有多个不同的表现形态或形式的能力。
+比如：
+
+  小阿 giao，他是一名主播，同样也是一个人。
+  小阿 giao 是一个对象，
+  这个对象既有主播形态，也有人类形态。
+
+一个对象，拥有多种形态，这就是对象的多态性。
+多态在代码中的体现如何...</p></div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2020-06-20</span><i class="fa fa-tag"></i><a class="tag" href="/categories/Java/" title="Java">Java </a><a class="tag" href="/tags/Java/" title="Java">Java </a><span class="leancloud_visitors"></span></div></div></div></div><div class="post animated fadeInDown"><div class="post-title"><h3><a href="/2020/06/19/%E3%80%90Java%E3%80%91%E8%B0%88%E8%B0%88Java%E4%B8%AD%E7%9A%84%E6%8E%A5%E5%8F%A3/">【Java】谈谈Java中的接口</a></h3></div><div class="post-content"><p>本文将介绍在 Java 语言中的接口。
+
+
+通俗点来说，接口就是方法的集合。
+接口的定义格式定义接口的格式：
+public interface 接口名称 {
+    // 接口内容
+}
+接口内容可以包含：
+JDK 1.7 中：
+
+常量
+抽象方法
+
+JDK 1.8 中：
+
+常量
+抽象方法
+默认方法
+静态方法
+
+注意...</p></div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2020-06-19</span><i class="fa fa-tag"></i><a class="tag" href="/categories/Java/" title="Java">Java </a><a class="tag" href="/tags/Java/" title="Java">Java </a><span class="leancloud_visitors"></span></div></div></div></div><div class="pagination"><ul class="clearfix"><li class="next pagbuttons"><a class="btn" role="navigation" href="/page/2/">下一页</a></li></ul></div></div></div></div><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/add-bookmark.js"></script><script src="/js/baidu-tongji.js"></script></body></html>

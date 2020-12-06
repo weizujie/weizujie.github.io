@@ -1,0 +1,39 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="weizujie"><title>【折腾笔记】使用Pagehelper遇到的一些坑 · Kaizen</title><meta name="description" content="自己在使用 Pagehelper 分页插件的时候遇到的一些坑，记录一下。
+
+
+1. 永远获取到第一页数据url输入: http://localhost:8082/user/list?page=2
+还是获取到第一页
+==&amp;gt;  Preparing: SELECT count(0) FROM sys"><meta name="keywords" content="kaizen, blog"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><script src="/js/jquery.js"></script><meta name="generator" content="Hexo 4.2.1"></head><body><div class="sidebar animated fadeInDown"><div class="logo-title"><div class="title"><img src="/images/logo@2x.png" style="width:127px;"><h3 title=""><a href="/">Kaizen</a></h3><div class="description"><p>心之所愿，无事不成。<br> Nothing is impossible to a willing heart.</p></div></div></div><ul class="social-links"><li><a href="https://github.com/weizujie" target="_blank" rel="noopener"><i class="fa fa-github"></i></a></li><li><a href="byojiaoxianz7@outlook.com"><i class="fa fa-envelope"></i></a></li></ul><div class="footer"><div class="p"> <span>© 2017 - 2020 </span><i class="fa fa-star"></i><span> weizujie</span></div><div class="by_farbox"><span>Powered by </span><a href="https://hexo.io/zh-cn/" target="_blank">Hexo </a><span> & </span><a href="https://github.com/mrcore/hexo-theme-Anatole-Core" target="_blank">Anatole-Core  </a></div><div class="beian"><a href="http://www.beian.miit.gov.cn/" target="_blank"></a><span style="height:10px;margin-left: 10px;">|</span><img src="https://qn.jixian.io/gongan.png" style="height:10px;margin-left: 10px;position: relative;top: 1px;"><span style="margin-left: 2px;"></span></div></div></div><div class="main"><div class="page-top animated fadeInDown"><div class="nav"><li><a href="/">首页</a></li><li><a href="/archives">归档</a></li><li><a href="/tags">Tags</a></li><li><a href="/about">关于</a></li><li><a href="/guestbook">Guestbook</a></li></div><div class="information"><div class="back_btn"><li><a class="fa fa-chevron-left" onclick="window.history.go(-1)"> </a></li></div></div></div><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post animated fadeInDown"><div class="post-title"><h3><a>【折腾笔记】使用Pagehelper遇到的一些坑</a></h3></div><div class="post-content"><p>自己在使用 Pagehelper 分页插件的时候遇到的一些坑，记录一下。</p>
+<a id="more"></a>
+
+<h1 id="1-永远获取到第一页数据"><a href="#1-永远获取到第一页数据" class="headerlink" title="1. 永远获取到第一页数据"></a>1. 永远获取到第一页数据</h1><p>url输入: <a href="http://localhost:8082/user/list?page=2" target="_blank" rel="noopener">http://localhost:8082/user/list?page=2</a></p>
+<p>还是获取到第一页</p>
+<pre><code>==&gt;  Preparing: SELECT count(0) FROM sys_user 
+==&gt; Parameters: 
+&lt;==    Columns: count(0)
+&lt;==        Row: 9
+&lt;==      Total: 1
+==&gt;  Preparing: select * from sys_user LIMIT ? 
+==&gt; Parameters: 5(Integer)
+&lt;==    Columns: id, username, password
+&lt;==        Row: 1, admin, admin
+&lt;==        Row: 2, giao, giao
+&lt;==        Row: 3, 123, 123
+&lt;==        Row: 4, 1231321, 21312312
+&lt;==        Row: 5, 1231321, 31231231
+&lt;==      Total: 5</code></pre><p>看前端代码，参数 page 传入的是当前页 + 1，正确结果返回的数据应该是第二页，但是只查询到了 0, 5 条数据</p>
+<pre><code class="html">&lt;div&gt;
+    &lt;a th:if=&quot;${pageInfo.hasNextPage}&quot; th:href=&quot;@{&#39;/user/list?page=&#39;+${pageInfo.pageNum + 1}}&quot;&gt; 下一页&lt;/a&gt;
+&lt;/div&gt;</code></pre>
+<p>我想问题应该出在后端逻辑上，看代码</p>
+<pre><code class="java">@RequestMapping(value = &quot;/list&quot;, method = RequestMethod.GET)
+public String toUserList(@RequestParam(name = &quot;pageNum&quot;,defaultValue = &quot;1&quot;) Integer pageNum, Model model) {
+    PageHelper.startPage(pageNum, 5);
+    List&lt;User&gt; userList = userService.findAll();
+    PageInfo&lt;User&gt; pageInfo = new PageInfo&lt;&gt;(userList, 5);
+    model.addAttribute(&quot;pageInfo&quot;, pageInfo);
+    return &quot;user/user_list&quot;;
+}</code></pre>
+<p>问题出在哪一目了然，方法 toUserList 参数中 @RequestParam 的 name 是 pageNum，而在前端代码中却是 page</p>
+<p>所以该前端代码或者后端代码都行，只要参数名相同都能正确获取数据</p>
+</div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2020-04-19</span><i class="fa fa-tag"></i><a class="tag" href="/categories/折腾笔记/" title="折腾笔记">折腾笔记 </a><a class="tag" href="/tags/折腾笔记/" title="折腾笔记">折腾笔记 </a><span class="leancloud_visitors"></span></div></div></div></div><div class="share"><div class="evernote"><a class="fa fa-bookmark" href="" onclick="javascript:join_favorite()" ref="sidebar"></a></div><div class="weibo"><a class="fa fa-weibo" href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&amp;title=',e(d.title),'&amp;appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a></div><div class="twitter"><a class="fa fa-twitter" href="http://twitter.com/home?status=,https://weizujie.vip/2020/04/19/【折腾笔记】使用Pagehelper遇到的一些坑/,Kaizen,【折腾笔记】使用Pagehelper遇到的一些坑,;" target="_blank" rel="noopener"></a></div></div><div class="pagination"><ul class="clearfix"><li class="pre pagbuttons"><a class="btn" role="navigation" href="/2020/06/10/%E3%80%90%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E3%80%91%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8B%E6%95%B0%E7%BB%84/" title="【数据结构】数据结构之数组">上一篇</a></li><li class="next pagbuttons"><a class="btn" role="navigation" href="/2019/12/31/%E3%80%90%E5%B9%B4%E7%BB%88%E6%80%BB%E7%BB%93%E3%80%912019%E5%B9%B4%E4%B8%AA%E4%BA%BA%E6%80%BB%E7%BB%93/" title="【年终总结】2019年个人总结">下一篇</a></li></ul></div><script src="/js/visitors.js"></script></div></div></div></div><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/add-bookmark.js"></script><script src="/js/baidu-tongji.js"></script></body></html>

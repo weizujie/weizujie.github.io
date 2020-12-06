@@ -1,280 +1,42 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8">
-    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
-    <title>Kaizen</title>
-    
-<link rel="stylesheet" href="/css/style.css">
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="weizujie"><title>Kaizen</title><meta name="description" content="心之所愿，无事不成。&lt;br&gt; Nothing is impossible to a willing heart."><meta name="keywords" content="kaizen, blog"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><script src="/js/jquery.js"></script><meta name="generator" content="Hexo 4.2.1"></head><body><div class="sidebar animated fadeInDown"><div class="logo-title"><div class="title"><img src="/images/logo@2x.png" style="width:127px;"><h3 title=""><a href="/">Kaizen</a></h3><div class="description"><p>心之所愿，无事不成。<br> Nothing is impossible to a willing heart.</p></div></div></div><ul class="social-links"><li><a href="https://github.com/weizujie" target="_blank" rel="noopener"><i class="fa fa-github"></i></a></li><li><a href="byojiaoxianz7@outlook.com"><i class="fa fa-envelope"></i></a></li></ul><div class="footer"><div class="p"> <span>© 2017 - 2020 </span><i class="fa fa-star"></i><span> weizujie</span></div><div class="by_farbox"><span>Powered by </span><a href="https://hexo.io/zh-cn/" target="_blank">Hexo </a><span> & </span><a href="https://github.com/mrcore/hexo-theme-Anatole-Core" target="_blank">Anatole-Core  </a></div><div class="beian"><a href="http://www.beian.miit.gov.cn/" target="_blank"></a><span style="height:10px;margin-left: 10px;">|</span><img src="https://qn.jixian.io/gongan.png" style="height:10px;margin-left: 10px;position: relative;top: 1px;"><span style="margin-left: 2px;"></span></div></div></div><div class="main"><div class="page-top animated fadeInDown"><div class="nav"><li><a class="current" href="/">首页</a></li><li><a href="/archives">归档</a></li><li><a href="/tags">Tags</a></li><li><a href="/about">关于</a></li><li><a href="/guestbook">Guestbook</a></li></div><div class="information"><div class="back_btn"><li><a class="fa fa-chevron-left" onclick="window.history.go(-1)" style="display:none;"> </a></li></div></div></div><div class="autopagerize_page_element"><div class="content"><div class="post animated fadeInDown"><div class="post-title"><h3><a href="/2020/06/17/%E3%80%90Java%E3%80%91%E8%B0%88%E8%B0%88Java%E4%B8%AD%E7%9A%84%E8%A6%86%E7%9B%96%E5%92%8C%E9%87%8D%E8%BD%BD/">【Java】谈谈Java中的覆盖和重载</a></h3></div><div class="post-content"><p>重载和覆盖是 Java 多态性的不同表现方式，本文将介绍什么是重载（Overload）和覆盖（Override）以及二者之间的区别。
 
-    
-<link rel="stylesheet" href="/css/gitment.css">
 
-    <link rel="stylesheet" type="text/css" href="//at.alicdn.com/t/font_859455_eaq7v6w8ktj.css">
-<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="Kaizen" type="application/atom+xml">
-</head>
-<body>
-<header class="header">
-    <div class="header-inner">
-        <div class="header-title">
+重载（Overload）重载是在一个类里，方法名相同，而参数不同。返回的类型可以相同，也可以不同。每个重载的方法都必须有独一无二的参数列表。
+最常用的地方就是构造器的重载。
+举...</p></div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2020-06-17</span><i class="fa fa-tag"></i><a class="tag" href="/categories/Java/" title="Java">Java </a><a class="tag" href="/tags/Java/" title="Java">Java </a><span class="leancloud_visitors"></span></div></div></div></div><div class="post animated fadeInDown"><div class="post-title"><h3><a href="/2020/06/15/%E3%80%90Leetcode%E3%80%91%E3%80%8A%E5%89%91%E6%8C%87offer%E3%80%8B%E6%95%B0%E7%BB%84%E4%B8%AD%E9%87%8D%E5%A4%8D%E7%9A%84%E6%95%B0%E5%AD%97/">【Leetcode】《剑指offer》数组中重复的数字</a></h3></div><div class="post-content"><p>在一个长度为 n 的数组 nums 里的所有数字都在 0～n-1 的范围内。数组中某些数字是重复的，但不知道有几个数字重复了，也不知道每个数字重复了几次。请找出数组中任意一个重复的数字。
 
-        </div>
-        <nav class="header-nav">
-            
-            <a href="/" class="header-nav-link" >
-                首页
-            </a>
-            
 
-            
-            <a href="/archives" class="header-nav-link">
-                归档
-            </a>
-            
+示例 1:
 
-            
-            <a href="/tags" class="header-nav-link">
-                标签
-            </a>
-            
+输入:[2, 3, 1, 0, 2, 5, 3]
+输出: 2 或 3 
 
-            
-            <a href="/about/" class="header-nav-link">
-                关于
-            </a>
-            
-        </nav>
-    </div>
-</header>
-<header class="mobile-header">
-    <div class="mobile-nav">
-        <div class="mobile-nav-icon">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-        <div class="mobile-nav-title">
-            <a href="/" class="mobile-nav-title-link">Kaizen's Blog</a>
-        </div>
+1. 哈希表遍历数组，将元素依次放...</p></div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2020-06-15</span><i class="fa fa-tag"></i><a class="tag" href="/categories/Leetcode/" title="Leetcode">Leetcode </a><a class="tag" href="/tags/Leetcode/" title="Leetcode">Leetcode </a><span class="leancloud_visitors"></span></div></div></div></div><div class="post animated fadeInDown"><div class="post-title"><h3><a href="/2020/06/13/%E3%80%90%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E3%80%91%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8B%E6%A0%88/">【数据结构】数据结构之栈</a></h3></div><div class="post-content"><p>什么是栈？
+想象一下，把栈当做一个装乒乓球的圆筒，一端是底，一端是口子。要想把乒乓球装入圆筒，就需要把乒乓球一个一个在口子放入；如果要想取出这些乒乓球，则需要从口子一个一个拿出来。放入乒乓球和取出乒乓球的顺序是相反的。先放入的乒乓球肯定是后取出，后放入的肯定是先取出。
 
-    </div>
-    <nav class="mobile-menu">
-        <ul class="mobile-menu-list">
-            <li class="mobile-menu-item">
-                <i class="iconfont icon-home"></i>
-                <a href="/" class="mobile-nav-link">首页</a>
-            </li>
-            <li class="mobile-menu-item">
-                <i class="iconfont icon-archive"></i>
-                <a href="/archives" class="mobile-nav-link">归档</a>
-            </li>
-            <li class="mobile-menu-item">
-                <i class="iconfont icon-tag"></i>
-                <a href="/tags" class="mobile-nav-link">标签</a>
-            </li>
-            <li class="mobile-menu-item">
-                <i class="iconfont icon-about"></i>
-                <a href="/about/" class="mobile-nav-link">关于</a>
-            </li>
-        </ul>
-    </nav>
-</header>
-<div class="main">
-    <div class="content-inner">
-        <div class="posts">
-    
-        <article class="post-abstract">
-            <div class="post-title">
-                <h2><a class="post-title-link" href="/2020/06/17/%E3%80%90Java%E3%80%91%E8%B0%88%E8%B0%88Java%E4%B8%AD%E7%9A%84%E8%A6%86%E7%9B%96%E5%92%8C%E9%87%8D%E8%BD%BD/">【Java】谈谈Java中的覆盖和重载</a></h2>
-            </div>
-            <div class="post-meta">
-                <span class="post-time">2020-06-17</span>
-                
-                <span class="post-category">
-                    
-                    <a class="category" href="/categories/Java/">Java</a>
-                    
-                </span>
-                
-            </div>
-            <div class="post-content">
-                
-                    <p>重载和覆盖是 Java 多态性的不同表现方式，本文将介绍什么是重载（Overload）和覆盖（Override）以及二者之间的区别。</p>
-                    <div class="read-more">
-                        <a href="/2020/06/17/%E3%80%90Java%E3%80%91%E8%B0%88%E8%B0%88Java%E4%B8%AD%E7%9A%84%E8%A6%86%E7%9B%96%E5%92%8C%E9%87%8D%E8%BD%BD/" class="read-more-link">
-                            阅读全文
-                            <i class="iconfont icon-readmore"></i>
-                        </a>
-                    </div>
-                
-            </div>
-        </article>
-    
-        <article class="post-abstract">
-            <div class="post-title">
-                <h2><a class="post-title-link" href="/2020/06/15/%E3%80%90Leetcode%E3%80%91%E3%80%8A%E5%89%91%E6%8C%87offer%E3%80%8B%E6%95%B0%E7%BB%84%E4%B8%AD%E9%87%8D%E5%A4%8D%E7%9A%84%E6%95%B0%E5%AD%97/">【Leetcode】《剑指offer》数组中重复的数字</a></h2>
-            </div>
-            <div class="post-meta">
-                <span class="post-time">2020-06-15</span>
-                
-                <span class="post-category">
-                    
-                    <a class="category" href="/categories/Leetcode/">Leetcode</a>
-                    
-                </span>
-                
-            </div>
-            <div class="post-content">
-                
-                    <p>在一个长度为 n 的数组 nums 里的所有数字都在 0～n-1 的范围内。数组中某些数字是重复的，但不知道有几个数字重复了，也不知道每个数字重复了几次。请找出数组中任意一个重复的数字。</p>
-                    <div class="read-more">
-                        <a href="/2020/06/15/%E3%80%90Leetcode%E3%80%91%E3%80%8A%E5%89%91%E6%8C%87offer%E3%80%8B%E6%95%B0%E7%BB%84%E4%B8%AD%E9%87%8D%E5%A4%8D%E7%9A%84%E6%95%B0%E5%AD%97/" class="read-more-link">
-                            阅读全文
-                            <i class="iconfont icon-readmore"></i>
-                        </a>
-                    </div>
-                
-            </div>
-        </article>
-    
-        <article class="post-abstract">
-            <div class="post-title">
-                <h2><a class="post-title-link" href="/2020/06/13/%E3%80%90%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E3%80%91%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8B%E6%A0%88/">【数据结构】数据结构之栈</a></h2>
-            </div>
-            <div class="post-meta">
-                <span class="post-time">2020-06-13</span>
-                
-                <span class="post-category">
-                    
-                    <a class="category" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a>
-                    
-                </span>
-                
-            </div>
-            <div class="post-content">
-                
-                    <p>什么是栈？</p>
-<p>想象一下，把栈当做一个装乒乓球的圆筒，一端是底，一端是口子。要想把乒乓球装入圆筒，就需要把乒乓球一个一个在口子放入；如果要想取出这些乒乓球，则需要从口子一个一个拿出来。放入乒乓球和取出乒乓球的顺序是相反的。先放入的乒乓球肯定是后取出，后放入的肯定是先取出。</p>
-                    <div class="read-more">
-                        <a href="/2020/06/13/%E3%80%90%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E3%80%91%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8B%E6%A0%88/" class="read-more-link">
-                            阅读全文
-                            <i class="iconfont icon-readmore"></i>
-                        </a>
-                    </div>
-                
-            </div>
-        </article>
-    
-        <article class="post-abstract">
-            <div class="post-title">
-                <h2><a class="post-title-link" href="/2020/06/12/%E3%80%90Leetcode%E3%80%91136.%E5%8F%AA%E5%87%BA%E7%8E%B0%E4%B8%80%E6%AC%A1%E7%9A%84%E6%95%B0%E5%AD%97/">【Leetcode】136.只出现一次的数字</a></h2>
-            </div>
-            <div class="post-meta">
-                <span class="post-time">2020-06-12</span>
-                
-                <span class="post-category">
-                    
-                    <a class="category" href="/categories/Leetcode/">Leetcode</a>
-                    
-                </span>
-                
-            </div>
-            <div class="post-content">
-                
-                    <p>给定一个非空整数数组，除了某个元素只出现一次以外，其余每个元素均出现两次。找出那个只出现了一次的元素。</p>
-                    <div class="read-more">
-                        <a href="/2020/06/12/%E3%80%90Leetcode%E3%80%91136.%E5%8F%AA%E5%87%BA%E7%8E%B0%E4%B8%80%E6%AC%A1%E7%9A%84%E6%95%B0%E5%AD%97/" class="read-more-link">
-                            阅读全文
-                            <i class="iconfont icon-readmore"></i>
-                        </a>
-                    </div>
-                
-            </div>
-        </article>
-    
-        <article class="post-abstract">
-            <div class="post-title">
-                <h2><a class="post-title-link" href="/2020/06/10/%E3%80%90%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E3%80%91%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8B%E6%95%B0%E7%BB%84/">【数据结构】数据结构之数组</a></h2>
-            </div>
-            <div class="post-meta">
-                <span class="post-time">2020-06-10</span>
-                
-                <span class="post-category">
-                    
-                    <a class="category" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a>
-                    
-                </span>
-                
-            </div>
-            <div class="post-content">
-                
-                    <p>什么是数组？</p>
-<p>有限个<strong>相同类型</strong>的变量所组成的<strong>有序集合</strong>，称为数组。数组中的每一个变量称为<strong>元素</strong>。</p>
-                    <div class="read-more">
-                        <a href="/2020/06/10/%E3%80%90%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E3%80%91%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8B%E6%95%B0%E7%BB%84/" class="read-more-link">
-                            阅读全文
-                            <i class="iconfont icon-readmore"></i>
-                        </a>
-                    </div>
-                
-            </div>
-        </article>
-    
-</div>
-<div class="paginator">
-    
-        
-        <a class="prev" href="/">
-            <i class="iconfont icon-prev"></i>
-            上一页
-        </a>
-        
-        
-        <a class="next" href="/page/3/">
-            下一页
-            <i class="iconfont icon-next"></i>
-        </a>
-        
-    
-</div>
 
-    </div>
-</div>
-<footer class="footer-social">
-    
-    <a class="social-link" target="_blank" href="https://github.com/weizujie">
-        <i class="iconfont icon-github"></i>
-    </a>
-    
+所以得出概念：栈(stack)是一种线性...</p></div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2020-06-13</span><i class="fa fa-tag"></i><a class="tag" href="/categories/数据结构/" title="数据结构">数据结构 </a><a class="tag" href="/tags/数据结构/" title="数据结构">数据结构 </a><span class="leancloud_visitors"></span></div></div></div></div><div class="post animated fadeInDown"><div class="post-title"><h3><a href="/2020/06/12/%E3%80%90Leetcode%E3%80%91136.%E5%8F%AA%E5%87%BA%E7%8E%B0%E4%B8%80%E6%AC%A1%E7%9A%84%E6%95%B0%E5%AD%97/">【Leetcode】136.只出现一次的数字</a></h3></div><div class="post-content"><p>给定一个非空整数数组，除了某个元素只出现一次以外，其余每个元素均出现两次。找出那个只出现了一次的元素。
 
-    
 
-    
+说明：
+你的算法应该具有线性时间复杂度。 你可以不使用额外空间来实现吗？
+示例 1:
 
-    <div class="footer-copyright">
-        <p class="time-line">
-            &copy;
-            
-            
-            2020
-            &nbsp;<i class="iconfont icon-heart"></i>&nbsp;
-            <a target="_blank" href="https://github.com/iJinxin">Kaizen</a>
-        </p>
-        <p class="theme-info">
-            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme -
-            <a target="_blank" href="https://github.com/iJinxin/hexo-theme-sky">Sky</a>
-        </p>
-    </div>
-</footer>
-</body>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+输入: [2,2,1]
+输出: 1
 
-<script src="/js/index.js"></script>
+示例 2:
 
-<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
-<script>
-    
+输入: [4,1,2,1,2]
+输出: 4
 
-</script>
-</html>
+思路看了一眼题目描述...</p></div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2020-06-12</span><i class="fa fa-tag"></i><a class="tag" href="/categories/Leetcode/" title="Leetcode">Leetcode </a><a class="tag" href="/tags/Leetcode/" title="Leetcode">Leetcode </a><span class="leancloud_visitors"></span></div></div></div></div><div class="post animated fadeInDown"><div class="post-title"><h3><a href="/2020/06/10/%E3%80%90%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E3%80%91%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8B%E6%95%B0%E7%BB%84/">【数据结构】数据结构之数组</a></h3></div><div class="post-content"><p>什么是数组？
+有限个相同类型的变量所组成的有序集合，称为数组。数组中的每一个变量称为元素。
+
+
+数组是最简单、最常用的数据结构。
+1.1 数组的特点
+下标从 0 开始，一直到数组的长度 - 1
+在内存中顺序存储，可以很好地实现逻辑上的顺序表
+
+1.2 数组的基本操作1.2.1 读取元素由于数组在内存中是顺序存储的...</p></div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2020-06-10</span><i class="fa fa-tag"></i><a class="tag" href="/categories/数据结构/" title="数据结构">数据结构 </a><a class="tag" href="/tags/数据结构/" title="数据结构">数据结构 </a><span class="leancloud_visitors"></span></div></div></div></div><div class="pagination"><ul class="clearfix"><li class="pre pagbuttons"><a class="btn" role="navigation" href="/">上一页</a></li><li class="next pagbuttons"><a class="btn" role="navigation" href="/page/3/">下一页</a></li></ul></div></div></div></div><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/add-bookmark.js"></script><script src="/js/baidu-tongji.js"></script></body></html>

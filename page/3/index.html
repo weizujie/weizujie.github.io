@@ -1,278 +1,34 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8">
-    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
-    <title>Kaizen</title>
-    
-<link rel="stylesheet" href="/css/style.css">
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="weizujie"><title>Kaizen</title><meta name="description" content="心之所愿，无事不成。&lt;br&gt; Nothing is impossible to a willing heart."><meta name="keywords" content="kaizen, blog"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><script src="/js/jquery.js"></script><meta name="generator" content="Hexo 4.2.1"></head><body><div class="sidebar animated fadeInDown"><div class="logo-title"><div class="title"><img src="/images/logo@2x.png" style="width:127px;"><h3 title=""><a href="/">Kaizen</a></h3><div class="description"><p>心之所愿，无事不成。<br> Nothing is impossible to a willing heart.</p></div></div></div><ul class="social-links"><li><a href="https://github.com/weizujie" target="_blank" rel="noopener"><i class="fa fa-github"></i></a></li><li><a href="byojiaoxianz7@outlook.com"><i class="fa fa-envelope"></i></a></li></ul><div class="footer"><div class="p"> <span>© 2017 - 2020 </span><i class="fa fa-star"></i><span> weizujie</span></div><div class="by_farbox"><span>Powered by </span><a href="https://hexo.io/zh-cn/" target="_blank">Hexo </a><span> & </span><a href="https://github.com/mrcore/hexo-theme-Anatole-Core" target="_blank">Anatole-Core  </a></div><div class="beian"><a href="http://www.beian.miit.gov.cn/" target="_blank"></a><span style="height:10px;margin-left: 10px;">|</span><img src="https://qn.jixian.io/gongan.png" style="height:10px;margin-left: 10px;position: relative;top: 1px;"><span style="margin-left: 2px;"></span></div></div></div><div class="main"><div class="page-top animated fadeInDown"><div class="nav"><li><a class="current" href="/">首页</a></li><li><a href="/archives">归档</a></li><li><a href="/tags">Tags</a></li><li><a href="/about">关于</a></li><li><a href="/guestbook">Guestbook</a></li></div><div class="information"><div class="back_btn"><li><a class="fa fa-chevron-left" onclick="window.history.go(-1)" style="display:none;"> </a></li></div></div></div><div class="autopagerize_page_element"><div class="content"><div class="post animated fadeInDown"><div class="post-title"><h3><a href="/2020/04/19/%E3%80%90%E6%8A%98%E8%85%BE%E7%AC%94%E8%AE%B0%E3%80%91%E4%BD%BF%E7%94%A8Pagehelper%E9%81%87%E5%88%B0%E7%9A%84%E4%B8%80%E4%BA%9B%E5%9D%91/">【折腾笔记】使用Pagehelper遇到的一些坑</a></h3></div><div class="post-content"><p>自己在使用 Pagehelper 分页插件的时候遇到的一些坑，记录一下。
 
-    
-<link rel="stylesheet" href="/css/gitment.css">
 
-    <link rel="stylesheet" type="text/css" href="//at.alicdn.com/t/font_859455_eaq7v6w8ktj.css">
-<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="Kaizen" type="application/atom+xml">
-</head>
-<body>
-<header class="header">
-    <div class="header-inner">
-        <div class="header-title">
+1. 永远获取到第一页数据url输入: http://localhost:8082/user/list?page=2
+还是获取到第一页
+==&gt;  Preparing: SELECT count(0) FROM sys_user 
+...</p></div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2020-04-19</span><i class="fa fa-tag"></i><a class="tag" href="/categories/折腾笔记/" title="折腾笔记">折腾笔记 </a><a class="tag" href="/tags/折腾笔记/" title="折腾笔记">折腾笔记 </a><span class="leancloud_visitors"></span></div></div></div></div><div class="post animated fadeInDown"><div class="post-title"><h3><a href="/2019/12/31/%E3%80%90%E5%B9%B4%E7%BB%88%E6%80%BB%E7%BB%93%E3%80%912019%E5%B9%B4%E4%B8%AA%E4%BA%BA%E6%80%BB%E7%BB%93/">【年终总结】2019年个人总结</a></h3></div><div class="post-content"><p>对我来说，2019 年是无所事事的一年，既没有参加像样的比赛，也没有学到什么新的技术，只是在宿舍打游戏、追剧、偶尔 coding。
 
-        </div>
-        <nav class="header-nav">
-            
-            <a href="/" class="header-nav-link" >
-                首页
-            </a>
-            
 
-            
-            <a href="/archives" class="header-nav-link">
-                归档
-            </a>
-            
+2019 快要结束了，按照惯例水一篇年末总结，也算是给自己一个交代。
+2019·回顾关于生活
+在微信群里听一位大四的学长说他找到了一份 Python 的实习，有点羡慕，同时也刺激...</p></div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2019-12-31</span><i class="fa fa-tag"></i><a class="tag" href="/categories/年终总结/" title="年终总结">年终总结 </a><a class="tag" href="/tags/年终总结/" title="年终总结">年终总结 </a><span class="leancloud_visitors"></span></div></div></div></div><div class="post animated fadeInDown"><div class="post-title"><h3><a href="/2019/12/30/%E3%80%90%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0%E3%80%91%E6%95%B0%E6%8D%AE%E5%BA%93%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/">【期末复习】数据库期末复习</a></h3></div><div class="post-content"><p>大三上学期期末从各路收集来的以及根据老师上课所将的内容写的数据库复习总结。
 
-            
-            <a href="/tags" class="header-nav-link">
-                标签
-            </a>
-            
 
-            
-            <a href="/about/" class="header-nav-link">
-                关于
-            </a>
-            
-        </nav>
-    </div>
-</header>
-<header class="mobile-header">
-    <div class="mobile-nav">
-        <div class="mobile-nav-icon">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-        <div class="mobile-nav-title">
-            <a href="/" class="mobile-nav-title-link">Kaizen's Blog</a>
-        </div>
+第一章:数据库概述1.2 数据库管理技术的发展(简答或选择)经历了管理文件和数据库管理两个阶段
 
-    </div>
-    <nav class="mobile-menu">
-        <ul class="mobile-menu-list">
-            <li class="mobile-menu-item">
-                <i class="iconfont icon-home"></i>
-                <a href="/" class="mobile-nav-link">首页</a>
-            </li>
-            <li class="mobile-menu-item">
-                <i class="iconfont icon-archive"></i>
-                <a href="/archives" class="mobile-nav-link">归档</a>
-            </li>
-            <li class="mobile-menu-item">
-                <i class="iconfont icon-tag"></i>
-                <a href="/tags" class="mobile-nav-link">标签</a>
-            </li>
-            <li class="mobile-menu-item">
-                <i class="iconfont icon-about"></i>
-                <a href="/about/" class="mobile-nav-link">关于</a>
-            </li>
-        </ul>
-    </nav>
-</header>
-<div class="main">
-    <div class="content-inner">
-        <div class="posts">
-    
-        <article class="post-abstract">
-            <div class="post-title">
-                <h2><a class="post-title-link" href="/2020/04/19/%E3%80%90%E6%8A%98%E8%85%BE%E7%AC%94%E8%AE%B0%E3%80%91%E4%BD%BF%E7%94%A8Pagehelper%E9%81%87%E5%88%B0%E7%9A%84%E4%B8%80%E4%BA%9B%E5%9D%91/">【折腾笔记】使用Pagehelper遇到的一些坑</a></h2>
-            </div>
-            <div class="post-meta">
-                <span class="post-time">2020-04-19</span>
-                
-                <span class="post-category">
-                    
-                    <a class="category" href="/categories/%E6%8A%98%E8%85%BE%E7%AC%94%E8%AE%B0/">折腾笔记</a>
-                    
-                </span>
-                
-            </div>
-            <div class="post-content">
-                
-                    <p>自己在使用 Pagehelper 分页插件的时候遇到的一些坑，记录一下。</p>
-                    <div class="read-more">
-                        <a href="/2020/04/19/%E3%80%90%E6%8A%98%E8%85%BE%E7%AC%94%E8%AE%B0%E3%80%91%E4%BD%BF%E7%94%A8Pagehelper%E9%81%87%E5%88%B0%E7%9A%84%E4%B8%80%E4%BA%9B%E5%9D%91/" class="read-more-link">
-                            阅读全文
-                            <i class="iconfont icon-readmore"></i>
-                        </a>
-                    </div>
-                
-            </div>
-        </article>
-    
-        <article class="post-abstract">
-            <div class="post-title">
-                <h2><a class="post-title-link" href="/2019/12/31/%E3%80%90%E5%B9%B4%E7%BB%88%E6%80%BB%E7%BB%93%E3%80%912019%E5%B9%B4%E4%B8%AA%E4%BA%BA%E6%80%BB%E7%BB%93/">【年终总结】2019年个人总结</a></h2>
-            </div>
-            <div class="post-meta">
-                <span class="post-time">2019-12-31</span>
-                
-                <span class="post-category">
-                    
-                    <a class="category" href="/categories/%E5%B9%B4%E7%BB%88%E6%80%BB%E7%BB%93/">年终总结</a>
-                    
-                </span>
-                
-            </div>
-            <div class="post-content">
-                
-                    <p>对我来说，2019 年是无所事事的一年，既没有参加像样的比赛，也没有学到什么新的技术，只是在宿舍打游戏、追剧、偶尔 coding。</p>
-                    <div class="read-more">
-                        <a href="/2019/12/31/%E3%80%90%E5%B9%B4%E7%BB%88%E6%80%BB%E7%BB%93%E3%80%912019%E5%B9%B4%E4%B8%AA%E4%BA%BA%E6%80%BB%E7%BB%93/" class="read-more-link">
-                            阅读全文
-                            <i class="iconfont icon-readmore"></i>
-                        </a>
-                    </div>
-                
-            </div>
-        </article>
-    
-        <article class="post-abstract">
-            <div class="post-title">
-                <h2><a class="post-title-link" href="/2019/12/30/%E3%80%90%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0%E3%80%91%E6%95%B0%E6%8D%AE%E5%BA%93%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/">【期末复习】数据库期末复习</a></h2>
-            </div>
-            <div class="post-meta">
-                <span class="post-time">2019-12-30</span>
-                
-                <span class="post-category">
-                    
-                    <a class="category" href="/categories/%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/">期末复习</a>
-                    
-                </span>
-                
-            </div>
-            <div class="post-content">
-                
-                    <p>大三上学期期末从各路收集来的以及根据老师上课所将的内容写的数据库复习总结。</p>
-                    <div class="read-more">
-                        <a href="/2019/12/30/%E3%80%90%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0%E3%80%91%E6%95%B0%E6%8D%AE%E5%BA%93%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/" class="read-more-link">
-                            阅读全文
-                            <i class="iconfont icon-readmore"></i>
-                        </a>
-                    </div>
-                
-            </div>
-        </article>
-    
-        <article class="post-abstract">
-            <div class="post-title">
-                <h2><a class="post-title-link" href="/2019/12/29/%E3%80%90%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0%E3%80%91Verilog%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/">【期末复习】Verilog期末复习</a></h2>
-            </div>
-            <div class="post-meta">
-                <span class="post-time">2019-12-29</span>
-                
-                <span class="post-category">
-                    
-                    <a class="category" href="/categories/%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/">期末复习</a>
-                    
-                </span>
-                
-            </div>
-            <div class="post-content">
-                
-                    <p>大三上学期期末从各路收集来的以及根据老师上课所将的内容写的 Verilog 复习总结。</p>
-                    <div class="read-more">
-                        <a href="/2019/12/29/%E3%80%90%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0%E3%80%91Verilog%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/" class="read-more-link">
-                            阅读全文
-                            <i class="iconfont icon-readmore"></i>
-                        </a>
-                    </div>
-                
-            </div>
-        </article>
-    
-        <article class="post-abstract">
-            <div class="post-title">
-                <h2><a class="post-title-link" href="/2018/12/31/%E3%80%90%E5%B9%B4%E7%BB%88%E6%80%BB%E7%BB%93%E3%80%912018%E5%B9%B4%E4%B8%AA%E4%BA%BA%E6%80%BB%E7%BB%93/">【年终总结】2018年个人总结</a></h2>
-            </div>
-            <div class="post-meta">
-                <span class="post-time">2018-12-31</span>
-                
-                <span class="post-category">
-                    
-                    <a class="category" href="/categories/%E5%B9%B4%E7%BB%88%E6%80%BB%E7%BB%93/">年终总结</a>
-                    
-                </span>
-                
-            </div>
-            <div class="post-content">
-                
-                    <p>2019 年过了将近一个月才动笔写总结，是不是有点迟了。</p>
-                    <div class="read-more">
-                        <a href="/2018/12/31/%E3%80%90%E5%B9%B4%E7%BB%88%E6%80%BB%E7%BB%93%E3%80%912018%E5%B9%B4%E4%B8%AA%E4%BA%BA%E6%80%BB%E7%BB%93/" class="read-more-link">
-                            阅读全文
-                            <i class="iconfont icon-readmore"></i>
-                        </a>
-                    </div>
-                
-            </div>
-        </article>
-    
-</div>
-<div class="paginator">
-    
-        
-        <a class="prev" href="/page/2/">
-            <i class="iconfont icon-prev"></i>
-            上一页
-        </a>
-        
-        
-        <a class="next" href="/page/4/">
-            下一页
-            <i class="iconfont icon-next"></i>
-        </a>
-        
-    
-</div>
+文件管理的缺点：
+编写应用程序不方便
+数据冗余不可避免
+应用程序依赖性
+不支持文件的并发访问
+数据间联系弱
+难以满足不同用户对数据的需求...</p></div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2019-12-30</span><i class="fa fa-tag"></i><a class="tag" href="/categories/期末复习/" title="期末复习">期末复习 </a><a class="tag" href="/tags/期末复习/" title="期末复习">期末复习 </a><span class="leancloud_visitors"></span></div></div></div></div><div class="post animated fadeInDown"><div class="post-title"><h3><a href="/2019/12/29/%E3%80%90%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0%E3%80%91Verilog%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/">【期末复习】Verilog期末复习</a></h3></div><div class="post-content"><p>大三上学期期末从各路收集来的以及根据老师上课所将的内容写的 Verilog 复习总结。
 
-    </div>
-</div>
-<footer class="footer-social">
-    
-    <a class="social-link" target="_blank" href="https://github.com/weizujie">
-        <i class="iconfont icon-github"></i>
-    </a>
-    
 
-    
+术语解释
+EDA: Electronic Design Automation 电子设计自动化
+HDL: Hardware Description Language 硬件描述语言
+ASIC: Application Spec...</p></div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2019-12-29</span><i class="fa fa-tag"></i><a class="tag" href="/categories/期末复习/" title="期末复习">期末复习 </a><a class="tag" href="/tags/期末复习/" title="期末复习">期末复习 </a><span class="leancloud_visitors"></span></div></div></div></div><div class="post animated fadeInDown"><div class="post-title"><h3><a href="/2018/12/31/%E3%80%90%E5%B9%B4%E7%BB%88%E6%80%BB%E7%BB%93%E3%80%912018%E5%B9%B4%E4%B8%AA%E4%BA%BA%E6%80%BB%E7%BB%93/">【年终总结】2018年个人总结</a></h3></div><div class="post-content"><p>2019 年过了将近一个月才动笔写总结，是不是有点迟了。
 
-    
 
-    <div class="footer-copyright">
-        <p class="time-line">
-            &copy;
-            
-            
-            2020
-            &nbsp;<i class="iconfont icon-heart"></i>&nbsp;
-            <a target="_blank" href="https://github.com/iJinxin">Kaizen</a>
-        </p>
-        <p class="theme-info">
-            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme -
-            <a target="_blank" href="https://github.com/iJinxin/hexo-theme-sky">Sky</a>
-        </p>
-    </div>
-</footer>
-</body>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
-<script src="/js/index.js"></script>
-
-<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
-<script>
-    
-
-</script>
-</html>
+对于2018年这一年，其实我已经记不太清发生了什么事了，不过幸好我有写日记的习惯，去翻翻日记总能想起来。不过这个日记是从五月份开始的，五月之前的事情还得好好想想是怎么过的。
+2018年发生了许多事情，重要的不重要的。
+2018年1月红月亮我记得是31号...</p></div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2018-12-31</span><i class="fa fa-tag"></i><a class="tag" href="/categories/年终总结/" title="年终总结">年终总结 </a><a class="tag" href="/tags/年终总结/" title="年终总结">年终总结 </a><span class="leancloud_visitors"></span></div></div></div></div><div class="pagination"><ul class="clearfix"><li class="pre pagbuttons"><a class="btn" role="navigation" href="/page/2/">上一页</a></li><li class="next pagbuttons"><a class="btn" role="navigation" href="/page/4/">下一页</a></li></ul></div></div></div></div><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/add-bookmark.js"></script><script src="/js/baidu-tongji.js"></script></body></html>
