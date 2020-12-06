@@ -1,6 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>【Java】Shiro详解以及在SpringBoot中的使用</title>
+    <url>/2020/12/05/%E3%80%90Java%E3%80%91Shiro%E8%AF%A6%E8%A7%A3%E4%BB%A5%E5%8F%8A%E5%9C%A8SpringBoot%E4%B8%AD%E7%9A%84%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<p>本文介绍 Shiro 以及在 SpringBoot 中的使用。</p>
+<a id="more"></a>
+
+<h1 id="Shiro-简介"><a href="#Shiro-简介" class="headerlink" title="Shiro 简介"></a>Shiro 简介</h1><blockquote>
+<p>Apache Shiro 是一个强大易用的 Java 安全框架，提供了认证、授权、加密和会话管理等功能，对于任何一个应用程序，Shiro 都可以提供全面的安全管理服务。</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>Java</category>
+      </categories>
+      <tags>
+        <tag>Java</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>【Leetcode】面试题 16.01. 交换数字</title>
     <url>/2020/11/27/%E3%80%90Leetcode%E3%80%91%E9%9D%A2%E8%AF%95%E9%A2%98%2016.01.%E4%BA%A4%E6%8D%A2%E6%95%B0%E5%AD%97/</url>
     <content><![CDATA[<p>编写一个函数，不用临时变量，直接交换numbers = [a, b]中a与b的值。</p>

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>Kaizen&#39;s Blog</title>
+  <title>Kaizen</title>
   
   
   <link href="https://weizujie.vip/atom.xml" rel="self"/>
   
   <link href="https://weizujie.vip/"/>
-  <updated>2020-11-27T12:32:36.187Z</updated>
+  <updated>2020-12-06T04:25:18.277Z</updated>
   <id>https://weizujie.vip/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>【Java】Shiro详解以及在SpringBoot中的使用</title>
+    <link href="https://weizujie.vip/2020/12/05/%E3%80%90Java%E3%80%91Shiro%E8%AF%A6%E8%A7%A3%E4%BB%A5%E5%8F%8A%E5%9C%A8SpringBoot%E4%B8%AD%E7%9A%84%E4%BD%BF%E7%94%A8/"/>
+    <id>https://weizujie.vip/2020/12/05/%E3%80%90Java%E3%80%91Shiro%E8%AF%A6%E8%A7%A3%E4%BB%A5%E5%8F%8A%E5%9C%A8SpringBoot%E4%B8%AD%E7%9A%84%E4%BD%BF%E7%94%A8/</id>
+    <published>2020-12-05T14:28:11.000Z</published>
+    <updated>2020-12-06T04:25:18.277Z</updated>
+    
+    <content type="html"><![CDATA[<p>本文介绍 Shiro 以及在 SpringBoot 中的使用。</p><a id="more"></a><h1 id="Shiro-简介"><a href="#Shiro-简介" class="headerlink" title="Shiro 简介"></a>Shiro 简介</h1><blockquote><p>Apache Shiro 是一个强大易用的 Java 安全框架，提供了认证、授权、加密和会话管理等功能，对于任何一个应用程序，Shiro 都可以提供全面的安全管理服务。</p></blockquote>]]></content>
+    
+    
+    <summary type="html">&lt;p&gt;本文介绍 Shiro 以及在 SpringBoot 中的使用。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="Java" scheme="https://weizujie.vip/categories/Java/"/>
+    
+    
+    <category term="Java" scheme="https://weizujie.vip/tags/Java/"/>
+    
+  </entry>
   
   <entry>
     <title>【Leetcode】面试题 16.01. 交换数字</title>
