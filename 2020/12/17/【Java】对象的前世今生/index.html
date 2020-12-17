@@ -1,0 +1,112 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="weizujie"><title>【Java】Java 对象的前世今生 · Kaizen</title><meta name="description" content="这是一篇学习笔记。
+
+本文会介绍对象如何创建、存在与何处、堆、栈、构造器等知识。
+
+
+栈与堆：生存空间
+栈：存放方法调用和局部变量。可以被垃圾回收。
+堆：存放对象。
+
+当 Java 虚拟机启动时，它会从底层的操作系统中取得一块内存，并以此区段来执行 Java 程序。内存空间大小有虚拟机来决定，不同的"><meta name="keywords" content="kaizen, blog"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><script src="/js/jquery.js"></script><meta name="generator" content="Hexo 4.2.1"></head><body><div class="sidebar animated fadeInDown"><div class="logo-title"><div class="title"><img src="/images/logo@2x.png" style="width:127px;"><h3 title=""><a href="/">Kaizen</a></h3><div class="description"><p>干饭王/21届混子/退堂鼓表演艺术家</p></div></div></div><ul class="social-links"><li><a href="https://github.com/weizujie" target="_blank" rel="noopener"><i class="fa fa-github"></i></a></li><li><a href="byojiaoxianz7@outlook.com"><i class="fa fa-envelope"></i></a></li></ul><div class="footer"><div class="p"> <span>© 2017 - 2020 </span><i class="fa fa-star"></i><span> weizujie</span></div><div class="by_farbox"><span>Powered by </span><a href="https://hexo.io/zh-cn/" target="_blank">Hexo </a><span> & </span><a href="https://github.com/mrcore/hexo-theme-Anatole-Core" target="_blank">Anatole-Core  </a></div><div class="beian"><a href="http://www.beian.miit.gov.cn/" target="_blank"></a><span style="height:10px;margin-left: 10px;">|</span><img src="https://qn.jixian.io/gongan.png" style="height:10px;margin-left: 10px;position: relative;top: 1px;"><span style="margin-left: 2px;"></span></div></div></div><div class="main"><div class="page-top animated fadeInDown"><div class="nav"><li><a href="/">首页</a></li><li><a href="/archives">归档</a></li><li><a href="/about">关于</a></li></div><div class="information"><div class="back_btn"><li><a class="fa fa-chevron-left" onclick="window.history.go(-1)"> </a></li></div></div></div><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post animated fadeInDown"><div class="post-title"><h3><a>【Java】Java 对象的前世今生</a></h3></div><div class="post-content"><blockquote>
+<p>这是一篇学习笔记。</p>
+</blockquote>
+<p>本文会介绍对象如何创建、存在与何处、堆、栈、构造器等知识。</p>
+<a id="more"></a>
+
+<h2 id="栈与堆：生存空间"><a href="#栈与堆：生存空间" class="headerlink" title="栈与堆：生存空间"></a>栈与堆：生存空间</h2><ul>
+<li>栈：存放<strong>方法调用</strong>和<strong>局部变量</strong>。<strong>可以被垃圾回收</strong>。</li>
+<li>堆：存放<strong>对象。</strong></li>
+</ul>
+<p>当 Java 虚拟机启动时，它会从底层的操作系统中取得一块内存，并以此区段来执行 Java 程序。内存空间大小有虚拟机来决定，不同的虚拟机空间大小可能会不同。</p>
+<ul>
+<li>实例变量：声明在<strong>类</strong>中。有默认值。生命周期与对象一样，对象不死它不死。</li>
+<li>局部变量：声明在<strong>方法</strong>中。无默认值，必须初始化。局部变量随着方法执行完毕会被销毁。</li>
+</ul>
+<pre><code class="java">public class Test {
+        int a; // 实例变量
+        public void method() {
+                int b = 0; // 局部变量
+        }
+}</code></pre>
+<h2 id="方法会被堆在一起"><a href="#方法会被堆在一起" class="headerlink" title="方法会被堆在一起"></a>方法会被堆在一起</h2><p>当我们调用一个方法，这个方法会被放到栈的栈顶，方法调用完毕会被从栈顶弹出。假设栈中有两个方法 A 和 B，A 调用 B，则 B 会在 A 的上面，也就是 B 在栈顶且执行完毕先弹出去，再弹 A。</p>
+<p><img src="https://gitee.com/byojiaoxianz7/Img/raw/master/img/image-20201217133117283.png" alt="image-20201217133117283"></p>
+<h2 id="有关对象局部变量"><a href="#有关对象局部变量" class="headerlink" title="有关对象局部变量"></a>有关对象局部变量</h2><p>非 primitive 的变量只保存<strong>对象的引用</strong>而不是对象本身。不论对象是否被声明或创建，如果局部变量是个对该对象的引用，则该变量存放在栈上。再说一次，<strong>对象本身只会存在堆中</strong>。</p>
+<p>看一段代码就清楚了：</p>
+<pre><code class="java">public class StackRef {
+        public void foof() {
+                barf();
+        }
+        public void barf() {
+                Duck d = new Duck(24);
+        }
+}</code></pre>
+<p><img src="https://gitee.com/byojiaoxianz7/Img/raw/master/img/image-20201217133137517.png" alt="image-20201217133137517"></p>
+<p>要点：</p>
+<ul>
+<li><strong>对象引用变量</strong>和 <strong>primitive 主数据类型变量</strong>都是存在<strong>栈</strong>上</li>
+<li>所有<strong>局部变量</strong>都存在栈上相对应的<strong>堆栈块</strong>中</li>
+<li><strong>对象</strong>本身存在<strong>堆</strong>上</li>
+</ul>
+<h2 id="实例变量存放的地方"><a href="#实例变量存放的地方" class="headerlink" title="实例变量存放的地方"></a>实例变量存放的地方</h2><p>我们知道，局部变量是存放在栈上的，那么实例变量呢？</p>
+<p><strong>实例变量存放在对象所属的堆空间上</strong>，也就是说，对象的实例变量的值是存放在该对象中的。</p>
+<h2 id="创建对象的奇迹"><a href="#创建对象的奇迹" class="headerlink" title="创建对象的奇迹"></a>创建对象的奇迹</h2><p>我们已经知道了变量和对象的生存空间，现在可以开始深入<strong>对象的创建</strong>。声明对象和赋值有三个步骤：</p>
+<ul>
+<li><p>声明引用变量</p>
+<pre><code class="java">Duck myDuck</code></pre>
+</li>
+<li><p>创建对象</p>
+<pre><code class="java">new Duck()</code></pre>
+</li>
+<li><p>连接对象和引用</p>
+<pre><code class="java">Duck myDuck = new Duck();</code></pre>
+</li>
+</ul>
+<p>创建对象看起来很像在调用 Duck() 方法，但其实是在调用 Duck() 的<strong>构造函数</strong>。</p>
+<p>构造函数通常伴随着 <strong>new 关键字</strong>出现，构造函数带有 new 的时候会执行的代码，换句话说，这段代码会在你初始化一个对象的时候执行。</p>
+<p>我们没有在 Duck 里写构造函数，哪里来的呢？</p>
+<p>其实就算你没有写，编译器会自动帮你加一个默认没有参数的构造函数：</p>
+<pre><code class="java">public Duck() {
+}</code></pre>
+<p>这跟方法很像，但<strong>构造函数不是方法。</strong>构造函数和方法的区别在于，前者没有返回类型，而后者有返回类型。</p>
+<p>构造函数的一项关键特征是，<strong>它会在对象被赋值给引用之前就执行</strong>。也就是说你可以在对象被使用之前介入。比如说，你可以打印一段话：</p>
+<pre><code class="java">public class Duck {
+        public Duck() {
+                System.out.println(&quot;芜湖~起飞~&quot;);
+        }
+}</code></pre>
+<p>或者给对象的实例变量赋值：</p>
+<pre><code class="java">public class Duck {
+        int size; // 实例变量
+        public Duck() {
+                size = 34;
+        }
+}</code></pre>
+<p>这样在 new Duck() 的时候就会执行构造函数里的代码：</p>
+<p><img src="https://gitee.com/byojiaoxianz7/Img/raw/master/img/image-20201217133159095.png" alt="image-20201217133159095"></p>
+<p>我们也可以在构造函数加上参数，用来初始化 Duck 的状态：</p>
+<pre><code class="java">public class Duck {
+        int size;
+        public Duck(int duckSize) {
+            size = duckSize;
+        }
+}</code></pre>
+<p>但是这样会带来一个问题：如果我不想设置 size 会怎么样？也就是说想使用无参数的构造函数。不过这里却只有一个构造函数，而且还是带参数的，所以我们必须再有一个构造函数，并且这个构造函数是无参的。<strong>如果一个类有一个以上的构造函数，这代表它们也是重载的</strong>。</p>
+<p>也就是说，一个类必须要有无参构造函数，如果你设置了一个有参数的构造函数，那么必须将无参构造函数也写出来：</p>
+<pre><code class="java">public class Duck {
+        int size;
+        public Duck() {} // 无参构造
+        public Duck(int duckSize) {  // 有参构造
+                size = duckSize;
+        }
+}</code></pre>
+<p>构造函数小回顾：</p>
+<ul>
+<li>构造函数是在新建类时会执行的程序</li>
+<li>构造函数必须与类的名字一样，且无返回类型</li>
+<li>如果你没有写构造函数，编译器会帮你写一个没有参数的</li>
+<li>一个类可以有很多个构造函数，但不能有相同参数类型和顺序，这叫重载过的构造函数</li>
+</ul>
+<h2 id="对象的生命周期"><a href="#对象的生命周期" class="headerlink" title="对象的生命周期"></a>对象的生命周期</h2><p>这部分涉及到 JVM 相关知识</p>
+<p><img src="https://gitee.com/byojiaoxianz7/Img/raw/master/img/image-20201217133211889.png" alt="image-20201217133211889"></p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p>《Head First Java（第二版）》第九章：对象的前世今生 </p>
+</div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2020-12-17</span><i class="fa fa-tag"></i><a class="tag" href="/categories/Java/" title="Java">Java </a><span class="leancloud_visitors"></span></div></div></div></div><div class="share"><div class="evernote"><a class="fa fa-bookmark" href="" onclick="javascript:join_favorite()" ref="sidebar"></a></div><div class="weibo"><a class="fa fa-weibo" href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&amp;title=',e(d.title),'&amp;appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a></div><div class="twitter"><a class="fa fa-twitter" href="http://twitter.com/home?status=,https://weizujie.vip/2020/12/17/【Java】对象的前世今生/,Kaizen,【Java】Java 对象的前世今生,;" target="_blank" rel="noopener"></a></div></div><div class="pagination"><ul class="clearfix"><li class="next pagbuttons"><a class="btn" role="navigation" href="/2020/11/27/%E3%80%90Leetcode%E3%80%91%E9%9D%A2%E8%AF%95%E9%A2%98%2016.01.%E4%BA%A4%E6%8D%A2%E6%95%B0%E5%AD%97/" title="【Leetcode】面试题 16.01. 交换数字">下一篇</a></li></ul></div><script src="/js/visitors.js"></script></div></div></div></div><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/add-bookmark.js"></script><script src="/js/baidu-tongji.js"></script></body></html>

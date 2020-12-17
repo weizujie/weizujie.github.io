@@ -1,21 +1,114 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>【Java】Shiro详解以及在SpringBoot中的使用</title>
-    <url>/2020/12/05/%E3%80%90Java%E3%80%91Shiro%E8%AF%A6%E8%A7%A3%E4%BB%A5%E5%8F%8A%E5%9C%A8SpringBoot%E4%B8%AD%E7%9A%84%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<p>本文介绍 Shiro 以及在 SpringBoot 中的使用。</p>
+    <title>【Java】Java 对象的前世今生</title>
+    <url>/2020/12/17/%E3%80%90Java%E3%80%91%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F/</url>
+    <content><![CDATA[<blockquote>
+<p>这是一篇学习笔记。</p>
+</blockquote>
+<p>本文会介绍对象如何创建、存在与何处、堆、栈、构造器等知识。</p>
 <a id="more"></a>
 
-<h1 id="Shiro-简介"><a href="#Shiro-简介" class="headerlink" title="Shiro 简介"></a>Shiro 简介</h1><blockquote>
-<p>Apache Shiro 是一个强大易用的 Java 安全框架，提供了认证、授权、加密和会话管理等功能，对于任何一个应用程序，Shiro 都可以提供全面的安全管理服务。</p>
-</blockquote>
+<h2 id="栈与堆：生存空间"><a href="#栈与堆：生存空间" class="headerlink" title="栈与堆：生存空间"></a>栈与堆：生存空间</h2><ul>
+<li>栈：存放<strong>方法调用</strong>和<strong>局部变量</strong>。<strong>可以被垃圾回收</strong>。</li>
+<li>堆：存放<strong>对象。</strong></li>
+</ul>
+<p>当 Java 虚拟机启动时，它会从底层的操作系统中取得一块内存，并以此区段来执行 Java 程序。内存空间大小有虚拟机来决定，不同的虚拟机空间大小可能会不同。</p>
+<ul>
+<li>实例变量：声明在<strong>类</strong>中。有默认值。生命周期与对象一样，对象不死它不死。</li>
+<li>局部变量：声明在<strong>方法</strong>中。无默认值，必须初始化。局部变量随着方法执行完毕会被销毁。</li>
+</ul>
+<pre><code class="java">public class Test {
+        int a; // 实例变量
+        public void method() {
+                int b = 0; // 局部变量
+        }
+}</code></pre>
+<h2 id="方法会被堆在一起"><a href="#方法会被堆在一起" class="headerlink" title="方法会被堆在一起"></a>方法会被堆在一起</h2><p>当我们调用一个方法，这个方法会被放到栈的栈顶，方法调用完毕会被从栈顶弹出。假设栈中有两个方法 A 和 B，A 调用 B，则 B 会在 A 的上面，也就是 B 在栈顶且执行完毕先弹出去，再弹 A。</p>
+<p><img src="https://gitee.com/byojiaoxianz7/Img/raw/master/img/image-20201217133117283.png" alt="image-20201217133117283"></p>
+<h2 id="有关对象局部变量"><a href="#有关对象局部变量" class="headerlink" title="有关对象局部变量"></a>有关对象局部变量</h2><p>非 primitive 的变量只保存<strong>对象的引用</strong>而不是对象本身。不论对象是否被声明或创建，如果局部变量是个对该对象的引用，则该变量存放在栈上。再说一次，<strong>对象本身只会存在堆中</strong>。</p>
+<p>看一段代码就清楚了：</p>
+<pre><code class="java">public class StackRef {
+        public void foof() {
+                barf();
+        }
+        public void barf() {
+                Duck d = new Duck(24);
+        }
+}</code></pre>
+<p><img src="https://gitee.com/byojiaoxianz7/Img/raw/master/img/image-20201217133137517.png" alt="image-20201217133137517"></p>
+<p>要点：</p>
+<ul>
+<li><strong>对象引用变量</strong>和 <strong>primitive 主数据类型变量</strong>都是存在<strong>栈</strong>上</li>
+<li>所有<strong>局部变量</strong>都存在栈上相对应的<strong>堆栈块</strong>中</li>
+<li><strong>对象</strong>本身存在<strong>堆</strong>上</li>
+</ul>
+<h2 id="实例变量存放的地方"><a href="#实例变量存放的地方" class="headerlink" title="实例变量存放的地方"></a>实例变量存放的地方</h2><p>我们知道，局部变量是存放在栈上的，那么实例变量呢？</p>
+<p><strong>实例变量存放在对象所属的堆空间上</strong>，也就是说，对象的实例变量的值是存放在该对象中的。</p>
+<h2 id="创建对象的奇迹"><a href="#创建对象的奇迹" class="headerlink" title="创建对象的奇迹"></a>创建对象的奇迹</h2><p>我们已经知道了变量和对象的生存空间，现在可以开始深入<strong>对象的创建</strong>。声明对象和赋值有三个步骤：</p>
+<ul>
+<li><p>声明引用变量</p>
+<pre><code class="java">Duck myDuck</code></pre>
+</li>
+<li><p>创建对象</p>
+<pre><code class="java">new Duck()</code></pre>
+</li>
+<li><p>连接对象和引用</p>
+<pre><code class="java">Duck myDuck = new Duck();</code></pre>
+</li>
+</ul>
+<p>创建对象看起来很像在调用 Duck() 方法，但其实是在调用 Duck() 的<strong>构造函数</strong>。</p>
+<p>构造函数通常伴随着 <strong>new 关键字</strong>出现，构造函数带有 new 的时候会执行的代码，换句话说，这段代码会在你初始化一个对象的时候执行。</p>
+<p>我们没有在 Duck 里写构造函数，哪里来的呢？</p>
+<p>其实就算你没有写，编译器会自动帮你加一个默认没有参数的构造函数：</p>
+<pre><code class="java">public Duck() {
+}</code></pre>
+<p>这跟方法很像，但<strong>构造函数不是方法。</strong>构造函数和方法的区别在于，前者没有返回类型，而后者有返回类型。</p>
+<p>构造函数的一项关键特征是，<strong>它会在对象被赋值给引用之前就执行</strong>。也就是说你可以在对象被使用之前介入。比如说，你可以打印一段话：</p>
+<pre><code class="java">public class Duck {
+        public Duck() {
+                System.out.println(&quot;芜湖~起飞~&quot;);
+        }
+}</code></pre>
+<p>或者给对象的实例变量赋值：</p>
+<pre><code class="java">public class Duck {
+        int size; // 实例变量
+        public Duck() {
+                size = 34;
+        }
+}</code></pre>
+<p>这样在 new Duck() 的时候就会执行构造函数里的代码：</p>
+<p><img src="https://gitee.com/byojiaoxianz7/Img/raw/master/img/image-20201217133159095.png" alt="image-20201217133159095"></p>
+<p>我们也可以在构造函数加上参数，用来初始化 Duck 的状态：</p>
+<pre><code class="java">public class Duck {
+        int size;
+        public Duck(int duckSize) {
+            size = duckSize;
+        }
+}</code></pre>
+<p>但是这样会带来一个问题：如果我不想设置 size 会怎么样？也就是说想使用无参数的构造函数。不过这里却只有一个构造函数，而且还是带参数的，所以我们必须再有一个构造函数，并且这个构造函数是无参的。<strong>如果一个类有一个以上的构造函数，这代表它们也是重载的</strong>。</p>
+<p>也就是说，一个类必须要有无参构造函数，如果你设置了一个有参数的构造函数，那么必须将无参构造函数也写出来：</p>
+<pre><code class="java">public class Duck {
+        int size;
+        public Duck() {} // 无参构造
+        public Duck(int duckSize) {  // 有参构造
+                size = duckSize;
+        }
+}</code></pre>
+<p>构造函数小回顾：</p>
+<ul>
+<li>构造函数是在新建类时会执行的程序</li>
+<li>构造函数必须与类的名字一样，且无返回类型</li>
+<li>如果你没有写构造函数，编译器会帮你写一个没有参数的</li>
+<li>一个类可以有很多个构造函数，但不能有相同参数类型和顺序，这叫重载过的构造函数</li>
+</ul>
+<h2 id="对象的生命周期"><a href="#对象的生命周期" class="headerlink" title="对象的生命周期"></a>对象的生命周期</h2><p>这部分涉及到 JVM 相关知识</p>
+<p><img src="https://gitee.com/byojiaoxianz7/Img/raw/master/img/image-20201217133211889.png" alt="image-20201217133211889"></p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p>《Head First Java（第二版）》第九章：对象的前世今生 </p>
 ]]></content>
       <categories>
         <category>Java</category>
       </categories>
-      <tags>
-        <tag>Java</tag>
-      </tags>
   </entry>
   <entry>
     <title>【Leetcode】面试题 16.01. 交换数字</title>
